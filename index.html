@@ -233,6 +233,22 @@
     margin-bottom: 8px;
     font-style: italic;
   }
+
+  /* ENTRY IMAGE */
+  .entry-img-wrap {
+    margin: 10px 0 6px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #0f0f18;
+    display: none;
+  }
+  .entry-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .entry.has-img .entry-img-wrap { display: block; }
   .entry-summary {
     font-size: 0.82rem;
     color: var(--text-muted);
@@ -264,18 +280,6 @@
   .entry:hover .expand-hint { color: var(--accent); }
   .entry.expanded .expand-hint::after { content: 'click to collapse'; }
   .entry:not(.expanded) .expand-hint::after { content: 'click to expand'; }
-
-
-  /* ENTRY IMAGE */
-  .entry-img {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin: 10px 0 8px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-  }
 
   /* KEY CONCEPTS PANEL */
   .concepts-panel {
@@ -337,7 +341,7 @@
 <body>
 
 <header>
-  <h1>ARCH 250 &mdash; History of Architecture</h1>
+  <h1>ARCH 250 - History of Architecture</h1>
   <p>Prehistory to Mannerism &middot; Interactive Timeline</p>
 </header>
 
@@ -1299,6 +1303,71 @@ const DATA = [
   }
 ];
 
+// -------------------------------------------------------------
+// Image loading (Wikipedia JSONP)
+// Works when the file is opened locally (file://) because it does
+// not use fetch/XHR.
+// -------------------------------------------------------------
+
+// Some timeline labels are not ideal Wikipedia page titles.
+// Add fixes here as needed.
+const WIKI_TITLE_OVERRIDES = {
+  "White Temple & Ziggurat at Uruk": "White Temple (Uruk)",
+  "Megalithic Temples of Malta": "Megalithic Temples of Malta",
+  "Hagia Sophia": "Hagia Sophia",
+  "Old St. Peter’s Basilica": "Old St. Peter's Basilica",
+};
+
+function getWikiTitle(entry) {
+  return entry.wiki || WIKI_TITLE_OVERRIDES[entry.title] || entry.title;
+}
+
+function loadWikiThumb(imgEl, entry) {
+  const title = getWikiTitle(entry);
+  const wrap = imgEl.closest('.entry');
+  const cbName = `wiki_cb_${Math.random().toString(36).slice(2)}`;
+  const script = document.createElement('script');
+
+  window[cbName] = (data) => {
+    try {
+      const pages = data && data.query && data.query.pages ? data.query.pages : null;
+      const firstKey = pages ? Object.keys(pages)[0] : null;
+      const page = firstKey ? pages[firstKey] : null;
+      const thumb = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
+
+      if (thumb) {
+        imgEl.src = thumb;
+        wrap.classList.add('has-img');
+      }
+    } catch (e) {
+      // no-op
+    } finally {
+      delete window[cbName];
+      script.remove();
+    }
+  };
+
+  script.onerror = () => {
+    delete window[cbName];
+    script.remove();
+  };
+
+  const api = 'https://en.wikipedia.org/w/api.php';
+  const params = new URLSearchParams({
+    action: 'query',
+    format: 'json',
+    prop: 'pageimages',
+    piprop: 'thumbnail',
+    pithumbsize: '700',
+    redirects: '1',
+    titles: title,
+    callback: cbName,
+  });
+
+  script.src = `${api}?${params.toString()}`;
+  document.head.appendChild(script);
+}
+
 // =============================================
 // RENDER ENGINE
 // =============================================
@@ -1309,25 +1378,6 @@ const entryCount = document.getElementById('entry-count');
 
 let allEntries = [];
 let activeEra = null;
-
-// Image loader (no fetch): uses Unsplash Source with monument keywords.
-// This avoids CORS issues when opening the file locally (file://).
-function setEntryImage(entry, imgEl) {
-  const qParts = [];
-  if (entry.title) qParts.push(entry.title);
-  if (entry.location) qParts.push(entry.location);
-  if (entry.tags && entry.tags.length) qParts.push(entry.tags[0]);
-  const q = encodeURIComponent(qParts.join(' '));
-
-  // Unsplash Source returns a relevant photo without needing an API key.
-  // Note: results can vary; if you want locked images per monument, we can pin specific URLs.
-  imgEl.src = `https://source.unsplash.com/featured/900x520?${q}`;
-
-  // Hide the image area if it fails to load.
-  imgEl.addEventListener('error', () => {
-    imgEl.style.display = 'none';
-  }, { once: true });
-}
 
 // Build nav and timeline
 DATA.forEach((eraData, eraIdx) => {
@@ -1376,16 +1426,15 @@ DATA.forEach((eraData, eraIdx) => {
       <div class="entry-date">${entry.date}</div>
       <div class="entry-title">${entry.title}</div>
       <div class="entry-location">${entry.location}</div>
-      <img class="entry-img" alt="${entry.title}" loading="lazy" />
+      <div class="entry-img-wrap"><img class="entry-img" alt="${entry.title}" loading="lazy" /></div>
       <div class="entry-summary">${entry.summary}</div>
       <div class="entry-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
       <div class="expand-hint"></div>
     `;
 
-    // Auto-load a representative image from Wikipedia (REST summary API)
-    const img = card.querySelector('.entry-img');
-
-    setEntryImage(entry, img);
+    // One image per entry (Option A)
+    const imgEl = card.querySelector('.entry-img');
+    if (imgEl) loadWikiThumb(imgEl, entry);
 
     card.addEventListener('click', () => {
       card.classList.toggle('expanded');
