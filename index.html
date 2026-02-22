@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARCH 250  -  Architecture History Timeline</title>
+<title>ARCH 250 - History of Architecture I</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
@@ -150,6 +150,19 @@
     padding: 8px 24px;
     border: 1px solid var(--accent-dim);
     border-radius: 4px;
+    position: relative;
+  }
+  .ching-ref {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 4px 10px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 3px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
   }
   .era-header .era-dates {
     font-size: 0.8rem;
@@ -345,42 +358,82 @@
   .entry.expanded .expand-hint::after { content: 'click to collapse'; }
   .entry:not(.expanded) .expand-hint::after { content: 'click to expand'; }
 
-  /* KEY CONCEPTS PANEL */
-  .concepts-panel {
+  /* ERA STUDY PANEL */
+  .era-study {
     max-width: 960px;
-    margin: 0 auto 40px;
+    margin: 30px auto;
     padding: 0 20px;
-    display: none;
   }
-  .concepts-panel.visible { display: block; }
-  .concepts-panel h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+  .era-study-toggle {
+    display: block;
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 2px solid var(--accent-dim);
+    border-radius: 8px;
     color: var(--accent);
-    margin-bottom: 14px;
-    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
   }
-  .concepts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
+  .era-study-toggle:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
   }
-  .concept-card {
-    padding: 12px 16px;
+  .era-study-content {
+    display: none;
+    margin-top: 12px;
+    padding: 18px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
   }
+  .era-study-content.open { display: block; }
+
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .concept-card {
+    padding: 12px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
   .concept-card strong {
-    font-size: 0.82rem;
-    color: var(--text);
+    font-size: 0.8rem;
+    color: var(--accent);
     display: block;
     margin-bottom: 4px;
+    font-weight: 600;
   }
   .concept-card span {
     font-size: 0.75rem;
     color: var(--text-muted);
     line-height: 1.4;
+    display: block;
+  }
+
+  .architects-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .architects-section strong {
+    font-size: 0.8rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .architects-section p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
   }
 
   /* RESPONSIVE */
@@ -391,6 +444,7 @@
     .entry::before { left: -30px !important; right: auto !important; }
     .era-btn { font-size: 0.7rem; padding: 5px 10px; }
     header h1 { font-size: 1.6rem; }
+    .concepts-grid { grid-template-columns: 1fr; }
   }
 
   /* SCROLL ANIMATION */
@@ -405,14 +459,14 @@
 <body>
 
 <header>
-  <h1>ARCH 250 - History of Architecture</h1>
-  <p>Prehistory to Mannerism &middot; Interactive Timeline</p>
+  <h1>ARCH 250 - History of Architecture I</h1>
+  <p>ARCH 250 — History of Architecture I · Spring 2026 · Citrus College</p>
 </header>
 
 <nav id="era-nav"></nav>
 
 <div id="filter-bar">
-  <input type="text" id="search-input" placeholder="Search buildings, architects, concepts&hellip;" />
+  <input type="text" id="search-input" placeholder="Search buildings, architects, concepts…" />
   <span id="entry-count"></span>
 </div>
 
@@ -427,6 +481,14 @@ const DATA = [
     era: "Prehistoric & Neolithic",
     eraRange: "c. 10,000–3,000 BCE",
     week: 2,
+    ching: "pp. 1–54",
+    keyArchitects: "Anonymous (pre-historical)",
+    concepts: [
+      { term: "Megalithic", def: "Large stone structures; early monumental building tradition" },
+      { term: "Menhir", def: "Standing stone; vertical alignment for ritual or territorial marking" },
+      { term: "Dolmen", def: "Stone-slab chamber tomb; corbeled or post-and-lintel construction" },
+      { term: "Mudbrick", def: "Sun-dried clay brick; primary proto-urban building material" }
+    ],
     entries: [
       {
         date: "c. 9500 BCE",
@@ -439,7 +501,7 @@ const DATA = [
         date: "c. 7500–5700 BCE",
         title: "Çatalhöyük",
         location: "Konya, Turkey",
-        summary: "One of the earliest proto-urban settlements. Densely packed mudbrick houses with no streets  -  entry was through roof openings via ladders. Interiors featured built-in platforms, hearths, and wall paintings of hunting scenes and geometric patterns. Population reached ~5,000–8,000. Shrines interspersed with domestic spaces suggest no separation of sacred and secular.",
+        summary: "One of the earliest proto-urban settlements. Densely packed mudbrick houses with no streets – entry was through roof openings via ladders. Interiors featured built-in platforms, hearths, and wall paintings of hunting scenes and geometric patterns. Population reached ~5,000–8,000. Shrines interspersed with domestic spaces suggest no separation of sacred and secular.",
         tags: ["proto-urban", "mudbrick", "Neolithic settlement", "wall painting"]
       },
       {
@@ -450,25 +512,11 @@ const DATA = [
         tags: ["Neolithic village", "stone construction", "Orkney"]
       },
       {
-        date: "c. 3000–2000 BCE",
-        title: "Stonehenge",
-        location: "Wiltshire, England",
-        summary: "The iconic stone circle evolved over ~1,500 years in multiple phases. The sarsen circle (c. 2500 BCE) features post-and-lintel construction with mortise-and-tenon joints  -  a woodworking technique translated into stone. Bluestones transported ~250 km from Wales. Aligned with summer solstice sunrise and winter solstice sunset. Function debated: astronomical observatory, ceremonial site, healing center.",
-        tags: ["megalithic", "post-and-lintel", "astronomical alignment", "sarsen", "bluestone"]
-      },
-      {
-        date: "c. 3200 BCE",
+        date: "c. 4000–2000 BCE",
         title: "Newgrange",
         location: "County Meath, Ireland",
-        summary: "Passage tomb with a 19-meter passage leading to a cruciform chamber. The roof box above the entrance allows sunlight to penetrate the full length of the passage only during the winter solstice sunrise  -  a feat of precise astronomical engineering. Corbelled vault ceiling has remained waterproof for 5,000 years. Exterior decorated with spiral and lozenge carvings.",
-        tags: ["passage tomb", "corbelled vault", "solstice alignment", "megalithic art"]
-      },
-      {
-        date: "c. 4500–3000 BCE",
-        title: "Megalithic Temples of Malta",
-        location: "Malta",
-        summary: "Ħagar Qim, Mnajdra, and the Ġgantija temples on Gozo are among the oldest free-standing stone structures in the world  -  older than the Egyptian pyramids. Coralline limestone construction with trefoil/cloverleaf plans. Interior spaces suggest ritual processions. The Hypogeum of Ħal-Saflieni is a subterranean temple carved from living rock.",
-        tags: ["free-standing temple", "limestone", "trefoil plan", "Hypogeum"]
+        summary: "Passage tomb constructed of stacked stone with a corbeled vault. Aligned to the winter solstice sunrise, light penetrates the inner chamber once yearly. Predates Stonehenge and Egyptian pyramids. Demonstrates sophisticated astronomical knowledge and engineering in pre-literate societies.",
+        tags: ["passage tomb", "corbeled vault", "astronomically aligned", "Neolithic"]
       }
     ]
   },
@@ -480,48 +528,42 @@ const DATA = [
     era: "Ancient Mesopotamia",
     eraRange: "c. 3500–539 BCE",
     week: 3,
+    ching: "pp. 5–17, 32–34, 85–111",
+    keyArchitects: "Namtar (Ur), Hammurabi's architects (Babylon)",
+    concepts: [
+      { term: "Ziggurat", def: "Stepped pyramid temple tower; human axis between heaven and earth" },
+      { term: "Hypostyle", def: "Hall with columns supporting a ceiling; forest of columns" },
+      { term: "Mudbrick", def: "Primary material; ephemeral vs. stone in durability studies" },
+      { term: "Vaulting", def: "Barrel and groin vaults; early development of curved enclosure" }
+    ],
     entries: [
-      {
-        date: "c. 3500–3000 BCE",
-        title: "White Temple & Ziggurat at Uruk",
-        location: "Uruk (modern Warka), Iraq",
-        summary: "The White Temple sits atop a massive mud-brick platform  -  a precursor to the true ziggurat. Whitewashed walls gave it its name. The bent-axis approach required visitors to turn 90° upon entering, a ritual choreography of movement. Uruk was likely the world's first true city, with ~40,000 inhabitants.",
-        tags: ["ziggurat", "mud-brick", "bent-axis plan", "Sumerian"]
-      },
       {
         date: "c. 2100 BCE",
         title: "Ziggurat of Ur",
-        location: "Ur (modern Tell el-Muqayyar), Iraq",
-        summary: "Built by King Ur-Nammu for the moon god Nanna. Three massive terraces of mud-brick with baked-brick facing and bitumen mortar. Triple staircase converges at a gatehouse. Originally ~30m tall. The ziggurat form  -  a stepped pyramid  -  served as a cosmic mountain bridging earth and heaven. Weep holes in the walls allowed internal moisture to escape, preventing structural failure.",
-        tags: ["ziggurat", "Ur-Nammu", "mud-brick", "Sumerian", "Nanna"]
+        location: "Ur, Iraq",
+        summary: "Massive stepped pyramid dedicated to Nanna (moon god). Three tiers of mudbrick, 21m high, with a 60×45m base. Grand stairway leads to the summit temple. Represents the peak of Sumerian monumental architecture. The form becomes the archetype for all subsequent Mesopotamian ziggurats and influences later pyramid traditions.",
+        tags: ["ziggurat", "Sumerian", "mudbrick", "temple"]
       },
       {
         date: "c. 1792–1750 BCE",
-        title: "Babylon under Hammurabi",
+        title: "Palace of Hammurabi",
         location: "Babylon, Iraq",
-        summary: "Hammurabi transformed Babylon into a major political capital. His law code (inscribed on a diorite stele) established principles of urban governance. The city plan featured a grid layout oriented to cardinal directions, canals integrated into the urban fabric, and massive fortification walls  -  a model of planned urbanism.",
-        tags: ["urban planning", "fortification", "Babylonian"]
+        summary: "Royal residence and administrative center for the Amorite king who unified Mesopotamia. Sprawling mudbrick structure with throne room, domestic quarters, and storage areas arranged around courtyards. The palace was adjacent to the great Esagila temple complex. Demonstrates integration of royal, religious, and civic functions.",
+        tags: ["Babylon", "palace", "Amorite", "mudbrick"]
       },
       {
-        date: "c. 879 BCE",
-        title: "Palace of Ashurnasirpal II at Nimrud",
-        location: "Nimrud (Kalhu), Iraq",
-        summary: "The Northwest Palace exemplifies Assyrian palatial architecture. Massive stone lamassu (human-headed winged bulls) guarded entrances  -  designed to appear both standing (from front) and walking (from side) using a fifth leg. Interior walls lined with carved alabaster reliefs depicting military campaigns, hunting scenes, and ritual acts. The throne room (Room B) was the ceremonial heart of the empire.",
-        tags: ["Assyrian", "palace", "lamassu", "relief sculpture"]
+        date: "c. 610 BCE",
+        title: "Palace of Sennacherib",
+        location: "Nineveh, Iraq",
+        summary: "Monumental Assyrian royal palace with 80 rooms arranged around courts. Walls decorated with narrative relief sculptures depicting royal hunts and military campaigns. The throne room had a span of 17m × 11m, supported by massive timber beams. A technological and artistic masterpiece of Late Mesopotamian architecture.",
+        tags: ["Assyrian", "palace", "sculptural decoration", "narrative relief"]
       },
       {
-        date: "c. 604–562 BCE",
-        title: "Neo-Babylonian Babylon",
+        date: "c. 580 BCE",
+        title: "Ishtar Gate & Processional Way",
         location: "Babylon, Iraq",
-        summary: "Under Nebuchadnezzar II, Babylon became the largest city in the world. The Ishtar Gate  -  faced in glazed blue bricks with relief figures of bulls (Adad) and dragons (Mušḫuššu)  -  led into the Processional Way. The Etemenanki ziggurat (possible inspiration for the Tower of Babel) rose ~90m. The legendary Hanging Gardens (if real) may have used an Archimedean screw irrigation system.",
-        tags: ["Ishtar Gate", "glazed brick", "Nebuchadnezzar II", "Processional Way", "Hanging Gardens"]
-      },
-      {
-        date: "c. 515 BCE",
-        title: "Persepolis",
-        location: "Fars Province, Iran",
-        summary: "Ceremonial capital of the Achaemenid Empire begun by Darius I. Built on a massive stone terrace (125,000 sq m). The Apadana (audience hall) featured 72 columns 20m tall with unique double-bull capitals. The Gate of All Nations featured colossal lamassu. Relief carvings on the Apadana staircase depict 23 subject nations bearing tribute  -  a propaganda program in stone celebrating imperial diversity.",
-        tags: ["Achaemenid", "Apadana", "column", "hypostyle hall", "Darius I"]
+        summary: "Gate to the inner city dedicated to the goddess Ishtar, decorated with glazed blue brick and bronze bull reliefs. Part of the Processional Way used for the New Year festival. Only the gate survives; reconstructed from fragments. Represents the climax of Mesopotamian decorative technique and urban ceremonial planning.",
+        tags: ["Babylon", "gate", "glazed brick", "processional", "Nebuchadnezzar II"]
       }
     ]
   },
@@ -531,64 +573,58 @@ const DATA = [
   // =============================================
   {
     era: "Ancient Egypt",
-    eraRange: "c. 3100–30 BCE",
-    week: 3,
+    eraRange: "c. 3100–332 BCE",
+    week: 4,
+    ching: "pp. 20–22, 39–73",
+    keyArchitects: "Khufu's architects, Imhotep (Djoser's), Amenhotep III's architects",
+    concepts: [
+      { term: "Pyramid", def: "Monumental tomb; geometric perfection reflecting cosmic order" },
+      { term: "Hypostyle Temple", def: "Columned hall; progression from bright hypostyle to dark sanctuary" },
+      { term: "Post-and-Lintel", def: "Load-bearing wall structure; Egyptian preference over arches" },
+      { term: "Pylon", def: "Monumental gateway flanked by trapezoid towers; ritual threshold" }
+    ],
     entries: [
       {
-        date: "c. 2650 BCE",
+        date: "c. 2670 BCE",
         title: "Step Pyramid of Djoser",
         location: "Saqqara, Egypt",
-        summary: "Designed by Imhotep  -  history's first named architect. Evolved from a flat mastaba tomb through six successive enlargements into a stepped pyramid (62m tall). The surrounding mortuary complex includes a sed festival court, sham buildings with non-functional stone doors and columns (translating earlier reed/wood forms into stone for eternity), and a massive enclosure wall with a single real entrance among 14 false ones.",
-        tags: ["Imhotep", "step pyramid", "mastaba", "Saqqara", "Old Kingdom"]
+        summary: "Oldest monumental stone structure in the world. Designed by architect Imhotep, the pyramid consists of six stacked mastabas of decreasing size, reaching 62m high. Built entirely of stone with no wood support. Surrounding complex includes mortuary temple, serdab (statue chamber), and ritual enclosure. A revolutionary leap in architectural ambition and material mastery.",
+        tags: ["Old Kingdom", "pyramid", "Imhotep", "stone", "monumental"]
       },
       {
-        date: "c. 2560 BCE",
-        title: "Great Pyramid of Khufu",
+        date: "c. 2589–2566 BCE",
+        title: "Great Pyramid of Khufu (Cheops)",
         location: "Giza, Egypt",
-        summary: "The largest of the three Giza pyramids: 146m tall, 2.3 million limestone blocks averaging 2.5 tons each. Casing stones of polished Tura limestone (now mostly stripped). Internal chambers include the Grand Gallery (8.6m tall corbelled passage), King's Chamber with granite stress-relieving chambers above, and mysterious narrow shafts aligned with specific stars. Base is level to within 2.1 cm across 230m  -  extraordinary precision.",
-        tags: ["true pyramid", "Khufu/Cheops", "limestone", "Old Kingdom", "Giza"]
+        summary: "Largest pyramid ever built, originally 146.5m high. 2.3 million limestone blocks, each 2.5 tons. Interior chambers with grand gallery and King's Chamber. Built with precision alignment to cardinal directions. Represents the zenith of Old Kingdom engineering and organizational power. Concrete mechanism of construction remains debated.",
+        tags: ["Old Kingdom", "Giza", "Great Pyramid", "limestone", "monumental"]
       },
       {
-        date: "c. 2500 BCE",
-        title: "Great Sphinx & Valley Temple",
+        date: "c. 2520–2494 BCE",
+        title: "Sphinx of Giza",
         location: "Giza, Egypt",
-        summary: "The Sphinx (73m long, 20m high) carved from a single bedrock outcrop, likely representing Khafre. The adjacent Valley Temple uses massive granite blocks (some 100+ tons) with no decoration  -  pure trabeated construction. Alabaster floors and red granite piers create a stark, powerful interior. Served as site for royal mummification rituals.",
-        tags: ["Sphinx", "Khafre", "granite", "trabeated", "Old Kingdom"]
+        summary: "Limestone colossus with human head and lion's body, 66m long and 21m high. Guarding the Giza pyramid complex, likely built during Khafre's reign. Carved from a single bedrock outcrop. Despite weathering and erosion, remains a symbol of Egyptian power and majesty.",
+        tags: ["Giza", "Old Kingdom", "limestone", "monumental sculpture"]
       },
       {
-        date: "c. 2055–1650 BCE",
-        title: "Mortuary Temple of Mentuhotep II",
+        date: "c. 1479–1425 BCE",
+        title: "Temple of Hatshepsut",
         location: "Deir el-Bahari, Egypt",
-        summary: "Middle Kingdom temple built against the Theban cliffs. Terraced design with colonnaded porticos integrated into the natural landscape  -  a prototype that Hatshepsut would later echo directly adjacent. Combines tomb, temple, and garden in a single axial composition.",
-        tags: ["Middle Kingdom", "terraced temple", "Thebes", "Deir el-Bahari"]
+        summary: "Mortuary temple of female pharaoh Hatshepsut. Three terraced levels with colonnaded porticos, rock-cut sanctuary, and hieroglyphic reliefs. Nestled against limestone cliff. Designed by Senenmut, it represents a shift from pyramid tombs to cliff-side temples. A masterpiece of integration with landscape.",
+        tags: ["New Kingdom", "mortuary temple", "terrace", "colonnade", "Senenmut"]
       },
       {
-        date: "c. 1470 BCE",
-        title: "Mortuary Temple of Hatshepsut",
-        location: "Deir el-Bahari, Egypt",
-        summary: "Designed by Senenmut for the female pharaoh Hatshepsut. Three terraced colonnaded levels rise against dramatic limestone cliffs. Long axial approach with ramps connecting each terrace. Proto-Doric columns in the upper colonnade. Reliefs depict the expedition to Punt and Hatshepsut's divine birth narrative  -  political propaganda legitimizing a woman's rule.",
-        tags: ["Hatshepsut", "Senenmut", "New Kingdom", "terraced temple", "proto-Doric"]
-      },
-      {
-        date: "c. 1550–1070 BCE",
-        title: "Temple of Amun at Karnak",
-        location: "Luxor (Thebes), Egypt",
-        summary: "The largest religious complex ever built, developed over 2,000 years by ~30 pharaohs. The Great Hypostyle Hall (Seti I / Ramesses II) contains 134 columns in 16 rows  -  the central 12 are 21m tall with open papyrus capitals, flanking columns have closed-bud capitals. Clerestory lighting through the height difference. Pylon gateways, obelisks, sacred lakes, and processional axes create a layered spatial experience moving from public to sacred.",
-        tags: ["Karnak", "hypostyle hall", "pylon", "Amun", "New Kingdom", "clerestory"]
-      },
-      {
-        date: "c. 1274 BCE",
-        title: "Temple of Luxor",
+        date: "c. 1390–1352 BCE",
+        title: "Temple of Amenhotep III (Luxor Temple)",
         location: "Luxor, Egypt",
-        summary: "Connected to Karnak by a 3-km sphinx-lined processional avenue. Amenhotep III's colonnade court has 14 massive papyrus columns. Ramesses II added the first pylon with colossal statues and a peristyle court set at an angle to align with the processional route  -  pragmatic site planning. The annual Opet festival procession between Karnak and Luxor was the most important religious event in Thebes.",
-        tags: ["Luxor", "Amenhotep III", "Ramesses II", "processional", "New Kingdom"]
+        summary: "Monumental temple dedicated to Amun-Ra, with two massive pylon gateways flanking a courtyard with sphinx-lined avenue. Hypostyle hall with papyrus-bud capitals. Painted and decorated interior sanctuary. Represents the apogee of New Kingdom temple architecture and royal ceremonial space.",
+        tags: ["New Kingdom", "hypostyle", "pylon", "courtyard", "Amenhotep III"]
       },
       {
-        date: "c. 1264 BCE",
-        title: "Abu Simbel",
-        location: "Nubia, Egypt",
-        summary: "Rock-cut temple of Ramesses II with four colossal seated figures (20m tall) flanking the entrance. The temple is oriented so that sunlight penetrates the full 60m length of the interior to illuminate the sanctuary statues on February 22 and October 22. The smaller adjacent temple honors Queen Nefertari. In 1968, the entire complex was cut into blocks and relocated 65m higher to avoid flooding from the Aswan High Dam  -  one of the greatest feats of archaeological engineering.",
-        tags: ["Ramesses II", "rock-cut temple", "solar alignment", "New Kingdom", "colossal sculpture"]
+        date: "c. 1250 BCE",
+        title: "Temple of Ramses II (Abu Simbel)",
+        location: "Abu Simbel, Egypt",
+        summary: "Two colossal rock-cut temples carved directly into the mountainside. The Great Temple has four 20m-tall seated figures of Ramses II. Designed so twice-yearly sunlight penetrates to illuminate the inner sanctuary. Relocated in 1968 to prevent submersion by Lake Nasser. Epic scale and precision demonstrate late New Kingdom engineering mastery.",
+        tags: ["New Kingdom", "rock-cut temple", "colossal", "Ramses II", "engineering"]
       }
     ]
   },
@@ -598,142 +634,131 @@ const DATA = [
   // =============================================
   {
     era: "Aegean Civilizations",
-    eraRange: "c. 3000–1100 BCE",
-    week: 4,
+    eraRange: "c. 3000–1050 BCE",
+    week: 6,
+    ching: "pp. 60–78",
+    keyArchitects: "Minoan master builders, Mycenaean engineers",
+    concepts: [
+      { term: "Megaron", def: "Central rectangular hall with central hearth; prototype of Greek temple" },
+      { term: "Tholus", def: "Circular chamber tomb; corbeled dome construction" },
+      { term: "Ashlar", def: "Precisely cut rectangular stone blocks; Minoan preference" },
+      { term: "Cyclop. Masonry", def: "Large irregular stones; Mycenaean fortress construction" }
+    ],
     entries: [
       {
-        date: "c. 2000–1400 BCE",
+        date: "c. 1700–1400 BCE",
         title: "Palace of Knossos",
         location: "Crete, Greece",
-        summary: "Center of Minoan civilization, excavated and controversially reconstructed by Arthur Evans. Sprawling, multi-story complex (~13,000 sq m) organized around a central court. Light wells, drainage systems, and flush toilets show sophisticated environmental engineering. Pier-and-door partitions allowed flexible room configurations. Vivid frescoes of bull-leaping, marine life, and processions. The labyrinthine plan may have inspired the myth of the Minotaur. No fortification walls  -  the Minoans relied on naval power.",
-        tags: ["Minoan", "palace complex", "central court", "light well", "Arthur Evans"]
+        summary: "Largest Minoan palace complex, covering 22,000 m². Multiple stories with central courtyard, magazines (storerooms), ritual chambers, and royal apartments. Tapered columns with capital/baluster form are distinctive. Decorated with frescoes (bull-leaping, dancing girls, marine motifs). Demonstrates sophisticated administrative and cult functions without defensive walls.",
+        tags: ["Minoan", "palace", "columns", "courtyard", "fresco"]
       },
       {
-        date: "c. 1600–1100 BCE",
+        date: "c. 1700–1400 BCE",
+        title: "Palace of Phaistos",
+        location: "Crete, Greece",
+        summary: "Second-largest Minoan palace, 8,100 m² on a hillside. Central courtyard with grand stairway, ritual chambers, and storerooms. Similar layout to Knossos but more compact. Demonstrates shared palace architectural conventions across Minoan civilization.",
+        tags: ["Minoan", "palace", "hillside", "courtyard"]
+      },
+      {
+        date: "c. 1500–1100 BCE",
         title: "Citadel of Mycenae",
         location: "Peloponnese, Greece",
-        summary: "Fortified hilltop citadel of the Mycenaean warrior culture. Massive Cyclopean walls (stones so large later Greeks believed only giants could move them). The Lion Gate (c. 1250 BCE)  -  the oldest monumental sculpture in Europe  -  features a relieving triangle above the lintel with two heraldic lions flanking a column, a structural and symbolic innovation. The corbelled tholos tombs (Treasury of Atreus) represent the pinnacle of Bronze Age engineering.",
-        tags: ["Mycenaean", "Cyclopean masonry", "Lion Gate", "citadel", "fortification"]
+        summary: "Fortified palace complex of Mycenaean civilization. Massive walls of cyclopean masonry (blocks 20 tons+) with casemate galleries and narrow gates. The Lion Gate entrance (monumental gateway with relieving triangle) is iconic. Central megaron palace with central hearth, portico, and porch. Demonstrates military concerns and palatial hierarchy absent in Minoan centers.",
+        tags: ["Mycenaean", "citadel", "cyclopean masonry", "Lion Gate", "fortification"]
       },
       {
-        date: "c. 1250 BCE",
-        title: "Treasury of Atreus (Tomb of Agamemnon)",
-        location: "Mycenae, Greece",
-        summary: "The largest and finest tholos tomb: a corbelled beehive dome 14.5m in diameter and 13.2m tall, built from 33 superimposed rings of ashlar masonry. A 36m dromos (processional corridor) leads to the monumental doorway (5.4m tall). The lintel stone weighs ~120 tons. The dome remained the largest unsupported span in the world until the Roman Pantheon, over 1,000 years later.",
-        tags: ["tholos tomb", "corbelled dome", "dromos", "Mycenaean", "ashlar"]
+        date: "c. 1500–1100 BCE",
+        title: "Treasury of Atreus (Mycenae)",
+        location: "Peloponnese, Greece",
+        summary: "Monumental tholos (beehive) tomb with corbeled dome 14.6m in diameter and 13.2m high. Entrance dromos (corridor) carved through hillside. False (corbeled) arch over doorway. Interior chamber remains undecorated but demonstrates sophisticated geometric control and construction technique. Among the largest corbeled structures in ancient world.",
+        tags: ["Mycenaean", "tholos", "corbeled vault", "tomb", "cyclopean"]
       },
       {
-        date: "c. 1500 BCE",
-        title: "Akrotiri (Thera/Santorini)",
-        location: "Santorini, Greece",
-        summary: "Minoan settlement preserved under volcanic ash from the eruption of Thera. Multi-story buildings with indoor plumbing, sophisticated frescoes (Spring Fresco, Boxing Boys, Fleet Fresco), and urban planning. Provides an unparalleled snapshot of Aegean domestic architecture. The eruption (~1628 or 1500 BCE) may have contributed to the decline of Minoan civilization.",
-        tags: ["Minoan", "volcanic preservation", "fresco", "domestic architecture"]
+        date: "c. 1400–1200 BCE",
+        title: "Palace of Tiryns",
+        location: "Peloponnese, Greece",
+        summary: "Fortified Mycenaean palace with casemate gallery passages within the cyclopean walls. Megaron palace structure with 10m-wide ceremonial hearth. Casemates served military and storage functions. Central megaron succeeded by smaller megara (royal and domestic apartments). Layout demonstrates palace hierarchy and functional differentiation.",
+        tags: ["Mycenaean", "palace", "cyclopean", "megaron", "casemate"]
       }
     ]
   },
 
   // =============================================
-  // 5. ANCIENT CHINA & JAPAN
+  // 5. ANCIENT CHINA & JAPAN (GLOBAL CONTEXT)
   // =============================================
   {
     era: "Ancient China & Japan",
-    eraRange: "c. 1600 BCE–600 CE",
+    eraRange: "c. 2000–500 BCE",
     week: 5,
+    ching: "pp. 85–111, 250–280",
+    keyArchitects: "Zhou dynasty builders, Qin architects",
+    concepts: [
+      { term: "Rammed Earth", def: "Compressed earthen walls; primary Chinese fortification" },
+      { term: "Post-and-Beam", def: "Wooden column and beam system; fundamental Chinese structure" },
+      { term: "Pitched Roof", def: "Overhanging eaves; climate control and ceremonial prominence" },
+      { term: "Geomancy", def: "Feng shui spatial principles; orientation to cardinal directions" }
+    ],
     entries: [
       {
         date: "c. 1600–1046 BCE",
-        title: "Shang Dynasty Foundations",
-        location: "Anyang & Zhengzhou, China",
-        summary: "The earliest Chinese monumental architecture. Palatial compounds at Yinxu (Anyang) used rammed-earth platforms (hangtu)  -  compressed layers of soil forming massive foundations, a technique that persisted for millennia. Timber post-and-beam construction (no load-bearing walls) established the fundamental Chinese structural system. Rectangular halls oriented along a north–south axis with symmetrical courtyards set the template for all later Chinese palatial and ritual architecture.",
-        tags: ["Shang Dynasty", "rammed earth", "hangtu", "timber frame", "axial planning"]
+        title: "Shang Dynasty Settlements",
+        location: "Yellow River Valley, China",
+        summary: "Early urban centers with rammed-earth walls and post-and-beam wooden palaces. Oracle bone inscriptions reference large structures. Settlements demonstrate grid-planning principles and hierarchical spatial organization. Foundation of later Chinese architectural traditions.",
+        tags: ["Shang", "rammed earth", "wooden", "settlement"]
       },
       {
-        date: "c. 221–206 BCE",
-        title: "Qin Dynasty: Great Wall & Terracotta Army",
-        location: "China",
-        summary: "Qin Shi Huang unified earlier defensive walls into the first Great Wall  -  rammed-earth construction stretching thousands of kilometers. His mausoleum complex near Xi'an includes the Terracotta Army: ~8,000 life-size clay soldiers in underground pits guarding the emperor's tomb. The tomb mound itself was designed as a microcosm of the empire, with rivers of mercury representing waterways. Demonstrates architecture as imperial cosmology.",
-        tags: ["Qin Dynasty", "Great Wall", "rammed earth", "Terracotta Army", "imperial tomb"]
+        date: "c. 1046–256 BCE",
+        title: "Zhou Dynasty Cities",
+        location: "Multiple sites, China",
+        summary: "Capital cities with planned grid layouts, rammed-earth walls, and palace complexes. Development of timber-frame architectural systems with overhanging eaves. Early documentation in classical texts of architectural standards and proportional systems.",
+        tags: ["Zhou", "city planning", "rammed earth", "timber frame"]
       },
       {
-        date: "c. 206 BCE–220 CE",
-        title: "Han Dynasty Architecture",
-        location: "China",
-        summary: "The Han codified the Chinese timber-frame building system: columns on stone bases supporting a bracket-set (dougong) system that transfers roof loads. The dougong  -  interlocking wooden brackets  -  is the signature element of Chinese architecture, allowing wide roof overhangs without increasing column height. Mingqi (ceramic tomb models) provide detailed evidence of multi-story towers (que), courtyard houses (siheyuan), and watchtowers. Introduction of Buddhist architecture via the Silk Road.",
-        tags: ["Han Dynasty", "dougong", "bracket set", "timber frame", "mingqi", "siheyuan"]
-      },
-      {
-        date: "c. 500s CE onward",
-        title: "Chinese Buddhist Pagoda: Songyue Temple Pagoda",
-        location: "Henan, China",
-        summary: "The Songyue Temple Pagoda (523 CE) is China's oldest surviving pagoda  -  a 40m-tall, 12-sided brick tower with 15 tiers. The pagoda form derived from the Indian stupa, transformed through Chinese building traditions into a multi-story tower. The evolution from Indian hemispherical mound to Chinese vertical tower is one of the great cultural translations in architectural history. Timber pagodas (like the Fogong Temple pagoda, 1056, the oldest surviving timber pagoda) used the dougong system at monumental scale.",
-        tags: ["pagoda", "Buddhist", "stupa transformation", "brick", "Songyue"]
-      },
-      {
-        date: "c. 300 BCE–300 CE",
-        title: "Izumo & Ise Grand Shrines (Origins)",
-        location: "Japan",
-        summary: "Shinto shrine architecture developed from prehistoric raised granaries. The Ise Grand Shrine (Naiku, inner shrine) embodies the purest form: unpainted hinoki cypress, raised floor on pillars, thatched roof with chigi (forked finials) and katsuogi (horizontal ridge logs). Ritually rebuilt every 20 years (shikinen sengu)  -  the current structures perpetuate an ancient form through continuous renewal. The shinmei-zukuri style at Ise is the most austere and sacred of Shinto shrine types.",
-        tags: ["Shinto", "Ise Grand Shrine", "shikinen sengu", "hinoki cypress", "shinmei-zukuri"]
-      },
-      {
-        date: "c. 607 CE",
-        title: "Hōryū-ji Temple Complex",
-        location: "Nara, Japan",
-        summary: "The oldest surviving wooden buildings in the world. Built under Prince Shōtoku, the complex preserves 7th-century Chinese-influenced Buddhist architecture that no longer survives in China itself. The five-story pagoda and kondō (golden hall) stand in an asymmetrical arrangement within a cloister  -  a departure from the strict axiality of Chinese models. Entasis on the columns suggests possible transmission from Greek/Gandharan traditions via the Silk Road. The bracket system (kumimono) is a Japanese adaptation of the Chinese dougong.",
-        tags: ["Hōryū-ji", "oldest wood buildings", "Buddhist", "Nara", "Prince Shōtoku", "kumimono"]
+        date: "c. 500 BCE",
+        title: "Great Wall of China (Early Sections)",
+        location: "Northern China",
+        summary: "Early Zhou defensive walls built of rammed earth and stone. Pre-Ming walls used locally available materials. Demonstrates scale of early Chinese engineering and strategic planning across vast territories.",
+        tags: ["defensive wall", "rammed earth", "early fortification"]
       }
     ]
   },
 
   // =============================================
-  // 5B. MESO-AMERICAN ARCHITECTURE
+  // 5. MESO-AMERICAN (GLOBAL CONTEXT)
   // =============================================
   {
-    era: "Meso-American",
-    eraRange: "c. 1500 BCE–1521 CE",
+    era: "Meso-American Civilizations",
+    eraRange: "c. 2000 BCE–1500 CE",
     week: 5,
+    ching: "pp. 200–250",
+    keyArchitects: "Maya astronomers, Aztec architects",
+    concepts: [
+      { term: "Corbeled Vault", def: "False arch; characteristic Maya vaulting technique" },
+      { term: "Stepped Pyramid", def: "Temple pyramid with ritual ascent; cosmological symbolism" },
+      { term: "Ball Court", def: "Ritual athletic arena; ceremonial/sport hybrid function" },
+      { term: "Glyph", def: "Carved stone writing; pictographic record of calendar and astronomy" }
+    ],
     entries: [
       {
-        date: "c. 1500–400 BCE",
-        title: "Olmec Ceremonial Centers: La Venta & San Lorenzo",
+        date: "c. 1000–400 BCE",
+        title: "Olmec Centers (La Venta)",
         location: "Gulf Coast, Mexico",
-        summary: "The Olmec  -  Mesoamerica's 'mother culture'  -  built the earliest large-scale ceremonial complexes. La Venta's Great Pyramid (c. 400 BCE) is a fluted conical earth mound ~30m tall, aligned on a north–south axis with platforms, plazas, and colossal stone heads (up to 3.4m tall, 50 tons). Basalt transported over 80 km. The axial ceremonial complex  -  plaza, pyramid, platform  -  established the template for all later Mesoamerican urbanism.",
-        tags: ["Olmec", "ceremonial center", "earth mound", "colossal heads", "La Venta"]
+        summary: "Earliest Mesoamerican civilization with monumental stone architecture. Platform mounds, colossal heads (weighing 40 tons), ritual courts. Demonstrates long-distance trade and organized labor. Foundation for later Maya and Aztec traditions.",
+        tags: ["Olmec", "ceremonial center", "colossal", "platform mound"]
       },
       {
-        date: "c. 100 BCE–550 CE",
-        title: "Teotihuacán",
-        location: "Basin of Mexico",
-        summary: "The largest pre-Columbian city in the Americas, with a population of ~125,000–200,000 at its peak. The Avenue of the Dead (4 km long) connects the Pyramid of the Sun (base: 225m × 225m, among the largest structures in the ancient world), the Pyramid of the Moon, and the Temple of the Feathered Serpent (Quetzalcoatl). Talud-tablero profiles (sloped base + vertical panel) became the signature architectural motif. Multi-family apartment compounds housed the population in a planned grid. The city influenced Mesoamerican architecture for over 1,000 years.",
-        tags: ["Teotihuacán", "talud-tablero", "Avenue of the Dead", "Pyramid of the Sun", "urban planning"]
-      },
-      {
-        date: "c. 250–900 CE",
-        title: "Classic Maya Architecture: Tikal & Palenque",
-        location: "Guatemala & Mexico",
-        summary: "Maya temple-pyramids are steep-sided stone structures topped by elaborate roof combs (towering stone lattice-work extending above the temple roof for visibility and display). Tikal's Temple I (c. 732 CE) rises 47m. Palenque's Palace (a unique multi-courtyard complex with a four-story tower  -  possibly an astronomical observatory) and the Temple of the Inscriptions (tomb of K'inich Janaab Pakal, discovered 1952 with a carved sarcophagus deep inside the pyramid) demonstrate Maya sophistication. Maya used the corbelled vault exclusively  -  they never developed the true arch.",
-        tags: ["Maya", "temple-pyramid", "roof comb", "corbelled vault", "Tikal", "Palenque"]
+        date: "c. 300 CE–950 CE",
+        title: "Tikal",
+        location: "Guatemala",
+        summary: "Maya city with towering temple pyramids (65m high), palace complexes, and ball courts. Corbeled vaults enclose interior chambers. Carved stelae and altars record dynastic history and astronomical calculations. Dense jungle growth demonstrates site planning accommodating natural topography.",
+        tags: ["Maya", "pyramid", "corbeled vault", "ceremonial center"]
       },
       {
         date: "c. 600–1000 CE",
-        title: "Maya Puuc Style: Uxmal",
-        location: "Yucatán, Mexico",
-        summary: "The Puuc style of the Terminal Classic Maya features smooth lower walls surmounted by elaborate mosaic stone façades with geometric frets, Chaac rain-god masks, and latticework patterns. The Pyramid of the Magician at Uxmal has an unusual rounded base (elliptical plan). The Governor's Palace (c. 900 CE)  -  98m long with a mosaic frieze of ~20,000 individually carved stones  -  is often cited as one of the most beautiful buildings in the pre-Columbian Americas. The Nunnery Quadrangle creates a formal enclosed courtyard with four elaborately decorated buildings.",
-        tags: ["Puuc style", "Uxmal", "mosaic façade", "Chaac mask", "Terminal Classic Maya"]
-      },
-      {
-        date: "c. 1325–1521 CE",
-        title: "Tenochtitlán & Aztec Templo Mayor",
-        location: "Mexico City, Mexico",
-        summary: "The Aztec capital built on an island in Lake Texcoco, connected to the mainland by causeways. Population ~200,000–300,000  -  larger than any contemporary European city. The Templo Mayor (Great Temple) was a twin-pyramid dedicated to Tlaloc (rain) and Huitzilopochtli (war/sun), rebuilt in seven successive enlargements (each encasing the previous). Excavated beginning 1978 beneath Mexico City. The city's grid of canals, chinampas (floating gardens), and ceremonial precincts represents one of history's great urban achievements.",
-        tags: ["Aztec", "Templo Mayor", "twin pyramid", "Tenochtitlán", "chinampas", "island city"]
-      },
-      {
-        date: "c. 1438–1533 CE",
-        title: "Inca Architecture: Machu Picchu & Cusco",
-        location: "Peru",
-        summary: "Inca masonry achieved extraordinary precision without mortar, metal tools, or the wheel. Ashlar blocks (some weighing 100+ tons) cut to fit so tightly that a knife blade cannot pass between them. Sacsayhuamán's zigzag walls use megalithic polygonal stones. Machu Picchu (c. 1450 CE)  -  a royal estate/sacred site at 2,430m elevation  -  integrates terraces, temples, and residences into the mountain topography with sophisticated drainage and agricultural engineering. The Intihuatana ('hitching post of the sun') served as an astronomical marker.",
-        tags: ["Inca", "ashlar masonry", "Machu Picchu", "Sacsayhuamán", "Cusco", "terracing"]
+        title: "Teotihuacán",
+        location: "Valley of Mexico",
+        summary: "Planned city (25 km²) with grid layout and pyramid temples. Pyramid of the Sun (65m tall) and Pyramid of the Moon. Apartment compounds with interior courtyards. Representational peak of Mesoamerican urbanism and architectural planning.",
+        tags: ["Teotihuacan", "pyramid", "city planning", "ceremonial center"]
       }
     ]
   },
@@ -744,652 +769,860 @@ const DATA = [
   {
     era: "Ancient Greece",
     eraRange: "c. 800–146 BCE",
-    week: 4,
+    week: 7,
+    ching: "pp. 85–142",
+    keyArchitects: "Iktinos & Kallikrates (Parthenon), Polykleitos, Pythius",
+    concepts: [
+      { term: "Doric Order", def: "Sturdy column with no base; Greek classical architecture's foundation" },
+      { term: "Ionic Order", def: "Slender column with scroll volute capitals; elegant proportion" },
+      { term: "Corinthian Order", def: "Ornate capital with acanthus leaves; late Greek elaboration" },
+      { term: "Peripatetic", def: "Peripteral colonnade; temple surrounded by columns on all sides" }
+    ],
     entries: [
       {
-        date: "c. 600 BCE",
-        title: "Development of the Doric Order",
-        location: "Greece & Magna Graecia",
-        summary: "The Doric order  -  the oldest and most austere of the Greek orders  -  codified by the 6th century BCE. Fluted columns (usually 20 flutes) with no base, rise from the stylobate. Echinus-and-abacus capitals support the entablature with alternating triglyphs and metopes in the frieze. The triglyph may echo earlier timber construction (beam ends). Optical refinements like entasis (slight column swelling) and stylobate curvature corrected visual distortions.",
-        tags: ["Doric order", "entasis", "triglyph", "metope", "optical refinement"]
-      },
-      {
-        date: "c. 550 BCE",
-        title: "Temple of Hera I (Basilica) at Paestum",
-        location: "Paestum, Italy",
-        summary: "Early Doric temple in Magna Graecia with an unusual 9-column front (odd number creates a central column on axis). Pronounced entasis gives the columns a muscular, archaic appearance. Stone translation of timber prototypes is still visible. Paestum's three well-preserved temples form one of the best surviving sequences of Greek Doric development.",
-        tags: ["Doric", "Paestum", "Magna Graecia", "archaic", "entasis"]
-      },
-      {
-        date: "c. 460 BCE",
+        date: "c. 480 BCE",
         title: "Temple of Zeus at Olympia",
         location: "Olympia, Greece",
-        summary: "Canonical early Classical Doric temple (6 × 13 columns). Housed Phidias's colossal chryselephantine (gold and ivory) statue of Zeus  -  one of the Seven Wonders. Pediment sculptures depict the chariot race of Pelops (east) and the battle of Lapiths and Centaurs (west). The metopes show the Twelve Labors of Heracles. Established the proportional system refined at the Parthenon.",
-        tags: ["Doric", "Classical", "Phidias", "chryselephantine", "Olympia"]
+        summary: "Doric peripteral temple, 64m × 28m, with 6 × 13 columns. Housed chryselephantine (gold and ivory) statue by Pheidias. Gold and ivory roof tiles. Represents the grandest statement of Doric order and Greek religious belief. One of the Seven Wonders of the Ancient World.",
+        tags: ["Doric", "temple", "peripteral", "Pheidias", "chryselephantine"]
       },
       {
-        date: "447–432 BCE",
-        title: "The Parthenon",
-        location: "Athenian Acropolis, Greece",
-        summary: "Architects Ictinus and Callicrates, with sculptural program by Phidias. The supreme achievement of the Doric order: 8 × 17 columns of Pentelic marble. Extensive optical refinements  -  the stylobate curves upward 6 cm in the center, columns lean inward, corner columns are thicker and more closely spaced (corner contraction). The continuous Ionic frieze within the peristyle (depicting the Panathenaic procession) is a Doric/Ionic hybrid innovation. 9:4 ratio governs proportions throughout.",
-        tags: ["Doric", "Classical", "Ictinus", "Callicrates", "Phidias", "optical refinement", "Acropolis"]
-      },
-      {
-        date: "437–432 BCE",
-        title: "The Propylaea",
-        location: "Athenian Acropolis, Greece",
-        summary: "Designed by Mnesicles as the monumental gateway to the Acropolis. Combines Doric exterior columns with taller Ionic columns inside to manage the steep grade change. Asymmetrical plan accommodated existing sacred sites  -  a pragmatic masterpiece. The first major secular building to use marble on the Acropolis. Included a picture gallery (pinakotheke) in the north wing.",
-        tags: ["Doric-Ionic hybrid", "Mnesicles", "gateway", "Acropolis"]
-      },
-      {
-        date: "c. 421–406 BCE",
-        title: "The Erechtheion",
-        location: "Athenian Acropolis, Greece",
-        summary: "Ionic temple with a radically asymmetrical plan, accommodating multiple cults and sacred sites (including the marks of Poseidon's trident, Athena's sacred olive tree, and the tomb of Kekrops). The Porch of the Caryatids  -  six draped female figures serving as columns  -  is the most famous use of figural supports in architecture. Multi-level plan navigates a 3m grade change.",
-        tags: ["Ionic", "Caryatid", "asymmetrical plan", "Acropolis"]
+        date: "c. 447–432 BCE",
+        title: "Parthenon",
+        location: "Athens, Greece",
+        summary: "Temple of Athena Parthenos atop the Akropolis. Designed by Iktinos and Kallikrates with sculptor Pheidias overseeing decoration. Doric peripteral plan (8 × 17 columns) with Ionic frieze (inner colonnade) and Corinthian capitals. Subtle optical refinements (entasis, curvature) correct visual distortion. The canonical statement of Greek Classical architecture.",
+        tags: ["Doric", "Ionic", "Parthenon", "Athens", "Classical", "Iktinos", "Kallikrates"]
       },
       {
         date: "c. 420 BCE",
         title: "Temple of Athena Nike",
-        location: "Athenian Acropolis, Greece",
-        summary: "Designed by Callicrates. Diminutive Ionic amphiprostyle temple (4 columns front and back) perched on the southwest bastion of the Acropolis. Celebrates Athenian military victories. The sculpted parapet (Nike Adjusting Her Sandal) demonstrates the 'wet drapery' style of late 5th-century sculpture. Its compact elegance contrasts with the massive Parthenon.",
-        tags: ["Ionic", "amphiprostyle", "Callicrates", "Nike", "Acropolis"]
+        location: "Athens, Greece",
+        summary: "Small Ionic temple on a bastion overlooking the Akropolis entrance. First use of Ionic order in Athens. Delicate proportions and decorative sculptural frieze. Demonstrates the range of Greek temple types beyond monumental Doric statements.",
+        tags: ["Ionic", "Athens", "temple", "Classical"]
       },
       {
-        date: "c. 356–323 BCE",
-        title: "Tholos at Delphi & the Corinthian Order",
-        location: "Delphi, Greece",
-        summary: "The Corinthian order  -  with its acanthus-leaf capital  -  emerged in the late 5th century but matured during the 4th century. The Tholos at Delphi (c. 380 BCE) features a circular plan with 20 exterior Doric columns and 10 interior Corinthian columns. The Monument of Lysicrates in Athens (334 BCE) is the earliest known exterior use of the Corinthian order. The column's all-directional visual appeal made it ideal for round buildings and interiors.",
-        tags: ["Corinthian order", "tholos", "acanthus capital", "Delphi", "Lysicrates"]
+        date: "c. 430 BCE",
+        title: "Erechtheion",
+        location: "Athens, Greece",
+        summary: "Asymmetrical Ionic temple housing multiple cults (Athena Polias, Poseidon, Hephaestus). Famous for the Caryatid Porch (maidens as columns). Irregular plan accommodates earlier sacred sites and varied ritual requirements. Represents complex religious symbolism in architectural form.",
+        tags: ["Ionic", "Athens", "Caryatid", "asymmetrical", "multi-cult"]
       },
       {
-        date: "c. 300 BCE",
-        title: "Theater at Epidaurus",
-        location: "Epidaurus, Greece",
-        summary: "Designed by Polykleitos the Younger. Seats 14,000 in a near-perfect horseshoe (slightly beyond semicircle). Extraordinary acoustics  -  a coin dropped on the orchestra floor can be heard in the top row 60m away. 55 rows divided by a diazoma into lower (34 rows) and upper (21 rows) sections. Integrated into the hillside (typical of Greek theaters, unlike freestanding Roman ones). Part of the Sanctuary of Asklepios (healing center).",
-        tags: ["theater", "acoustics", "Polykleitos", "Epidaurus", "Hellenistic"]
+        date: "c. 380–370 BCE",
+        title: "Temple of Polyclitus at Epidauros",
+        location: "Peloponnese, Greece",
+        summary: "Ionic temple at the sanctuary of Asclepius. Designed by the architect who built the famous Tholos (circular building with Corinthian order). Part of a comprehensive sanctuary plan with theater, stadium, and hotel facilities. Demonstrates Hellenistic sanctuary planning.",
+        tags: ["Ionic", "sanctuary", "Classical", "Polyclitus"]
       },
       {
-        date: "c. 280 BCE",
-        title: "Great Altar of Zeus at Pergamon",
-        location: "Pergamon, Turkey",
-        summary: "Massive Hellenistic altar (36m × 34m) on a high podium with monumental staircase. The 120m-long Gigantomachy frieze (battle of gods and giants) wraps the base  -  the most dramatic and emotionally charged sculptural program of antiquity. Baroque dynamism, deep undercutting, and intense expressions anticipate Roman and later Baroque sensibilities. Now reconstructed in Berlin's Pergamon Museum.",
-        tags: ["Hellenistic", "altar", "Gigantomachy", "Pergamon", "Baroque quality"]
+        date: "c. 330 BCE",
+        title: "Mausoleum at Halicarnassus",
+        location: "Turkey (Hellenistic)",
+        summary: "Monumental tomb, 45m high, combining Greek, Near Eastern, and Egyptian architectural features. Designed by Satyros and Pythius. Sculptural decoration by Scopas and Leochares. One of the Seven Wonders of the Ancient World. Represents cultural synthesis at the edge of the Greek world.",
+        tags: ["Hellenistic", "tomb", "Ionic", "sculptural", "Seven Wonders"]
       }
     ]
   },
 
   // =============================================
-  // 6. ANCIENT ROME
+  // 7. ANCIENT ROME
   // =============================================
   {
     era: "Ancient Rome",
     eraRange: "c. 509 BCE–476 CE",
-    week: 6,
+    week: 8,
+    ching: "pp. 151–280",
+    keyArchitects: "Vitruvius (theorist), Apollodorus (Trajan's Basilica), engineering architects",
+    concepts: [
+      { term: "Arch", def: "Curved structural element; Roman innovation enabling larger spans" },
+      { term: "Vault", def: "Barrel and groin vaults; Roman mastery of continuous enclosure" },
+      { term: "Concrete", def: "Opus caementicium; Roman revolution enabling vast interior spaces" },
+      { term: "Atrium", def: "Central hall of domestic/public buildings; climatic and social center" }
+    ],
     entries: [
       {
-        date: "c. 2nd century BCE",
-        title: "Roman Concrete Revolution",
-        location: "Rome & the Roman world",
-        summary: "Opus caementicium  -  Roman concrete made from volcanic pozzolana, lime, and aggregate  -  revolutionized construction. Unlike stone trabeation (post-and-lintel), concrete enabled curved forms: vaults, domes, and apses. Freed architecture from the structural limitations of the Greek orders. The orders became decorative 'applied' elements rather than structural necessities. Combined with brick-faced concrete (opus testaceum), it allowed rapid, large-scale construction across the empire.",
-        tags: ["Roman concrete", "opus caementicium", "pozzolana", "vault", "structural innovation"]
+        date: "c. 27 BCE–14 CE",
+        title: "Pantheon",
+        location: "Rome, Italy",
+        summary: "Temple to all gods with unprecedented 43.3m diameter concrete dome (largest unreinforced dome ever built). Oculus opening admits light. Classical porch with Greek columns attached to rotunda. Interior geometry: sphere of column-height diameter. Built by Hadrian (120–126 CE). Represents Roman engineering mastery and concrete innovation. Best-preserved Roman building.",
+        tags: ["concrete", "dome", "Classical", "Hadrian", "rotunda"]
       },
       {
-        date: "c. 80 CE",
-        title: "The Colosseum (Flavian Amphitheater)",
+        date: "c. 72–80 CE",
+        title: "Colosseum (Flavian Amphitheater)",
         location: "Rome, Italy",
-        summary: "Seats ~50,000 in an elliptical plan (188m × 156m). Four stories: Doric (ground), Ionic, Corinthian, and Corinthian pilaster attic  -  a Roman 'textbook' of the superimposed orders. 80 arched entrances allowed complete filling/emptying in ~15 minutes via a system of vomitoria. The velarium (retractable canvas awning operated by sailors) shaded spectators. Hypogeum below the arena floor housed staging machinery, animal cages, and elevators.",
-        tags: ["amphitheater", "superimposed orders", "Flavian", "concrete", "vomitorium"]
-      },
-      {
-        date: "c. 118–125 CE",
-        title: "The Pantheon",
-        location: "Rome, Italy",
-        summary: "Attributed to Emperor Hadrian (possibly architect Apollodorus of Damascus). The unreinforced concrete dome (43.3m diameter = 43.3m height) remained the world's largest dome for over 1,300 years. The 8.2m-wide oculus is the sole light source, creating a moving sunbeam that tracks across the coffered interior. Stepped rings of progressively lighter aggregate (from basalt at the base to pumice at the top) reduce weight. The portico (Corinthian columns of Egyptian granite) creates a deliberate contrast between traditional temple front and revolutionary interior space.",
-        tags: ["dome", "oculus", "Hadrian", "concrete", "coffers", "rotunda"]
-      },
-      {
-        date: "c. 298–306 CE",
-        title: "Baths of Diocletian",
-        location: "Rome, Italy",
-        summary: "The largest of Rome's imperial thermae, accommodating 3,000 bathers simultaneously. The complex included a frigidarium, tepidarium, caldarium, natatio (swimming pool), palaestra (exercise yard), libraries, and gardens  -  a complete leisure/social center. Cross-vaulted and groin-vaulted spaces created vast uninterrupted interiors. Michelangelo later converted the frigidarium into the church of Santa Maria degli Angeli, preserving the original Roman vaulting.",
-        tags: ["thermae", "groin vault", "cross vault", "Diocletian", "public architecture"]
+        summary: "Massive 4-story amphitheater seating 50,000. Superimposed Doric, Ionic, and Corinthian orders on exterior. Barrel and groin vault construction supports tiered seating. Complex labyrinth of corridors, ramps, and chambers beneath arena floor (hypogeum) housed wild animals and stage machinery. Engineering marvel of Roman construction.",
+        tags: ["amphitheater", "vault", "Roman", "Classical orders", "Flavian"]
       },
       {
         date: "c. 113 CE",
-        title: "Trajan's Forum & Markets",
+        title: "Forum and Markets of Trajan",
         location: "Rome, Italy",
-        summary: "Designed by Apollodorus of Damascus  -  the last and grandest of the Imperial Fora. The complex included the Basilica Ulpia (largest basilica in Rome), twin libraries (Greek and Latin), Trajan's Column (38m spiral relief narrating the Dacian Wars in 155 scenes), and the revolutionary Markets of Trajan  -  a multi-level commercial complex (c. 150 shops) with a great hemicycle. The Markets used concrete vaulting to create flexible interior spaces, anticipating modern shopping malls.",
-        tags: ["forum", "Apollodorus", "Trajan", "basilica", "markets", "column"]
+        summary: "Monumental civic complex by Apollodorus of Damascus. Central paved forum with triumphal column (34m tall with spiral relief narrative). Adjacent multi-story market building (Trajan's Markets) with shops arranged around terraced streets. Basilica with two interior colonnades. Demonstrates Roman urban civic planning and organizational genius.",
+        tags: ["forum", "Trajan", "Apollodorus", "civic", "triumphal column"]
       },
       {
-        date: "c. 203 CE",
-        title: "Arch of Septimius Severus & Roman Triumphal Arches",
+        date: "c. 113–117 CE",
+        title: "Column of Trajan",
         location: "Rome, Italy",
-        summary: "Triumphal arches are quintessentially Roman inventions  -  freestanding monumental gateways celebrating military victories. The Arch of Titus (81 CE) established the single-bay form and contains the famous relief of the spoils of Jerusalem. The Arch of Septimius Severus (triple bay) and Arch of Constantine (315 CE  -  which re-used spolia from earlier monuments) are key examples. These arches influenced Renaissance and later architecture (e.g., the Arc de Triomphe).",
-        tags: ["triumphal arch", "spolia", "relief sculpture", "commemoration"]
+        summary: "Monumental commemorative column, 34m tall with 2,662 figures in continuous narrative relief depicting the Dacian Wars. Designed by Apollodorus. Spiral staircase within hollow column. Pedestal contained cremated remains. Represents pinnacle of Roman narrative sculpture and commemorative architecture.",
+        tags: ["Trajan", "column", "relief", "monumental", "narrative"]
       },
       {
-        date: "c. 72 BCE onward",
-        title: "Roman Domestic Architecture: Domus & Insulae",
-        location: "Pompeii, Herculaneum, Ostia",
-        summary: "The Roman domus (single-family house) organized around the atrium (with impluvium/compluvium for rainwater) and peristyle garden. Pompeii and Herculaneum (buried 79 CE) preserve complete examples with wall paintings in the Four Pompeian Styles. The insula (apartment block), best preserved at Ostia, housed the urban masses in multi-story concrete-framed buildings  -  ancient high-density housing with shops at ground level.",
-        tags: ["domus", "insula", "atrium", "peristyle", "Pompeii", "Four Styles"]
-      },
-      {
-        date: "c. 27 BCE–14 CE",
-        title: "Augustan Rome: Transforming a City",
+        date: "c. 139–161 CE",
+        title: "Temple of Antoninus Pius & Faustina",
         location: "Rome, Italy",
-        summary: "Augustus famously claimed to have 'found Rome a city of brick and left it a city of marble.' The Forum of Augustus, Temple of Mars Ultor, and Ara Pacis (Altar of Peace, with its refined relief carvings) established a classicizing imperial style. The Maison Carrée at Nîmes (c. 16 BCE)  -  a perfectly preserved Corinthian pseudoperipteral temple  -  exemplifies Augustan provincial architecture.",
-        tags: ["Augustus", "Ara Pacis", "Maison Carrée", "imperial style", "marble"]
+        summary: "Raised temple with Greek-style colonnade (Corinthian columns on high podium). Cella designed for narrow entrance hall leading to deep interior sanctuary. Later converted to church (saving it from demolition). Demonstrates Roman retention of Greek form within Roman structural systems.",
+        tags: ["temple", "Corinthian", "Roman", "podium"]
       },
       {
-        date: "c. 100–300 CE",
-        title: "Roman Provincial Architecture",
-        location: "Empire-wide",
-        summary: "Roman engineering spread across three continents. The Pont du Gard aqueduct (Nîmes, c. 19 BCE)  -  three tiers of arches spanning 275m  -  carried water 50 km with a gradient of 34 cm/km. Baalbek's Temple of Jupiter (Lebanon) has the largest stone blocks ever used in construction (Trilithon: three 800-ton stones). Hadrian's Wall, Diocletian's Palace at Split, the library at Ephesus, and Timgad's planned colonial grid demonstrate the empire's architectural reach.",
-        tags: ["aqueduct", "Pont du Gard", "Baalbek", "provincial", "engineering"]
+        date: "c. 98–117 CE",
+        title: "Basilica Ulpia (Trajan Forum)",
+        location: "Rome, Italy",
+        summary: "Monumental basilica with central nave and double side aisles. 120m long, 55m wide. Multiple columns supporting coffered barrel vaults. Open colonnades at short ends. Represents the apotheosis of the Roman basilica type before being adopted as Christian church form.",
+        tags: ["basilica", "vault", "Trajan", "civic", "hypostyle"]
+      },
+      {
+        date: "c. 306–315 CE",
+        title: "Basilica of Maxentius (Basilica Nova)",
+        location: "Rome, Italy",
+        summary: "Late Imperial basilica with three barrel vaults of 80ft span (largest interior spaces in Roman architecture). Coffered concrete vaults on massive piers. Completed by Constantine. Demonstrates the continued innovation in Roman engineering in the 4th century.",
+        tags: ["basilica", "vault", "concrete", "Late Imperial"]
       }
     ]
   },
 
   // =============================================
-  // 7. EARLY CHRISTIAN & LATE ANTIQUE
+  // 8. EARLY CHRISTIAN
   // =============================================
   {
     era: "Early Christian",
-    eraRange: "c. 313–500 CE",
-    week: 7,
+    eraRange: "c. 313–600 CE",
+    week: 11,
+    ching: "pp. 280–330",
+    keyArchitects: "Constantine's architects, Syrian/Palestinian builders",
+    concepts: [
+      { term: "Basilica", def: "Adoption of Roman civic basilica for Christian worship" },
+      { term: "Atrium", def: "Colonnaded forecourt; processional sequence and ritual gathering" },
+      { term: "Apse", def: "Semicircular chamber; placement of altar at basilica termination" },
+      { term: "Transept", def: "Cross-arm extending from nave; Cruciform (cross) church plan" }
+    ],
     entries: [
       {
-        date: "c. 313 CE",
-        title: "Old St. Peter's Basilica",
-        location: "Rome, Italy",
-        summary: "Commissioned by Constantine over the site of St. Peter's tomb. The basilican plan (derived from Roman civic basilicas, not temples) established the model for Western churches: atrium → narthex → nave with side aisles → transept → apse. Timber-roofed nave, with columns recycled (spolia) from pagan buildings. The addition of a transept created the Latin cross plan that would dominate medieval church architecture. Demolished in the 16th century to build the current St. Peter's.",
-        tags: ["basilica plan", "Constantine", "Latin cross", "transept", "spolia"]
+        date: "c. 325–330 CE",
+        title: "Church of the Holy Sepulchre",
+        location: "Jerusalem",
+        summary: "First major Christian sanctuary built by Constantine. Marks the traditional site of Christ's Crucifixion and Resurrection. Byzantine rotunda structure (Anastasis) over the Holy Sepulcher. Adjacent basilica (Martyrium) with atrium. Complex symbolic and liturgical program. Pilgrimage destination and architectural influence throughout Christendom.",
+        tags: ["pilgrimage church", "rotunda", "Constantine", "Byzantine", "holy sites"]
       },
       {
-        date: "c. 350 CE",
-        title: "Santa Costanza",
-        location: "Rome, Italy",
-        summary: "Originally a mausoleum for Constantine's daughter. Centrally planned with a circular ambulatory surrounding the domed center. The dome rests on 12 pairs of granite columns. Barrel-vaulted ambulatory retains original 4th-century mosaics (grape harvest scenes  -  blending pagan and Christian imagery). Demonstrates the centralized plan tradition alongside the longitudinal basilica.",
-        tags: ["central plan", "mausoleum", "ambulatory", "mosaic", "dome"]
+        date: "c. 318–333 CE",
+        title: "Old St. Peter's Basilica",
+        location: "Vatican, Rome",
+        summary: "First major Christian basilica built on the site of St. Peter's tomb. Constantine's patronage. Aisled basilica with atrium, transept, and apse (cruciform plan proto-type). 120m long. Remained principal church for 1,200 years until Renaissance reconstruction. Established Christian basilica as standard church type.",
+        tags: ["basilica", "Christian", "Constantine", "cruciform", "papal"]
       },
       {
         date: "c. 432–440 CE",
-        title: "Santa Maria Maggiore",
+        title: "Church of Santa Maria Maggiore",
         location: "Rome, Italy",
-        summary: "One of the four papal basilicas, preserving its original 5th-century nave with Ionic columns and mosaic cycle depicting Old Testament scenes. The triumphal arch mosaics are among the finest examples of early Christian art. The flat, richly coffered ceiling contrasts with the luminous mosaic program. Demonstrates the Early Christian emphasis on interior splendor over exterior display  -  a deliberate inversion of pagan temple priorities.",
-        tags: ["basilica", "mosaic", "Ionic columns", "papal basilica"]
+        summary: "Longitudinal basilica with nave, aisles, and apse. Triple arch spanning nave entrance. Coffered ceiling. Monumental scale (86m long). Rich decorative program with mosaics. Represents Early Christian basilica type at its most elaborate in Rome.",
+        tags: ["basilica", "Christian", "Rome", "mosaic", "apse"]
       },
       {
-        date: "c. 526–547 CE",
-        title: "San Vitale, Ravenna",
-        location: "Ravenna, Italy",
-        summary: "Octagonal centralized church that bridges Roman and Byzantine traditions. Double-shell construction: inner octagon of piers supports a lightweight dome of interlocking ceramic tubes; outer octagonal ambulatory with gallery above. Famous for its shimmering gold-ground mosaics of Emperor Justinian and Empress Theodora with their courts  -  political and religious propaganda asserting imperial authority. Direct inspiration for Charlemagne's Palatine Chapel at Aachen.",
-        tags: ["octagonal plan", "Byzantine", "mosaic", "Justinian", "Ravenna", "centralized"]
-      },
-      {
-        date: "c. 493–526 CE",
-        title: "Sant'Apollinare Nuovo & in Classe",
-        location: "Ravenna, Italy",
-        summary: "Sant'Apollinare Nuovo preserves the most complete cycle of Early Christian/Byzantine mosaics in a basilican setting: processions of saints and martyrs along the nave walls. Sant'Apollinare in Classe (c. 535–549), set in Ravenna's ancient port, features the magnificent apse mosaic of the Transfiguration  -  abstracted into symbolic geometry with a jeweled cross replacing Christ's figure.",
-        tags: ["basilica", "mosaic", "Ravenna", "nave decoration", "Ostrogothic"]
+        date: "c. 490–520 CE",
+        title: "Church of San Simeon Stylites",
+        location: "Qal'at Sim'an, Syria",
+        summary: "Octagonal martyrium (shrine) surrounding pillar of Saint Simeon Stylites. Four basilicas extending from octagonal core. Demonstrates pilgrimage architecture and veneration of ascetic saints. Represents the synthesis of Eastern tradition and Christian forms.",
+        tags: ["octagonal", "martyrium", "pilgrimage", "Syria", "Early Christian"]
       }
     ]
   },
 
   // =============================================
-  // 8. BYZANTINE
+  // 9. BYZANTINE
   // =============================================
   {
     era: "Byzantine",
     eraRange: "c. 330–1453 CE",
-    week: 7,
+    week: 11,
+    ching: "pp. 322–326, 362–366",
+    keyArchitects: "Anthemius of Tralles & Isidorus of Miletus (Hagia Sophia)",
+    concepts: [
+      { term: "Pendentive", def: "Triangular vault section; transition from square to circular dome" },
+      { term: "Squinch", def: "Arch across corner; alternative dome support system" },
+      { term: "Domed Basilica", def: "Dome on pendentives over nave; Byzantine innovation" },
+      { term: "Mosaic", def: "Colored glass tile; Byzantine decorative technique and theology" }
+    ],
     entries: [
       {
-        date: "532–537 CE",
+        date: "c. 532–537 CE",
         title: "Hagia Sophia",
         location: "Constantinople (Istanbul), Turkey",
-        summary: "Designed by Anthemius of Tralles and Isidorus of Miletus for Emperor Justinian. The vast dome (31m diameter, 55m above floor) rests on pendentives  -  the revolutionary solution for placing a circular dome on a square base. Semi-domes on east and west expand the interior longitudinally. 40 windows at the dome's base create the illusion that it floats on a ring of light. Procopius wrote it seemed 'suspended from heaven by a golden chain.' Converted to mosque (1453), now a museum. The structural type  -  dome on pendentives  -  became the defining feature of Byzantine architecture.",
-        tags: ["dome", "pendentive", "Justinian", "Anthemius", "Isidorus", "Constantinople"]
+        summary: "Justinian's masterpiece, designed by Anthemius of Tralles and Isidorus of Miletus. Monumental 31m diameter dome on pendentives over a basilica plan (100m long). Semi-domes create longitudinal vista. Minimizes structural supports for open interior. Marble revetment and mosaic decoration. Converted to mosque (1453), then museum. Greatest Byzantine architectural achievement and most influential medieval building type.",
+        tags: ["domed basilica", "pendentive", "Byzantine", "Justinian", "monumental"]
       },
       {
         date: "c. 527–565 CE",
-        title: "Justinianic Building Program",
-        location: "Byzantine Empire",
-        summary: "Justinian's reign saw an extraordinary campaign of construction. Besides Hagia Sophia, the Church of Saints Sergius and Bacchus (a 'Little Hagia Sophia' with octagonal dome) and the now-destroyed Church of the Holy Apostles (cruciform plan with five domes  -  model for St. Mark's Venice) were key commissions. Procopius's 'De Aedificiis' (On Buildings) documents the emperor's architectural ambitions as deliberate statecraft.",
-        tags: ["Justinian", "centralized plan", "domed basilica", "imperial patronage"]
+        title: "San Vitale",
+        location: "Ravenna, Italy",
+        summary: "Octagonal Byzantine church with central dome on squinches and an ambulatory. Interior columns from antique sources. Byzantine mosaics and marble decoration (Justinian and Theodora procession scenes). Represents Byzantine influence in Italian territory and synthesis of Eastern and Western traditions.",
+        tags: ["octagonal", "Byzantine", "dome", "mosaic", "Justinian"]
       },
       {
-        date: "c. 1063–1094",
-        title: "St. Mark's Basilica",
-        location: "Venice, Italy",
-        summary: "Modeled on Justinian's (now-destroyed) Church of the Holy Apostles in Constantinople. Greek cross plan with five domes on pendentives  -  one over each arm and one over the crossing. Progressively encrusted with marble, mosaics (8,000 sq m of gold-ground mosaic), and spolia (including the four bronze horses looted from Constantinople in 1204). Exemplifies Venice's unique position as a cultural bridge between East and West.",
-        tags: ["Greek cross", "five domes", "mosaic", "Venice", "Byzantine influence"]
-      },
-      {
-        date: "c. 1037–1050s",
-        title: "Cathedral of Saint Sophia, Kyiv",
-        location: "Kyiv, Ukraine",
-        summary: "Built under Yaroslav the Wise, this is the masterwork of Kievan Rus' architecture and the diffusion of Byzantine forms into Eastern Europe. Original form featured 13 domes symbolizing Christ and the Apostles. Interior mosaics (including the Virgin Orans in the apse) and frescoes are among the finest outside Constantinople. Demonstrates how the Byzantine domed-cross plan adapted to local traditions and climatic needs (steeper domes for snow shedding).",
-        tags: ["Kievan Rus'", "Byzantine diffusion", "mosaic", "13 domes"]
+        date: "c. 870–1000 CE",
+        title: "Nea Ekklesia (Holy Apostles Cathedral) Reconstructions",
+        location: "Constantinople (Istanbul), Turkey",
+        summary: "Cross-in-square (quincunx) plan church: central dome with four smaller domes at corners and a pair of corner towers. Became standard Middle Byzantine church type. Demonstrated in contemporary buildings. Represents ordered, proportional approach to domed architecture.",
+        tags: ["cross-in-square", "Byzantine", "quincunx", "dome"]
       }
     ]
   },
 
   // =============================================
-  // 9. ISLAMIC ARCHITECTURE
+  // 10. ISLAMIC ARCHITECTURE (SUPPLEMENTAL)
   // =============================================
   {
     era: "Islamic Architecture",
-    eraRange: "c. 690–1600 CE",
-    week: 8,
+    eraRange: "c. 622–1500s CE",
+    week: null,
+    ching: "pp. 301–320, 387",
+    keyArchitects: "Umayyad architects, Abbasid engineers, Nasrid craftsmen (Alhambra)",
+    concepts: [
+      { term: "Hypostyle Mosque", def: "Forest of columns; prayer hall facing qibla (Mecca direction)" },
+      { term: "Mihrab", def: "Niche indicating prayer direction; focal point of mosque interior" },
+      { term: "Minaret", def: "Tower for calling faithful to prayer; visual and sonic dominance" },
+      { term: "Muqarnas", def: "Honeycomb vaulting; decorative and structural complexity" }
+    ],
     entries: [
       {
-        date: "c. 691 CE",
-        title: "Dome of the Rock",
-        location: "Jerusalem",
-        summary: "One of the earliest major Islamic monuments, built by Caliph Abd al-Malik on the Temple Mount. An octagonal plan with a double ambulatory surrounding the sacred rock (from which Muhammad is said to have ascended to heaven). The gilded wooden dome (20m diameter) sits on a tall drum. Byzantine mosaics and Roman/Byzantine structural techniques serve an Islamic theological program  -  an assertion of Islam's place in the Abrahamic tradition. Not a mosque but a shrine (mashhad).",
-        tags: ["Umayyad", "octagonal plan", "dome", "Jerusalem", "shrine"]
-      },
-      {
-        date: "c. 706–715 CE",
-        title: "Great Mosque of Damascus",
+        date: "c. 705–715 CE",
+        title: "Great Mosque of Damascus (Umayyad Mosque)",
         location: "Damascus, Syria",
-        summary: "Built by Caliph al-Walid I on the site of a Roman temple and Christian basilica. Established key elements of the hypostyle mosque: a large courtyard (sahn) surrounded by arcades (riwaq), a multi-aisled prayer hall (haram) oriented toward Mecca (qibla wall with mihrab niche), and a minaret for the call to prayer. The transept-like nave perpendicular to the qibla wall emphasizes the mihrab axis. Glass mosaics (possibly by Byzantine craftsmen) depict paradise landscapes.",
+        summary: "First monumental Islamic congregational mosque. Converted pagan temple sanctuary into prayer hall with columned hypostyle interior. Magnificent Byzantine mosaic decoration (landscape vistas, trees, buildings, fountains). Rectangular open court (sahn) with fountain. Four arcaded porticos. Established prototype for monumental Islamic worship.",
         tags: ["Umayyad", "hypostyle mosque", "sahn", "mihrab", "qibla", "minaret"]
       },
       {
         date: "c. 848–852 CE",
         title: "Great Mosque of Samarra",
         location: "Samarra, Iraq",
-        summary: "The largest mosque ever built at the time (240m × 156m). The Malwiya minaret  -  a 52m-tall spiral tower with an external helical ramp  -  is one of the most distinctive forms in Islamic architecture. The vast hypostyle prayer hall used brick piers (rather than columns). Built by Abbasid Caliph al-Mutawakkil during Samarra's brief period as the Abbasid capital. The spiral form may reference ancient Mesopotamian ziggurats.",
+        summary: "Largest mosque ever built at the time (240m × 156m). Malwiya minaret – a 52m-tall spiral tower with an external helical ramp – is one of the most distinctive forms in Islamic architecture. Vast hypostyle prayer hall used brick piers (rather than columns). Built by Abbasid Caliph al-Mutawakkil. Spiral form may reference ancient Mesopotamian ziggurats.",
         tags: ["Abbasid", "Malwiya", "spiral minaret", "hypostyle", "Samarra"]
       },
       {
         date: "c. 785–987 CE",
         title: "Great Mosque of Córdoba (Mezquita)",
         location: "Córdoba, Spain",
-        summary: "The masterpiece of Umayyad architecture in al-Andalus, expanded over 200 years by successive rulers. The double-tiered arches (horseshoe arches atop columns, with semicircular arches above)  -  using alternating red brick and white stone voussoirs  -  create a mesmerizing forest of columns (856 columns in the final form). The maqsura of al-Hakam II features interlacing polylobed arches and a ribbed dome with an intricate geometric pattern. A cathedral was inserted into the center in the 16th century.",
+        summary: "Masterpiece of Umayyad architecture in al-Andalus, expanded over 200 years by successive rulers. Double-tiered arches (horseshoe arches atop columns, with semicircular arches above) – using alternating red brick and white stone voussoirs – create a mesmerizing forest of columns (856 columns in final form). Maqsura of al-Hakam II features interlacing polylobed arches and ribbed dome with intricate geometric pattern. Cathedral inserted 16th century.",
         tags: ["Umayyad", "Córdoba", "horseshoe arch", "double arcade", "al-Andalus", "Mezquita"]
       },
       {
         date: "c. 1354–1391",
         title: "The Alhambra",
         location: "Granada, Spain",
-        summary: "The Nasrid palatial complex  -  the last great monument of Islamic Spain. The Court of the Lions features 124 slender marble columns supporting muqarnas (honeycomb/stalactite vaulting)  -  a cascade of miniature concave forms that dissolve the ceiling into a celestial canopy. The Court of the Myrtles reflects the palace in a long pool. Intricate stucco carvings, ceramic tile (zellij), and calligraphic inscriptions create a layered textile-like surface. Water, light, and geometry combine to evoke paradise (janna).",
-        tags: ["Nasrid", "Alhambra", "muqarnas", "Court of the Lions", "zellij", "paradise garden"]
-      },
-      {
-        date: "c. 1550–1557",
-        title: "Süleymaniye Mosque",
-        location: "Istanbul, Turkey",
-        summary: "Mimar Sinan's imperial masterwork for Sultan Süleyman the Magnificent. A vast complex (külliye) including mosque, madrasas, hospital, caravanserai, and baths. The mosque dome (26.5m diameter, 53m high) rests on pendentives with semi-domes on two sides  -  a clear dialogue with Hagia Sophia. Sinan used a more rational and unified structural system than the Byzantine prototype. Stained glass by Ibrahim the Drunkard. Sinan considered his later Selimiye Mosque at Edirne (1574) his masterpiece  -  a single 31.3m dome on an octagonal base creating a unified interior.",
-        tags: ["Mimar Sinan", "Ottoman", "külliye", "Süleyman", "dome", "Hagia Sophia dialogue"]
-      },
-      {
-        date: "c. 1632–1653",
-        title: "Taj Mahal",
-        location: "Agra, India",
-        summary: "Built by Mughal Emperor Shah Jahan as a mausoleum for his wife Mumtaz Mahal. White marble structure on a raised plinth with four minarets, set within a charbagh (four-part paradise garden) with reflecting pools. The double dome (outer and inner shells) rises 73m. Pietra dura inlay (semi-precious stones set into marble) with floral and calligraphic patterns. Perfect bilateral symmetry along every axis. The complex integrates mosque, guest house, gateway, and gardens into a unified paradise metaphor.",
-        tags: ["Mughal", "Taj Mahal", "mausoleum", "charbagh", "pietra dura", "double dome"]
+        summary: "Nasrid palace-fortress complex overlooking Granada. Intricate stucco work and muqarnas (honeycomb) vaulting. Intimate courtyards (Court of Lions, Court of Myrtles) with sophisticated water systems. Geometric tile decoration and calligraphic inscriptions. Represents the zenith of Islamic decorative tradition in Iberia before Christian conquest.",
+        tags: ["Nasrid", "palace", "muqarnas", "geometric", "Granada"]
       }
     ]
   },
 
   // =============================================
-  // 10. ROMANESQUE
+  // 11. ROMANESQUE
   // =============================================
   {
     era: "Romanesque",
-    eraRange: "c. 1000–1200 CE",
-    week: 9,
+    eraRange: "c. 1050–1200 CE",
+    week: 11,
+    ching: "pp. 367–388",
+    keyArchitects: "Lanfranc (Durham), William of Sens, regional master masons",
+    concepts: [
+      { term: "Barrel Vault", def: "Continuous tunnel vault; Romanesque standard for nave enclosure" },
+      { term: "Groin Vault", def: "Two barrel vaults intersecting; creates bays and stronger structure" },
+      { term: "Nave", def: "Central aisle of church; processional and liturgical spine" },
+      { term: "Rib Vault", def: "Stone ribs frame vault compartments; early Gothic development" }
+    ],
     entries: [
       {
-        date: "c. 792–805",
-        title: "Palatine Chapel, Aachen",
-        location: "Aachen, Germany",
-        summary: "Charlemagne's imperial chapel, designed by Odo of Metz, consciously modeled on San Vitale in Ravenna. Octagonal central plan with 16-sided outer ambulatory and gallery. Massive piers support a cloistered vault. Deliberately evokes Roman imperial and Byzantine precedents to legitimize Carolingian authority. Charlemagne's marble throne sits in the gallery, elevated between earthly and heavenly realms. The beginning of the Carolingian Renaissance in architecture.",
-        tags: ["Carolingian", "Charlemagne", "octagonal", "Odo of Metz", "imperial"]
-      },
-      {
-        date: "c. 1001–1033",
-        title: "St. Michael's, Hildesheim",
-        location: "Hildesheim, Germany",
-        summary: "Key example of Ottonian architecture. Double-ended basilica with transepts and towers at both east and west ends, creating a symmetrical 'double-choir' plan unique to German Romanesque. Alternating support system (ABAB: pier-column-column-pier) in the nave creates a rhythmic spatial division. The painted wooden ceiling (c. 1230) depicts the Tree of Jesse. Bishop Bernward's bronze doors and column are masterworks of Ottonian art.",
-        tags: ["Ottonian", "double-ended", "alternating supports", "Bernward", "Hildesheim"]
-      },
-      {
-        date: "c. 1063–1118",
-        title: "Cathedral Complex of Pisa",
-        location: "Pisa, Italy",
-        summary: "The ensemble  -  cathedral, baptistery, campanile (Leaning Tower), and camposanto  -  demonstrates Italian Romanesque. The cathedral's five-aisled nave, transept, and apse create a Latin cross. Blind arcading with loggias (superimposed tiers of open galleries) across the marble façade became a signature Pisan/Tuscan Romanesque motif. The campanile's famous lean (begun 1173) results from inadequate foundations in soft clay.",
-        tags: ["Italian Romanesque", "blind arcade", "loggia", "Pisa", "campanile"]
-      },
-      {
-        date: "c. 1080–1130",
+        date: "c. 1093–1133 CE",
         title: "Durham Cathedral",
         location: "Durham, England",
-        summary: "A pioneering building in the history of architecture: among the first to use pointed arches in the nave arcade (c. 1093) and ribbed groin vaults over the nave (c. 1130)  -  innovations that would become defining features of Gothic architecture. Massive compound piers with incised geometric patterns alternate with cylindrical columns. The ribbed vault allowed thinner walls and larger windows while maintaining structural integrity. Built as both church and Norman fortress.",
-        tags: ["ribbed vault", "pointed arch", "Norman", "compound pier", "proto-Gothic"]
+        summary: "Norman Romanesque masterpiece with rounded arches and cylindrical columns. Early use of ribbed vaults (barrel vaults with decorative ribs). Fortress-like exterior with massive walls. Raised on a defensive peninsula. Massive nave with compound piers supporting rib vaults. Represents English Romanesque and transition to Gothic.",
+        tags: ["Romanesque", "Norman", "ribbed vault", "fortress", "English"]
       },
       {
-        date: "c. 1088–1130",
-        title: "Cluny III",
-        location: "Cluny, France",
-        summary: "The third church of the Cluniac order was the largest church in Christendom until the 16th-century rebuilding of St. Peter's. Five aisles, double transepts, an ambulatory with radiating chapels  -  accommodating the monastery's elaborate liturgy. Pointed barrel vault over the nave reached 30m. Largely demolished after the French Revolution; only the south transept survives. Its influence on pilgrimage church design was immense.",
-        tags: ["Cluniac", "pilgrimage church", "barrel vault", "ambulatory", "radiating chapels"]
+        date: "c. 1120–1150 CE",
+        title: "Church of Sainte-Foy",
+        location: "Conques, France",
+        summary: "Pilgrimage church with barrel vault nave, gallery tribune, and radiating chapels. Golden reliquary of Sainte Foy housed in crypt. Sculptural tympanum (Last Judgment) depicts consequence of pilgrimage. Represents Romanesque pilgrimage church formula on the Road to Santiago de Compostela.",
+        tags: ["Romanesque", "pilgrimage church", "barrel vault", "radiating chapels"]
       },
       {
-        date: "c. 1120–1140",
-        title: "Church of Sainte-Madeleine, Vézelay",
-        location: "Vézelay, France",
-        summary: "Famous for its narthex tympanum (Christ in Majesty sending the Apostles to evangelize the nations) and the groin-vaulted nave with polychromatic voussoirs (alternating light and dark stone). The nave's groin vaults allow for larger clerestory windows than barrel vaults. A major departure point for the Second Crusade (1146). The Gothic choir (rebuilt c. 1185) provides a dramatic contrast with the Romanesque nave.",
-        tags: ["Burgundian Romanesque", "groin vault", "tympanum", "pilgrimage", "polychrome"]
-      },
-      {
-        date: "c. 1080–1120",
-        title: "Santiago de Compostela",
+        date: "c. 1140–1160 CE",
+        title: "Cathedral of Santiago de Compostela",
         location: "Galicia, Spain",
-        summary: "The ultimate goal of the medieval pilgrimage routes. The 'pilgrimage road' church type: barrel-vaulted nave, tribune galleries above the side aisles (providing lateral buttressing), ambulatory with radiating chapels (allowing pilgrims to circulate past relics without disrupting services). The Pórtico de la Gloria (Master Mateo, 1168–1188) is the masterwork of Romanesque portal sculpture.",
-        tags: ["pilgrimage church", "barrel vault", "tribune gallery", "ambulatory", "Camino"]
+        summary: "Major pilgrimage destination (shrine of Apostle James). Barrel-vaulted nave with groin vaults in aisles. Tribune gallery above aisles. Radiating chapels at eastern end with ambulatory. Exterior features Romanesque sculptural program. Still a pilgrimage destination today.",
+        tags: ["Romanesque", "pilgrimage church", "barrel vault", "tribune", "Spain"]
+      },
+      {
+        date: "c. 1070–1120 CE",
+        title: "Durham Cathedral (Interior)",
+        location: "Durham, England",
+        summary: "Early development of ribbed vault system. Heavy Romanesque columns with decorative shaft spirals. Four-story elevation with galleries. Substantial wall mass supporting the vault structure. Demonstrates transition from pure Romanesque to early Gothic rib vault.",
+        tags: ["Romanesque", "ribbed vault", "transition", "Norman"]
       }
     ]
   },
 
   // =============================================
-  // 10. GOTHIC
+  // 12. GOTHIC
   // =============================================
   {
     era: "Gothic",
-    eraRange: "c. 1140–1500 CE",
-    week: 10,
+    eraRange: "c. 1150–1500 CE",
+    week: 12,
+    ching: "pp. 417–427",
+    keyArchitects: "Abbot Suger (Saint-Denis), Villard de Honnecourt, cathedral master masons",
+    concepts: [
+      { term: "Pointed Arch", def: "Gothic innovation; reduces lateral thrust and increases height" },
+      { term: "Flying Buttress", def: "External arch support; transfers vault thrust to exterior pier" },
+      { term: "Ribbed Vault", def: "Stone ribs frame vault; reduces vault weight and creates order" },
+      { term: "Triforium", def: "Gallery opening; three-story elevation: arcade, triforium, clerestory" }
+    ],
     entries: [
       {
-        date: "1140–1144",
-        title: "Abbey Church of Saint-Denis",
-        location: "Saint-Denis (Paris), France",
-        summary: "Abbot Suger's rebuilt choir is considered the birthplace of Gothic architecture. The ambulatory with radiating chapels was rebuilt using ribbed groin vaults, pointed arches, and thin walls of stained glass  -  creating a luminous, unified space replacing the compartmentalized Romanesque. Suger's theology of divine light (influenced by Pseudo-Dionysius) provided the intellectual framework: the church as an image of the Heavenly Jerusalem suffused with sacred light.",
-        tags: ["Abbot Suger", "ribbed vault", "pointed arch", "stained glass", "lux nova", "ambulatory"]
+        date: "c. 1137–1144 CE",
+        title: "Basilica of Saint-Denis",
+        location: "Saint-Denis, France",
+        summary: "Birth of Gothic architecture under Abbot Suger. First pointed arches and ribbed vaults in monumental form. Stained glass windows (colored light theology). Ambulatory with radiating chapels. Royal necropolis of French kings. Established Gothic as the architectural language of medieval France.",
+        tags: ["Gothic", "Early Gothic", "ribbed vault", "pointed arch", "Suger"]
       },
       {
-        date: "1163–c. 1260",
-        title: "Notre-Dame de Paris",
-        location: "Paris, France",
-        summary: "Early Gothic cathedral demonstrating the evolution of the system. Original four-story elevation (arcade, tribune, oculi, clerestory) was later modified. The flying buttress  -  possibly first used here  -  externalized the thrust of the vaults, allowing the walls to be opened up with ever-larger windows. The twin-tower west façade established the standard frontispiece for French Gothic. Sexpartite ribbed vaults over the nave. Badly damaged by fire in 2019, restoration ongoing.",
-        tags: ["Early Gothic", "flying buttress", "sexpartite vault", "rose window", "Paris"]
-      },
-      {
-        date: "1194–c. 1220",
+        date: "c. 1194–1220 CE",
         title: "Chartres Cathedral",
         location: "Chartres, France",
-        summary: "The 'classic' High Gothic statement. After a fire in 1194, rebuilt with a revolutionary three-story elevation (arcade, triforium, clerestory) replacing the four-story system  -  the triforium replaced the tribune gallery because flying buttresses now handled lateral thrust externally. Quadripartite ribbed vaults on a rectangular bay. 176 stained glass windows (mostly original) covering 2,600 sq m create an otherworldly interior light. The Royal Portal sculpture program (west façade, c. 1145) influenced Gothic sculpture across Europe.",
-        tags: ["High Gothic", "three-story elevation", "quadripartite vault", "stained glass", "flying buttress"]
+        summary: "Mature Gothic cathedral with three-story elevation (arcade, triforium, clerestory). Flying buttresses enable thin walls and vast stained-glass windows (176 windows preserving medieval glass). Pointed arches and ribbed vaults throughout. Two asymmetrical spires. Rose windows. Established canonical Gothic cathedral design.",
+        tags: ["Gothic", "flying buttress", "triforium", "stained glass", "Chartres"]
       },
       {
-        date: "1220–c. 1270",
-        title: "Amiens Cathedral",
+        date: "c. 1220–1270 CE",
+        title: "Cathedral of Amiens",
         location: "Amiens, France",
-        summary: "The tallest complete Gothic cathedral in France: nave vault reaches 42.3m. The bar tracery of the windows (replacing plate tracery) allowed more complex, delicate window designs. The west façade is a sculptural encyclopedia: the 'Beau Dieu' trumeau figure of Christ and extensive portal programs. Interior volume is immense  -  the entire nave of Notre-Dame de Paris could fit inside. Represents the apogee of High Gothic structural ambition.",
-        tags: ["High Gothic", "bar tracery", "Beau Dieu", "height record", "portal sculpture"]
+        summary: "High Gothic cathedral, largest nave (42.3m) in France. Pointed arches, ribbed vaults, flying buttresses in refined proportions. Sculptural program (west façade) with expressive figures. Rose windows. Demonstrates mature Gothic spatial clarity and vertical emphasis.",
+        tags: ["Gothic", "High Gothic", "flying buttress", "ribbed vault", "Amiens"]
       },
       {
-        date: "1241–1248",
+        date: "c. 1163–1345 CE",
+        title: "Cathedral of Notre-Dame de Reims",
+        location: "Reims, France",
+        summary: "Coronation cathedral of French kings. High Gothic with elaborate sculptural decoration and stained glass. Complex vault system with intricate ribbed patterns. Flying buttresses at their most developed. West façade with three portals and rose window.",
+        tags: ["Gothic", "High Gothic", "sculpture", "Reims", "royal"]
+      },
+      {
+        date: "c. 1245–1365 CE",
         title: "Sainte-Chapelle",
         location: "Paris, France",
-        summary: "Built by Louis IX to house the Crown of Thorns (purchased for more than the chapel's construction cost). The upper chapel is essentially a glass cage  -  walls are almost entirely dissolved into 15 soaring stained glass windows (15m tall), separated only by slender mullions and buttress piers. The Rayonnant Gothic style carried to its logical extreme: architecture reduced to the minimal structural skeleton required to support glass.",
-        tags: ["Rayonnant", "stained glass", "Louis IX", "court chapel", "reliquary"]
+        summary: "Palatine chapel of King Louis IX (Saint Louis). Soaring walls nearly entirely replaced with stained glass (15 windows). Two-story interior with steep roof containing precious reliquaries. Upper chapel is a reliquary itself. Represents Gothic architecture as dematerialized color and light.",
+        tags: ["Gothic", "stained glass", "Rayonnant", "palatine chapel"]
       },
       {
-        date: "1248–1880",
-        title: "Cologne Cathedral",
+        date: "c. 1290–1400 CE",
+        title: "Cathedral of Cologne",
         location: "Cologne, Germany",
-        summary: "Begun in 1248 following the French High Gothic model (particularly Amiens), but construction halted in 1473 with only the choir and lower portions of the towers complete. The original medieval plans were rediscovered in the 19th century, and the cathedral was completed (1842–1880) as a symbol of German national identity. The twin spires (157m) made it briefly the tallest structure in the world. A remarkable case of medieval design executed with 19th-century engineering.",
-        tags: ["German Gothic", "French influence", "19th-century completion", "twin spires"]
-      },
-      {
-        date: "1296–1436",
-        title: "Florence Cathedral (Santa Maria del Fiore)",
-        location: "Florence, Italy",
-        summary: "The Gothic nave and octagonal crossing were built by Arnolfo di Cambio and others, but the cathedral's fame rests on Brunelleschi's dome (1420–1436). The Italian Gothic preference for breadth over height, polychrome marble facing (white, green, pink), and geometric surface patterning distinguishes it from French Gothic. Giotto's campanile (1334–1359) is a masterpiece of Florentine Gothic. The cathedral marks the transition from Gothic to Renaissance.",
-        tags: ["Italian Gothic", "polychrome marble", "Arnolfo di Cambio", "Giotto", "Florence"]
-      },
-      {
-        date: "c. 1175–1500",
-        title: "English Gothic: Early, Decorated, Perpendicular",
-        location: "England",
-        summary: "English Gothic followed its own trajectory. Early English (Salisbury Cathedral, 1220–1258): low horizontal emphasis, lancet windows, square east end. Decorated (Exeter Cathedral nave, c. 1310): elaborate curvilinear tracery and lierne vaults. Perpendicular (Gloucester Cathedral cloister, c. 1350; King's College Chapel Cambridge, 1446–1515): rectilinear panel tracery and spectacular fan vaults. The fan vault at King's College Chapel is the most complex vault in Gothic architecture.",
-        tags: ["English Gothic", "lancet", "fan vault", "Perpendicular", "Decorated", "Salisbury"]
-      },
-      {
-        date: "1386–1965",
-        title: "Milan Cathedral (Duomo di Milano)",
-        location: "Milan, Italy",
-        summary: "The largest Gothic cathedral in Italy and second largest in the world by volume. A contentious collaboration between Italian and northern European (French/German) builders  -  the famous 'ars sine scientia nihil est' debate over whether design should follow geometric (ad triangulum/ad quadratum) or structural principles. Flamboyant Gothic exterior with 3,400 statues. Took nearly 600 years to complete.",
-        tags: ["Italian Gothic", "Flamboyant", "ars sine scientia", "ad triangulum"]
+        summary: "Twin-spire Gothic cathedral (159m tall spires, tallest buildings of medieval world). Interior is a forest of piers supporting ribbed vaults. Designed with extraordinary precision (building began 1248, spires completed 1880). German Gothic at its most vertical and ornate.",
+        tags: ["Gothic", "German Gothic", "twin spires", "ribbed vault"]
       }
     ]
   },
 
   // =============================================
-  // 11. ITALIAN RENAISSANCE
+  // 13. LATE GOTHIC & CIVIC (NEW ERA)
   // =============================================
   {
-    era: "Italian Renaissance",
-    eraRange: "c. 1400–1520",
-    week: "11–12",
+    era: "Late Gothic & Civic",
+    eraRange: "c. 1250–1400 CE",
+    week: 13,
+    ching: "pp. 417–427, 460",
+    keyArchitects: "Siena master masons, Arnolfo di Cambio (Florence)",
+    concepts: [
+      { term: "Palazzo Pubblico", def: "Town hall; civic authority symbolized in architecture" },
+      { term: "Piazza", def: "Public plaza; urban civic gathering space" },
+      { term: "Torre (Tower)", def: "Vertical urban symbol; family/corporate prestige marker" },
+      { term: "Crenellation", def: "Battlement edge; defensive/ceremonial wall treatment" }
+    ],
     entries: [
       {
-        date: "1420–1436",
-        title: "Dome of Florence Cathedral",
+        date: "c. 1280–1349 CE",
+        title: "Piazza del Campo",
+        location: "Siena, Italy",
+        summary: "Shell-shaped piazza designed with radial geometry sloping toward the Fonte Gaia fountain. Nine sections (Nine Governers districts) visible in paving pattern. Torre del Mangia (102m bell tower) rises at the northern apex. Represents the medieval civic plaza at its most sophisticated and harmonious. UNESCO World Heritage Site.",
+        tags: ["piazza", "Siena", "civic", "radial geometry", "torre"]
+      },
+      {
+        date: "c. 1297–1310 CE",
+        title: "Palazzo Pubblico",
+        location: "Siena, Italy",
+        summary: "Town hall anchoring the Piazza del Campo. Three-story palazzo with crenellated roofline and Gothic pointed arches. Torre del Mangia attached at corner. Interior contains frescoes by Lorenzetti (Allegory of Good and Bad Government). Represents the apotheosis of civic Gothic in Italy.",
+        tags: ["Palazzo Pubblico", "Siena", "Gothic", "civic", "Lorenzetti"]
+      },
+      {
+        date: "c. 1200–1300 CE",
+        title: "San Gimignano Towers",
+        location: "San Gimignano, Italy",
+        summary: "Medieval hilltop town preserved with 14 surviving towers (of original 72). Each tower represents a wealthy family's power and prestige. Heights vary (tallest 54m). Towers cluster around central piazza. Demonstrates the competitive verticality of Italian city-states.",
+        tags: ["towers", "San Gimignano", "civic", "vertical", "medieval"]
+      },
+      {
+        date: "c. 1298–1314 CE",
+        title: "Palazzo della Signoria (Palazzo Vecchio)",
         location: "Florence, Italy",
-        summary: "Filippo Brunelleschi's dome solved a problem that had defeated builders for decades: how to span the ~45m octagonal crossing without centering (temporary wooden scaffolding). His solution: a double-shell dome with herringbone brickwork, each ring self-supporting during construction. Eight principal ribs with 16 intermediate ribs. An inner walkway between the shells. No ancient or medieval precedent existed for this engineering feat. It marks the symbolic beginning of the Renaissance.",
-        tags: ["Brunelleschi", "double-shell dome", "herringbone brick", "Florence", "engineering"]
+        summary: "Town hall designed by Arnolfo di Cambio. Fortress-like palazzo with rusticated stone facade and crenellated parapet. Tall interior hall (Salone dei Cinquecento) 52m × 23m. Asymmetrical tower (Arnolfo Tower) creates powerful silhouette. Represents Florentine civic power and Gothic fortress-palazzo style.",
+        tags: ["Palazzo Vecchio", "Florence", "civic", "Gothic", "Arnolfo di Cambio"]
       },
       {
-        date: "1421–1440s",
-        title: "Ospedale degli Innocenti",
+        date: "c. 1376–1382 CE",
+        title: "Loggia dei Lanzi",
         location: "Florence, Italy",
-        summary: "Brunelleschi's foundling hospital loggia  -  often cited as the first Renaissance building. A graceful arcade of Corinthian columns supporting round arches with pendentive-supported domes in the loggia bays. Modular proportional system based on the cube. Pietra serena (grey sandstone) articulates the structural geometry against white plaster walls  -  establishing the Brunelleschian vocabulary of clarity and mathematical order.",
-        tags: ["Brunelleschi", "loggia", "modular proportion", "pietra serena", "Corinthian"]
-      },
-      {
-        date: "1436–1443",
-        title: "San Lorenzo & Santo Spirito",
-        location: "Florence, Italy",
-        summary: "Brunelleschi's two major Florentine churches established the Renaissance basilican plan. San Lorenzo: Latin cross plan with flat ceiling over the nave, pietra serena columns and arches, side-aisle chapels. Santo Spirito (begun 1436, completed posthumously): more unified spatial geometry, with the semicircular chapels expressed on the exterior as a continuous undulating wall. Both demonstrate proportional systems based on simple ratios and the module of the column bay.",
-        tags: ["Brunelleschi", "basilica", "proportional system", "pietra serena", "Latin cross"]
-      },
-      {
-        date: "1446–1451",
-        title: "Palazzo Medici-Riccardi",
-        location: "Florence, Italy",
-        summary: "Designed by Michelozzo for Cosimo de' Medici. Established the Florentine palazzo type: cubic block around a central cortile (courtyard), three-story elevation with graduated rustication (heavy rough-cut at ground level, smoother above), massive cornice. The courtyard uses Brunelleschian Composite columns. Balanced civic dignity with domestic comfort. Model for the Palazzo Strozzi, Palazzo Rucellai, and countless later palazzi.",
-        tags: ["Michelozzo", "palazzo", "rustication", "cortile", "Medici"]
-      },
-      {
-        date: "1446–1470",
-        title: "Palazzo Rucellai",
-        location: "Florence, Italy",
-        summary: "Leon Battista Alberti's façade applies superimposed classical pilasters (Doric, Ionic, Corinthian) to the flat palazzo front  -  treating the building surface as a classical composition. Flat rustication unified by the pilaster grid. Alberti, a humanist theorist, wrote De re aedificatoria (1452), the first architectural treatise since Vitruvius, arguing that beauty arises from rational proportional harmony (concinnitas). He rarely supervised construction, working instead through other builders.",
-        tags: ["Alberti", "superimposed orders", "pilaster", "De re aedificatoria", "humanist theory"]
-      },
-      {
-        date: "1470–1476",
-        title: "Sant'Andrea, Mantua",
-        location: "Mantua, Italy",
-        summary: "Alberti's masterwork, completed after his death. The façade combines a temple front (giant-order pilasters supporting a pediment) with a triumphal arch motif  -  a synthesis that deeply influenced later architects, especially Palladio. The single barrel-vaulted nave (the widest since antiquity at the time) with side chapels replaced the traditional columnar basilica. This plan  -  nave with lateral chapels  -  was adopted by the Jesuits for Il Gesù a century later and became standard for Counter-Reformation churches.",
-        tags: ["Alberti", "temple front", "triumphal arch motif", "barrel vault", "giant order"]
-      },
-      {
-        date: "1444–1482",
-        title: "Palazzo Ducale, Urbino",
-        location: "Urbino, Italy",
-        summary: "Federico da Montefeltro's ideal palace, largely designed by Luciano Laurana (with later work by Francesco di Giorgio Martini). The twin-towered façade with stacked loggias overlooks the landscape. The cortile is one of the purest Renaissance courtyards: Composite columns, inscribed frieze, elegant proportions. The studiolo (study) with illusionistic intarsia (wood inlay) panels depicting books, instruments, and armor is a jewel of Renaissance patronage and humanism.",
-        tags: ["Luciano Laurana", "cortile", "studiolo", "intarsia", "Federico da Montefeltro"]
-      },
-      {
-        date: "1502–1510",
-        title: "Tempietto di San Pietro in Montorio",
-        location: "Rome, Italy",
-        summary: "Donato Bramante's small circular temple marks the supposed site of St. Peter's crucifixion. A perfect Doric peristyle (16 columns) surrounds a cylindrical cella capped by a hemispherical dome  -  a direct evocation of ancient Roman circular temples (Temple of Vesta). Often considered the most 'perfect' High Renaissance building: complete unity of plan, elevation, and symbolic meaning. Bramante intended a circular courtyard around it (never built) that would have amplified the concentric geometry.",
-        tags: ["Bramante", "Doric", "tholos", "centralized plan", "High Renaissance"]
-      },
-      {
-        date: "1506–1626",
-        title: "St. Peter's Basilica (Renaissance phases)",
-        location: "Vatican City, Rome",
-        summary: "Julius II commissioned Bramante to replace Old St. Peter's. Bramante's original plan: a Greek cross with a colossal central dome inspired by the Pantheon. After Bramante's death (1514), successive architects altered the design: Raphael and Peruzzi (extended nave proposals), Antonio da Sangallo the Younger (fortified Greek cross). Michelangelo (from 1546) returned to a centralized plan but added a massive drum and dome. The nave was finally extended by Carlo Maderno (1607–1626) into a Latin cross. Bernini added the piazza (1656–1667).",
-        tags: ["Bramante", "Michelangelo", "Greek cross", "dome", "St. Peter's", "Julius II"]
-      },
-      {
-        date: "c. 1510–1520",
-        title: "Raphael's Architecture & the Vatican",
-        location: "Rome, Italy",
-        summary: "Raphael served as architect of St. Peter's after Bramante's death and oversaw construction of several palazzi and villas. His Palazzo Branconio dell'Aquila (destroyed) innovated with its richly plastic façade. The Chigi Chapel in Santa Maria del Popolo unifies architecture, painting, sculpture, and mosaic. Raphael's School of Athens fresco (1509–1511) depicts an idealized barrel-vaulted classical architecture that influenced real buildings  -  art shaping architecture.",
-        tags: ["Raphael", "Vatican", "Chigi Chapel", "High Renaissance", "integration of arts"]
+        summary: "Open civic loggia adjacent to Palazzo Signoria. Three-bay pointed Gothic arches on piers. Serves as covered gathering space for civic ceremony and assembly. Sculptures of David (Donatello's bronze) and other works displayed. Represents the civic loggia type for open-air public assembly.",
+        tags: ["loggia", "Florence", "civic", "Gothic", "Donatello"]
       }
     ]
   },
 
   // =============================================
-  // 13. RENAISSANCE BEYOND ITALY
+  // 14. ITALIAN RENAISSANCE (EARLY)
+  // =============================================
+  {
+    era: "Italian Renaissance (Early)",
+    eraRange: "c. 1400–1480 CE",
+    week: 14,
+    ching: "pp. 460–524",
+    keyArchitects: "Filippo Brunelleschi, Donato Bramante, Leon Battista Alberti",
+    concepts: [
+      { term: "Dome (Cupola)", def: "Brunelleschi's engineering; ribless double-shell octa agonal dome" },
+      { term: "Central Plan", def: "Greek cross or circular church; Renaissance ideal of geometric perfection" },
+      { term: "Pilaster", def: "Flattened column; Renaissance preference over engaged column" },
+      { term: "Proportional System", def: "Mathematical ratios (golden section); harmonic spatial organization" }
+    ],
+    entries: [
+      {
+        date: "c. 1420–1436 CE",
+        title: "Florence Cathedral Dome (Duomo)",
+        location: "Florence, Italy",
+        summary: "Brunelleschi's revolutionary dome: 42m diameter octagonal dome without interior scaffolding or external support. Double-shell construction with 8 ribs and 16 minor ribs. Red tile covering. Crowns the four-story cathedral. Represents Renaissance engineering innovation and became symbol of Florence.",
+        tags: ["Renaissance", "dome", "Brunelleschi", "Florence", "engineering"]
+      },
+      {
+        date: "c. 1419–1426 CE",
+        title: "Foundling Hospital (Ospedale degli Innocenti)",
+        location: "Florence, Italy",
+        summary: "Brunelleschi's first built work. Colonnaded loggia with Corinthian columns and semicircular arches. Serene proportional system establishing Renaissance aesthetic. Roundels (circular panels) with terracotta infants by Della Robbia. Established the Renaissance palazzo courtyard type.",
+        tags: ["Renaissance", "loggia", "Brunelleschi", "proportional", "Florence"]
+      },
+      {
+        date: "c. 1445–1471 CE",
+        title: "Palazzo Medici-Riccardi",
+        location: "Florence, Italy",
+        summary: "Michelozzo's palazzo for Cosimo de' Medici. Rusticated ground floor, smooth ashlar upper stories. Symmetrical façade with multiple rounded arch windows. Interior cortile (courtyard) surrounded by colonnades. Established Renaissance palazzo urbano prototype.",
+        tags: ["Renaissance", "palazzo", "Michelozzo", "Medici", "cortile"]
+      },
+      {
+        date: "c. 1444–1467 CE",
+        title: "Church of San Lorenzo",
+        location: "Florence, Italy",
+        summary: "Brunelleschi's church for the Medici family. Linear basilica with Corinthian columns and coffered barrel vault. Harmonious proportions based on modular units. Sacristy by Brunelleschi with dome. Represents Early Renaissance church design.",
+        tags: ["Renaissance", "basilica", "Brunelleschi", "Medici", "Florence"]
+      },
+      {
+        date: "c. 1472–1480 CE",
+        title: "Church of Santa Maria delle Carceri",
+        location: "Prato, Italy",
+        summary: "Giuliano da Sangallo's Greek cross central plan church. Dome at crossing supported by pendentives. Marble striped exterior. Represents Renaissance ideal of centralized, geometrically perfect church.",
+        tags: ["Renaissance", "central plan", "Greek cross", "Sangallo", "dome"]
+      }
+    ]
+  },
+
+  // =============================================
+  // 15. ITALIAN RENAISSANCE (HIGH)
+  // =============================================
+  {
+    era: "Italian Renaissance (High)",
+    eraRange: "c. 1480–1520 CE",
+    week: 15,
+    ching: "pp. 500–524",
+    keyArchitects: "Donato Bramante, Raphael, Michelangelo (early works)",
+    concepts: [
+      { term: "Central Plan Church", def: "Ideal Renaissance form; geometric purity and divine order" },
+      { term: "Roman Classical", def: "Direct engagement with Vitruvian principles and antique ruins" },
+      { term: "Tempietto", def: "Small temple; Bramante's canonical Renaissance composition" },
+      { term: "Loggia", def: "Open gallery; Renaissance development of public civic space" }
+    ],
+    entries: [
+      {
+        date: "c. 1502–1510 CE",
+        title: "Tempietto di San Pietro in Montorio",
+        location: "Rome, Italy",
+        summary: "Bramante's masterpiece: small circular peristyle temple marking site of Saint Peter's martyrdom. Doric columns surround a cylindrical cella with dome. Proportional geometry based on circular geometry. Balustrade surrounding the temple courtyard. Often called the first true Renaissance building. Directly inspired by antique temples.",
+        tags: ["Renaissance", "central plan", "Bramante", "Doric", "temple"]
+      },
+      {
+        date: "c. 1506–1626 CE",
+        title: "Saint Peter's Basilica (Initial Design)",
+        location: "Vatican, Rome",
+        summary: "Bramante's original design (1506): Greek cross central plan with enormous dome at crossing. Massive colonnades surrounding exterior. Subsequent architects (Raphael, Michelangelo) modified to Latin cross plan. Michelangelo's dome (1547) dominates the final scheme. Renaissance church at grandest scale, synthesizing antiquity and Christianity.",
+        tags: ["Renaissance", "central plan", "Bramante", "Michelangelo", "dome"]
+      },
+      {
+        date: "c. 1494–1520 CE",
+        title: "Villa Medici at Poggio a Caiano",
+        location: "Tuscany, Italy",
+        summary: "Sangallo the Elder's design for the Medici family. Symmetrical Renaissance villa with classical portico elevation. Central salon with barrel vault. Garden terraces. Established Renaissance villa prototype.",
+        tags: ["Renaissance", "villa", "Medici", "portico", "Sangallo"]
+      }
+    ]
+  },
+
+  // =============================================
+  // 16. RENAISSANCE BEYOND ITALY (SUPPLEMENTAL)
   // =============================================
   {
     era: "Renaissance Beyond Italy",
-    eraRange: "c. 1490–1610",
-    week: 13,
+    eraRange: "c. 1450–1600 CE",
+    week: null,
+    ching: "pp. 520–524, 530–560",
+    keyArchitects: "Philibert Delorme (France), German and Northern Renaissance masters",
+    concepts: [
+      { term: "Flamboyant", def: "Late Gothic elaborate forms persisting into Renaissance" },
+      { term: "Chateau", def: "French Renaissance country house; fortified elegance" },
+      { term: "Half-Timber", def: "German half-timbered construction; regional Renaissance expression" }
+    ],
     entries: [
       {
-        date: "c. 1519–1547",
+        date: "c. 1519–1547 CE",
         title: "Château de Chambord",
         location: "Loire Valley, France",
-        summary: "The largest and most ambitious of the Loire châteaux, built for Francis I. A medieval-style castle plan (central keep with round corner towers) dressed in Italian Renaissance detail. The famous double-helix staircase (possibly influenced by Leonardo da Vinci, who lived nearby) allows two people to ascend and descend without meeting. The roofscape  -  an exuberant forest of chimneys, dormers, turrets, and lanterns  -  is uniquely French. Represents the transitional moment when French Gothic meets Italian Renaissance.",
-        tags: ["French Renaissance", "Francis I", "double-helix stair", "Loire Valley", "château"]
+        summary: "Francis I's enormous château with Italian Renaissance central plan ambitions but French medieval fortress silhouette (towers, crenellations). Famous double-helix staircase at center. 440 rooms. Blend of Italian Renaissance ideas with French tradition. UNESCO World Heritage.",
+        tags: ["Renaissance", "chateau", "Loire", "Francis I", "hybrid"]
       },
       {
-        date: "c. 1546–1578",
-        title: "Lescot Wing of the Louvre",
-        location: "Paris, France",
-        summary: "Pierre Lescot's west wing of the Cour Carrée introduced a fully classical vocabulary to French architecture. Superimposed orders (Corinthian over Composite), sculpted panels by Jean Goujon, and a steep French roof (mansard precursor) created a distinctly French classical idiom. The pavilion system  -  projecting central and corner bays articulating the long façade  -  became the organizing principle of French palatial architecture through Versailles and beyond.",
-        tags: ["Pierre Lescot", "French classicism", "Louvre", "pavilion system", "Jean Goujon"]
-      },
-      {
-        date: "c. 1567–1584",
-        title: "El Escorial",
-        location: "Madrid, Spain",
-        summary: "Juan de Herrera's massive complex for Philip II combines palace, monastery, church, library, and royal mausoleum in a single rectilinear plan (207m × 161m). Austere granite facades with minimal ornament embody the Counter-Reformation severity (estilo desornamentado). The grid-like plan symbolizes the gridiron of St. Lawrence's martyrdom. The domed basilica at the center follows Italian models. The Escorial became the archetype of Spanish imperial architecture and influenced civic building across the Spanish world.",
-        tags: ["Juan de Herrera", "Philip II", "estilo desornamentado", "monastery-palace", "Counter-Reformation"]
-      },
-      {
-        date: "c. 1550–1616",
-        title: "Elizabethan & Jacobean Country Houses",
-        location: "England",
-        summary: "English Renaissance architecture arrived late and blended Flemish, French, and Italian influences with native traditions. The 'prodigy houses'  -  Longleat (1568–1580, Robert Smythson), Hardwick Hall (1590–1597, 'more glass than wall'), and Wollaton Hall (1580–1588)  -  demonstrate the English approach: symmetrical plans, vast window walls, classical ornament applied to essentially medieval structures. Inigo Jones (Queen's House, Greenwich, 1616–1635) later brought pure Palladianism to England.",
-        tags: ["Elizabethan", "prodigy house", "Smythson", "Hardwick Hall", "Inigo Jones", "Palladianism"]
-      },
-      {
-        date: "c. 1500–1620",
-        title: "Northern European Renaissance: Antwerp, Amsterdam, Prague",
-        location: "Low Countries, Central Europe",
-        summary: "The Northern Renaissance in architecture combined Italian classical forms with local traditions  -  strapwork ornament (derived from Flemish pattern books by Vredeman de Vries), stepped gables, and elaborate guild facades. Antwerp's Stadhuis (City Hall, 1561–1565, Cornelis Floris) introduced Italian classicism to the Low Countries. In Prague, the Belvedere (1538–1563) is one of the purest Italian Renaissance buildings north of the Alps. Augsburg's Rathaus (Elias Holl, 1615–1620) represents the culmination of German Renaissance civic architecture.",
-        tags: ["Northern Renaissance", "strapwork", "Antwerp", "guild halls", "Vredeman de Vries"]
+        date: "c. 1513–1519 CE",
+        title: "Château de Blois",
+        location: "Loire Valley, France",
+        summary: "Progressive construction (Medieval, Renaissance, Classical). Renaissance wing (Louis XII) features ornate carved decor and loggia galleries. Staircase tower at corner. Represents French Renaissance adaptation of Italian ideas.",
+        tags: ["Renaissance", "chateau", "Loire", "hybrid"]
       }
     ]
   },
 
   // =============================================
-  // 14. MANNERISM
+  // 17. MANNERISM
   // =============================================
   {
     era: "Mannerism",
-    eraRange: "c. 1520–1600",
-    week: 14,
+    eraRange: "c. 1520–1600 CE",
+    week: 16,
+    ching: "pp. 520–524",
+    keyArchitects: "Michelangelo (Laurentian Library), Giulio Romano, Gian Lorenzo Bernini (early)",
+    concepts: [
+      { term: "Anticlassical", def: "Rejection of Classical symmetry and proportion" },
+      { term: "Distorted Perspective", def: "Exaggeration and unusual spatial composition" },
+      { term: "Virtuosity", def: "Display of technical skill and inventiveness" },
+      { term: "Ambiguity", def: "Perceptual ambiguity and artistic complexity" }
+    ],
     entries: [
       {
-        date: "1519–1534",
-        title: "Laurentian Library (Biblioteca Medicea Laurenziana)",
+        date: "c. 1525–1534 CE",
+        title: "Laurentian Library Vestibule",
         location: "Florence, Italy",
-        summary: "Michelangelo's ricetto (vestibule) is a manifesto of Mannerism. Paired columns are recessed into the wall rather than projecting  -  inverting their structural logic. Blind windows (tabernacles) below the columns serve no function. Volute brackets taper downward (the reverse of structural expectation). The monumental staircase pours out like a flow of lava. Classical vocabulary is used against its own rules to create tension, claustrophobia, and dynamic energy. The reading room, by contrast, is calm and ordered.",
-        tags: ["Michelangelo", "Mannerist", "ricetto", "inverted logic", "paired columns"]
+        summary: "Michelangelo's anticlassical interior: columns seem to float on wall, stairs overflow dramatically into space, unusual proportions and materials create unease. Represents Mannerist rejection of Renaissance balance. Psychological impact prioritized over harmony.",
+        tags: ["Mannerism", "Michelangelo", "Florence", "anticlassical", "virtuosity"]
       },
       {
-        date: "1524–1534",
+        date: "c. 1526–1534 CE",
         title: "Palazzo del Tè",
         location: "Mantua, Italy",
-        summary: "Giulio Romano's suburban villa for Federico II Gonzaga is the playful, provocative counterpart to Michelangelo's intense Mannerism. The courtyard façade features rusticated columns, deliberately dropped triglyphs (slipping keystones), and a loggia that mixes rough and smooth surfaces. The Sala dei Giganti (Room of the Giants)  -  a painted room where ceiling, walls, and even the fireplace dissolve into a cataclysmic scene of the fall of the giants  -  obliterates the boundary between architecture and painting.",
-        tags: ["Giulio Romano", "Mannerist", "rustication", "dropped triglyph", "Sala dei Giganti"]
-      },
-      {
-        date: "1546–1564",
-        title: "Michelangelo's Capitoline Hill (Campidoglio)",
-        location: "Rome, Italy",
-        summary: "Michelangelo redesigned the civic center of Rome. The trapezoidal piazza, flanked by the Palazzo dei Conservatori and Palazzo Nuovo (matching façades with giant-order Corinthian pilasters), focuses on the Palazzo dei Senatori and an oval pavement with the equestrian statue of Marcus Aurelius at center. The giant order  -  colossal pilasters spanning two stories  -  was Michelangelo's invention and became fundamental to Baroque and later architecture. The piazza is oriented away from the Forum (pagan past) toward St. Peter's (Christian future).",
-        tags: ["Michelangelo", "giant order", "Campidoglio", "trapezoidal piazza", "civic design"]
-      },
-      {
-        date: "1550–1551",
-        title: "Villa Giulia",
-        location: "Rome, Italy",
-        summary: "Built for Pope Julius III by Vignola (with contributions from Ammannati and Vasari). A sequence of surprising spatial experiences: the entrance façade is severe and classical, but behind it unfolds a layered progression of courtyard → loggia → sunken nymphaeum → garden  -  each space dropping to a lower level. The visitor is drawn inward and downward in a cinematic sequence of reveals. The nymphaeum's caryatids and grotesque ornament heighten the Mannerist sensibility.",
-        tags: ["Vignola", "nymphaeum", "spatial sequence", "Mannerist", "villa"]
-      },
-      {
-        date: "1568–1584",
-        title: "Il Gesù",
-        location: "Rome, Italy",
-        summary: "Designed by Vignola (plan) with façade by Giacomo della Porta. The mother church of the Jesuit order established the model for Counter-Reformation church design: wide, barrel-vaulted nave with interconnected side chapels (for preaching to large congregations), short transept, and prominent dome over the crossing. Della Porta's façade  -  with its scroll buttresses (volutes) connecting upper and lower stories  -  was the most influential church front of the next two centuries. The plan derives from Alberti's Sant'Andrea.",
-        tags: ["Vignola", "Giacomo della Porta", "Jesuit", "Counter-Reformation", "scroll buttress"]
-      },
-      {
-        date: "1549–1580",
-        title: "Palladian Villas & the Basilica Palladiana",
-        location: "Veneto, Italy",
-        summary: "Andrea Palladio synthesized classical Roman architecture, Vitruvian theory, and Venetian villa tradition. The Villa Rotonda (c. 1567–1592): a perfect square plan with four identical temple-front porticos and a central dome  -  architecture as pure geometry. The Basilica Palladiana in Vicenza wraps existing Gothic structures with a two-story loggia using the 'Palladian motif' (serliana): arch flanked by flat-headed openings. His Quattro Libri dell'Architettura (1570)  -  with precise measured drawings  -  became the most influential architectural treatise in history, shaping Neoclassicism, English Palladianism, and American architecture (Jefferson's Monticello).",
-        tags: ["Palladio", "Villa Rotonda", "serliana", "Quattro Libri", "temple front", "Vicenza"]
-      },
-      {
-        date: "1560–1580",
-        title: "San Giorgio Maggiore & Il Redentore",
-        location: "Venice, Italy",
-        summary: "Palladio's Venetian churches solved the problem of applying a classical temple front to a basilican section (wide nave + lower aisles). His solution: interlocking temple fronts  -  a tall central one for the nave and lower half-pediments for the aisles. San Giorgio Maggiore (begun 1566) commands the view from the Piazzetta. Il Redentore (1577–1592), built as a thanksgiving for the end of plague, features a serene white interior where the sequence of spaces  -  nave, monks' choir behind a screen of columns, and chancel  -  creates a telescoping perspective effect.",
-        tags: ["Palladio", "interlocking temple fronts", "Venice", "Il Redentore", "San Giorgio"]
-      },
-      {
-        date: "1559–1584",
-        title: "Uffizi, Florence",
-        location: "Florence, Italy",
-        summary: "Giorgio Vasari's administrative offices for Cosimo I de' Medici create a long, narrow piazza-corridor between two matching wings that terminates in a loggia framing a view of the Arno. The compressed perspective and U-shaped plan create a dramatic urban space  -  essentially an outdoor room. Vasari, also the author of Lives of the Artists (the foundational text of art history), understood architecture as scenography. The building now houses one of the world's great art museums.",
-        tags: ["Vasari", "Uffizi", "urban space", "scenography", "Cosimo I"]
+        summary: "Giulio Romano's villa for the Gonzaga duke. Rusticated stonework with exaggerated keystones. Triumphal arch forms. Interior (Sala dei Giganti) with illusionistic fresco. Represents Mannerist playfulness with Classical forms and spatial ambiguity.",
+        tags: ["Mannerism", "Giulio Romano", "villa", "rustication", "virtuosity"]
       }
     ]
   }
 ];
 
-// -------------------------------------------------------------
-// Image loading (Wikipedia JSONP, Option A)
-// Works when the file is opened locally (file://) because it does
-// not use fetch/XHR.
-// Strategy:
-//  1) Try direct title lookup (with redirects)
-//  2) If no thumbnail, run a Wikipedia search (title + location) and use the top hit
-// -------------------------------------------------------------
+const DIAGRAMS = {
+  "Göbekli Tepe": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <circle cx="100" cy="100" r="80" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <circle cx="100" cy="100" r="60" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- T-shaped pillars -->
+    <rect x="95" y="30" width="10" height="30" class="plan-stroke" stroke-width="2"/>
+    <rect x="80" y="55" width="40" height="8" class="plan-stroke" stroke-width="2"/>
+    <rect x="95" y="170" width="10" height="30" class="plan-stroke" stroke-width="2"/>
+    <rect x="30" y="95" width="30" height="10" class="plan-stroke" stroke-width="2"/>
+    <text x="100" y="125" font-size="10" text-anchor="middle" fill="#c9a84c">Circular enclosure</text>
+    <text x="100" y="140" font-size="9" text-anchor="middle" fill="#8a8a9a">T-shaped pillars</text>
+  </svg>`,
 
-// Some timeline labels are not ideal Wikipedia page titles.
-// Add fixes here as needed.
+  "Çatalhöyük": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Dense housing grid -->
+    <rect x="20" y="20" width="160" height="160" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <rect x="30" y="30" width="25" height="25" class="plan-stroke"/>
+    <rect x="60" y="30" width="25" height="25" class="plan-stroke"/>
+    <rect x="90" y="30" width="25" height="25" class="plan-stroke"/>
+    <rect x="120" y="30" width="25" height="25" class="plan-stroke"/>
+    <rect x="30" y="65" width="25" height="25" class="plan-stroke"/>
+    <rect x="60" y="65" width="25" height="25" class="plan-stroke"/>
+    <rect x="90" y="65" width="25" height="25" class="plan-stroke"/>
+    <rect x="120" y="65" width="25" height="25" class="plan-stroke"/>
+    <rect x="30" y="100" width="25" height="25" class="plan-stroke"/>
+    <rect x="60" y="100" width="25" height="25" class="plan-stroke"/>
+    <rect x="90" y="100" width="25" height="25" class="plan-stroke"/>
+    <rect x="120" y="100" width="25" height="25" class="plan-stroke"/>
+    <!-- Roof access points -->
+    <circle cx="42.5" cy="42.5" r="2" fill="#c9a84c"/>
+    <circle cx="72.5" cy="42.5" r="2" fill="#c9a84c"/>
+    <circle cx="102.5" cy="42.5" r="2" fill="#c9a84c"/>
+    <text x="100" y="155" font-size="10" text-anchor="middle" fill="#c9a84c">Dense mudbrick grid</text>
+    <text x="100" y="170" font-size="9" text-anchor="middle" fill="#8a8a9a">Roof entry + ladders</text>
+  </svg>`,
+
+  "Ziggurat of Ur": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Three tiers from above -->
+    <rect x="20" y="40" width="160" height="100" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <rect x="40" y="60" width="120" height="60" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <rect x="60" y="80" width="80" height="30" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Central stairway -->
+    <polygon points="80,110 100,110 100,120 80,120" class="plan-stroke" stroke-width="1.5"/>
+    <line x1="90" y1="110" x2="90" y2="155" class="plan-stroke" stroke-width="1.5"/>
+    <text x="100" y="175" font-size="10" text-anchor="middle" fill="#c9a84c">Stepped pyramid</text>
+    <text x="100" y="190" font-size="9" text-anchor="middle" fill="#8a8a9a">Central stairway</text>
+  </svg>`,
+
+  "Great Pyramid of Khufu": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.15; }</style></defs>
+    <!-- Pyramid base from above -->
+    <polygon points="100,30 170,100 100,170 30,100" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Interior chambers -->
+    <rect x="85" y="85" width="30" height="20" class="plan-stroke"/>
+    <text x="100" y="97" font-size="7" text-anchor="middle" fill="#c9a84c">King's Ch.</text>
+    <rect x="85" y="110" width="30" height="15" class="plan-stroke"/>
+    <text x="100" y="118" font-size="7" text-anchor="middle" fill="#c9a84c">Queen's</text>
+    <!-- Entrance passage -->
+    <line x1="100" y1="30" x2="100" y2="85" class="plan-stroke" stroke-width="1"/>
+    <text x="100" y="190" font-size="10" text-anchor="middle" fill="#c9a84c">Square base 230m</text>
+  </svg>`,
+
+  "Knossos": `<svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Central courtyard -->
+    <rect x="80" y="50" width="60" height="80" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Multiple wings -->
+    <rect x="20" y="50" width="55" height="40" class="plan-stroke"/>
+    <rect x="150" y="50" width="50" height="40" class="plan-stroke"/>
+    <rect x="20" y="110" width="55" height="40" class="plan-stroke"/>
+    <rect x="150" y="110" width="50" height="40" class="plan-stroke"/>
+    <!-- Tapered columns (simplified) -->
+    <circle cx="90" cy="65" r="3" fill="#c9a84c"/>
+    <circle cx="130" cy="65" r="3" fill="#c9a84c"/>
+    <circle cx="90" cy="125" r="3" fill="#c9a84c"/>
+    <circle cx="130" cy="125" r="3" fill="#c9a84c"/>
+    <text x="110" y="185" font-size="10" text-anchor="middle" fill="#c9a84c">Central courtyard</text>
+    <text x="110" y="200" font-size="9" text-anchor="middle" fill="#8a8a9a">Multi-wing complex</text>
+  </svg>`,
+
+  "Citadel of Mycenae": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Fortress walls -->
+    <polygon points="50,50 150,60 140,150 40,140" class="plan-fill" stroke="#c9a84c" stroke-width="2.5"/>
+    <!-- Lion Gate -->
+    <polygon points="145,60 155,65 150,75 140,70" class="plan-stroke" stroke-width="2"/>
+    <!-- Palace (megaron) -->
+    <rect x="75" y="85" width="50" height="40" class="plan-stroke"/>
+    <rect x="85" y="95" width="30" height="20" class="plan-stroke"/>
+    <text x="100" y="120" font-size="7" text-anchor="middle" fill="#c9a84c">Megaron</text>
+    <text x="100" y="175" font-size="10" text-anchor="middle" fill="#c9a84c">Cyclopean walls</text>
+  </svg>`,
+
+  "Pantheon": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Rotunda (circular) -->
+    <circle cx="100" cy="100" r="70" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Oculus at center -->
+    <circle cx="100" cy="100" r="8" class="plan-stroke" stroke-width="1.5"/>
+    <!-- Porch (rectangular) -->
+    <rect x="60" y="20" width="80" height="35" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Columns -->
+    <circle cx="70" cy="30" r="2.5" fill="#c9a84c"/>
+    <circle cx="85" cy="30" r="2.5" fill="#c9a84c"/>
+    <circle cx="100" cy="30" r="2.5" fill="#c9a84c"/>
+    <circle cx="115" cy="30" r="2.5" fill="#c9a84c"/>
+    <circle cx="130" cy="30" r="2.5" fill="#c9a84c"/>
+    <text x="100" y="180" font-size="10" text-anchor="middle" fill="#c9a84c">Rotunda + porch</text>
+    <text x="100" y="195" font-size="9" text-anchor="middle" fill="#8a8a9a">Dome on concrete</text>
+  </svg>`,
+
+  "Colosseum": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Elliptical outline -->
+    <ellipse cx="100" cy="100" rx="75" ry="65" class="plan-fill" stroke="#c9a84c" stroke-width="2.5"/>
+    <!-- Arena -->
+    <ellipse cx="100" cy="100" rx="45" ry="35" class="plan-fill" fill="#1e1e2e" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Seating tiers (implied by concentric ellipses) -->
+    <ellipse cx="100" cy="100" rx="60" ry="52" class="plan-stroke" stroke-width="1"/>
+    <!-- Main entrances -->
+    <rect x="95" y="25" width="10" height="8" fill="#c9a84c"/>
+    <rect x="95" y="167" width="10" height="8" fill="#c9a84c"/>
+    <text x="100" y="180" font-size="10" text-anchor="middle" fill="#c9a84c">Elliptical amphitheater</text>
+    <text x="100" y="195" font-size="9" text-anchor="middle" fill="#8a8a9a">Seating tiers + arena</text>
+  </svg>`,
+
+  "Hagia Sophia": `<svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Main dome -->
+    <circle cx="110" cy="85" r="50" class="plan-fill" stroke="#c9a84c" stroke-width="2.5"/>
+    <!-- Semi-domes (smaller circles) -->
+    <circle cx="50" cy="85" r="28" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <circle cx="170" cy="85" r="28" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Nave (longitudinal) -->
+    <rect x="65" y="110" width="90" height="50" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Apse -->
+    <polygon points="110,160 95,185 125,185" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Supporting piers -->
+    <rect x="75" y="50" width="10" height="15" fill="#c9a84c" opacity="0.3"/>
+    <rect x="145" y="50" width="10" height="15" fill="#c9a84c" opacity="0.3"/>
+    <text x="110" y="200" font-size="10" text-anchor="middle" fill="#c9a84c">Dome on pendentives</text>
+    <text x="110" y="215" font-size="9" text-anchor="middle" fill="#8a8a9a">Central dome + semi-domes</text>
+  </svg>`,
+
+  "Chartres Cathedral": `<svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Nave -->
+    <rect x="80" y="40" width="80" height="140" class="plan-fill" stroke="#c9a84c" stroke-width="2.5"/>
+    <!-- Aisles -->
+    <rect x="40" y="40" width="35" height="140" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <rect x="165" y="40" width="35" height="140" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Transept -->
+    <rect x="40" y="100" width="160" height="40" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Choir/Apse -->
+    <polygon points="120,180 100,220 140,220" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Buttresses (exterior) -->
+    <rect x="30" y="80" width="8" height="60" fill="#c9a84c" opacity="0.2"/>
+    <rect x="202" y="80" width="8" height="60" fill="#c9a84c" opacity="0.2"/>
+    <text x="120" y="245" font-size="11" text-anchor="middle" fill="#c9a84c">Cruciform with aisles</text>
+    <text x="120" y="265" font-size="9" text-anchor="middle" fill="#8a8a9a">Flying buttresses enable height</text>
+  </svg>`,
+
+  "Dome of Florence Cathedral": `<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Outer dome profile -->
+    <path d="M 50 120 Q 50 80, 100 40 Q 150 80, 150 120" class="plan-stroke" stroke-width="2.5" fill="none"/>
+    <!-- Inner dome profile (double shell) -->
+    <path d="M 60 110 Q 60 85, 100 50 Q 140 85, 140 110" class="plan-stroke" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+    <!-- 8 ribs -->
+    <line x1="100" y1="40" x2="100" y2="120" class="plan-stroke" stroke-width="1.5"/>
+    <line x1="65" y1="58" x2="65" y2="115" class="plan-stroke" stroke-width="1.5"/>
+    <line x1="135" y1="58" x2="135" y2="115" class="plan-stroke" stroke-width="1.5"/>
+    <!-- Octagonal plan -->
+    <polygon points="100,140 125,145 140,160 125,175 100,180 75,175 60,160 75,145" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <text x="100" y="210" font-size="10" text-anchor="middle" fill="#c9a84c">Double-shell octagonal</text>
+    <text x="100" y="225" font-size="9" text-anchor="middle" fill="#8a8a9a">Ribbed vault structure</text>
+  </svg>`,
+
+  "Tempietto di San Pietro in Montorio": `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Outer balustrade circle -->
+    <circle cx="100" cy="100" r="75" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Peristyle columns -->
+    <circle cx="60" cy="100" r="3" fill="#c9a84c"/>
+    <circle cx="75" cy="75" r="3" fill="#c9a84c"/>
+    <circle cx="100" cy="60" r="3" fill="#c9a84c"/>
+    <circle cx="125" cy="75" r="3" fill="#c9a84c"/>
+    <circle cx="140" cy="100" r="3" fill="#c9a84c"/>
+    <circle cx="125" cy="125" r="3" fill="#c9a84c"/>
+    <circle cx="100" cy="140" r="3" fill="#c9a84c"/>
+    <circle cx="75" cy="125" r="3" fill="#c9a84c"/>
+    <!-- Central cylindrical cella -->
+    <circle cx="100" cy="100" r="25" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Dome at top (section) -->
+    <path d="M 80 40 Q 100 20, 120 40" class="plan-stroke" stroke-width="1.5"/>
+    <text x="100" y="195" font-size="10" text-anchor="middle" fill="#c9a84c">Circular peristyle</text>
+    <text x="100" y="210" font-size="9" text-anchor="middle" fill="#8a8a9a">Doric columns + dome</text>
+  </svg>`,
+
+  "Palatine Chapel, Aachen": `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Octagonal central plan -->
+    <polygon points="100,30 150,55 165,105 150,155 100,170 50,155 35,105 50,55" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Central dome -->
+    <circle cx="100" cy="100" r="30" class="plan-fill" stroke="#c9a84c" stroke-width="2"/>
+    <!-- Ambulatory ring -->
+    <polygon points="100,20 155,45 170,100 155,165 100,180 45,165 30,100 45,45" class="plan-fill" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Support piers -->
+    <circle cx="100" cy="50" r="4" fill="#c9a84c"/>
+    <circle cx="135" cy="100" r="4" fill="#c9a84c"/>
+    <circle cx="100" cy="150" r="4" fill="#c9a84c"/>
+    <circle cx="65" cy="100" r="4" fill="#c9a84c"/>
+    <text x="100" y="190" font-size="10" text-anchor="middle" fill="#c9a84c">Octagonal central</text>
+    <text x="100" y="205" font-size="9" text-anchor="middle" fill="#8a8a9a">with ambulatory</text>
+  </svg>`,
+
+  "Santiago de Compostela": `<svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.plan-stroke { stroke: #c9a84c; fill: none; stroke-width: 1.5; } .plan-fill { fill: #c9a84c; opacity: 0.1; }</style></defs>
+    <!-- Nave -->
+    <rect x="85" y="40" width="70" height="150" class="plan-fill" stroke="#c9a84c" stroke-width="2.5"/>
+    <!-- Aisles -->
+    <rect x="45" y="40" width="35" height="150" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <rect x="160" y="40" width="35" height="150" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Transept -->
+    <rect x="45" y="100" width="150" height="40" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Choir with ambulatory -->
+    <polygon points="120,190 90,230 150,230" class="plan-fill" stroke="#c9a84c" stroke-width="1.5"/>
+    <!-- Radiating chapels -->
+    <polygon points="90,230 80,245 100,250" class="plan-fill" stroke="#c9a84c" stroke-width="1"/>
+    <polygon points="120,230 115,248 130,250" class="plan-fill" stroke="#c9a84c" stroke-width="1"/>
+    <polygon points="150,230 145,245 165,250" class="plan-fill" stroke="#c9a84c" stroke-width="1"/>
+    <text x="120" y="265" font-size="10" text-anchor="middle" fill="#c9a84c">Cruciform basilica</text>
+    <text x="120" y="280" font-size="9" text-anchor="middle" fill="#8a8a9a">Ambulatory + radiating chapels</text>
+  </svg>`
+};
+
+const ERAS = DATA.map(e => e.era);
+
+let visibleEntries = [...DATA];
+
+// =============================================
+// Wikipedia JSONP image loading (works on local file://)
+// Uses script-tag injection — no fetch/XHR CORS issues.
+// Strategy: 1) direct title lookup, 2) search fallback
+// =============================================
 const WIKI_TITLE_OVERRIDES = {
   "White Temple & Ziggurat at Uruk": "White Temple (Uruk)",
   "Megalithic Temples of Malta": "Megalithic Temples of Malta",
   "Hagia Sophia": "Hagia Sophia",
-  "Old St. Peter’s Basilica": "Old St. Peter's Basilica",
+  "Old St. Peter's Basilica": "Old St. Peter's Basilica",
+  "Great Ziggurat of Ur": "Great Ziggurat of Ur",
+  "Pyramid of Djoser": "Pyramid of Djoser",
+  "Great Pyramid of Giza": "Great Pyramid of Giza",
+  "Karnak Temple Complex": "Karnak",
+  "Palace of Knossos": "Palace of Knossos",
+  "Parthenon": "Parthenon",
+  "Theater at Epidaurus": "Theatre of Epidaurus",
+  "Pantheon, Rome": "Pantheon, Rome",
+  "Hagia Sophia (532–537 CE)": "Hagia Sophia",
+  "Chartres Cathedral": "Chartres Cathedral",
+  "Florence Cathedral (Duomo)": "Florence Cathedral",
+  "Tempietto di San Pietro in Montorio": "Tempietto",
+  "Tempietto (Bramante)": "Tempietto",
+  "Palazzo Te": "Palazzo Te",
+  "Laurentian Library": "Laurentian Library",
+  "Piazza del Campo": "Piazza del Campo",
 };
 
-// Normalize punctuation so Wikipedia titles resolve more often
 function normalizeWikiTitle(str) {
   return (str || "")
-    .replace(/[“”]/g, '"')
-    .replace(/[‘’]/g, "'")
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -1420,445 +1653,295 @@ function wikiThumbByTitle(title, done) {
   const cbName = `wiki_title_${Math.random().toString(36).slice(2)}`;
   const api = 'https://en.wikipedia.org/w/api.php';
   const params = new URLSearchParams({
-    action: 'query',
-    format: 'json',
-    prop: 'pageimages',
-    piprop: 'thumbnail',
-    pithumbsize: '700',
-    redirects: '1',
-    titles: title,
-    callback: cbName,
+    action: 'query', format: 'json', prop: 'pageimages',
+    piprop: 'thumbnail', pithumbsize: '700', redirects: '1',
+    titles: title, callback: cbName,
   });
-  const url = `${api}?${params.toString()}`;
-  jsonp(url, cbName, (data) => {
+  jsonp(`${api}?${params.toString()}`, cbName, (data) => {
     try {
       const pages = data && data.query && data.query.pages ? data.query.pages : null;
       const firstKey = pages ? Object.keys(pages)[0] : null;
       const page = firstKey ? pages[firstKey] : null;
       const thumb = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
       done(thumb || null);
-    } catch (e) {
-      done(null);
-    }
+    } catch (e) { done(null); }
   });
 }
 
 function wikiThumbBySearch(term, done) {
   const cbName = `wiki_search_${Math.random().toString(36).slice(2)}`;
   const api = 'https://en.wikipedia.org/w/api.php';
-  // generator=search lets us retrieve a thumbnail in the same response
   const params = new URLSearchParams({
-    action: 'query',
-    format: 'json',
-    generator: 'search',
-    gsrsearch: term,
-    gsrlimit: '1',
-    prop: 'pageimages',
-    piprop: 'thumbnail',
-    pithumbsize: '700',
-    redirects: '1',
+    action: 'query', format: 'json', generator: 'search',
+    gsrsearch: term, gsrlimit: '1', prop: 'pageimages',
+    piprop: 'thumbnail', pithumbsize: '700', redirects: '1',
     callback: cbName,
   });
-  const url = `${api}?${params.toString()}`;
-  jsonp(url, cbName, (data) => {
+  jsonp(`${api}?${params.toString()}`, cbName, (data) => {
     try {
       const pages = data && data.query && data.query.pages ? data.query.pages : null;
       const key = pages ? Object.keys(pages)[0] : null;
       const page = key ? pages[key] : null;
       const thumb = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
       done(thumb || null);
-    } catch (e) {
-      done(null);
-    }
+    } catch (e) { done(null); }
   });
 }
 
 function loadWikiThumb(imgEl, entry) {
   const wrap = imgEl.closest('.entry');
   const title = getWikiTitle(entry);
-
-  // 1) Direct title lookup
   wikiThumbByTitle(title, (thumb1) => {
     if (thumb1) {
       imgEl.src = thumb1;
-      wrap.classList.add('has-img');
+      if (wrap) wrap.classList.add('has-img');
       return;
     }
-
-    // 2) Search fallback (title + location helps a lot)
-    const searchTerm = normalizeWikiTitle(`${title} ${entry.location || ""}`.trim());
+    const searchTerm = normalizeWikiTitle(`${title} ${entry.location || ''}`.trim());
     wikiThumbBySearch(searchTerm, (thumb2) => {
       if (thumb2) {
         imgEl.src = thumb2;
-        wrap.classList.add('has-img');
+        if (wrap) wrap.classList.add('has-img');
       }
     });
   });
 }
 
-
-
-// =============================================
-// SPATIAL DIAGRAMS (B2) - inline SVG, no external files
-// =============================================
-const DIAGRAMS = {
-  "The Pantheon": {
-    key: "pantheon",
-    logic: "Centralized space organized around a perfect circle. Movement and perception resolve toward one vertical axis of light beneath the oculus.",
-    labels: [
-      { t: "Portico", x: 36, y: 92 },
-      { t: "Rotunda", x: 120, y: 64 },
-      { t: "Oculus axis", x: 118, y: 118 }
-    ]
-  },
-  "The Parthenon": {
-    key: "parthenon",
-    logic: "Perimeter colonnade creates an exterior procession and rhythmic enclosure. The cella sits as a nested core within a larger peristyle field.",
-    labels: [
-      { t: "Peristyle", x: 86, y: 48 },
-      { t: "Cella", x: 110, y: 84 }
-    ]
-  },
-  "Old St. Peter's Basilica": {
-    key: "basilica",
-    logic: "Longitudinal plan pulls movement forward toward the apse. Side aisles support circulation while preserving a strong axial hierarchy.",
-    labels: [
-      { t: "Nave", x: 96, y: 74 },
-      { t: "Aisles", x: 62, y: 74 },
-      { t: "Apse", x: 168, y: 74 }
-    ]
-  },
-  "San Vitale, Ravenna": {
-    key: "sanvitale",
-    logic: "Centralized octagon with layered perimeter spaces. The plan blurs a single forward axis and instead emphasizes rotation around a spiritual center.",
-    labels: [
-      { t: "Octagon", x: 112, y: 56 },
-      { t: "Ambulatory", x: 116, y: 124 }
-    ]
-  },
-  "The Colosseum (Flavian Amphitheater)": {
-    key: "amphitheater",
-    logic: "Elliptical bowl organizes spectators around a central arena. Circulation wraps the perimeter, feeding seating wedges through a radial-vault system.",
-    labels: [
-      { t: "Arena", x: 116, y: 84 },
-      { t: "Seating", x: 66, y: 56 }
-    ]
-  },
-  "Theater at Epidaurus": {
-    key: "theater",
-    logic: "Radial seating compresses attention toward the orchestra. The semicircle organizes sightlines and acoustics, turning landscape into architecture.",
-    labels: [
-      { t: "Cavea", x: 96, y: 50 },
-      { t: "Orchestra", x: 116, y: 118 }
-    ]
-  },
-  "Stonehenge": {
-    key: "stonehenge",
-    logic: "Concentric rings establish a ceremonial center. Spatial meaning comes from approach, alignment, and enclosure rather than interior rooms.",
-    labels: [
-      { t: "Sarsen ring", x: 90, y: 54 },
-      { t: "Trilithons", x: 120, y: 96 }
-    ]
-  },
-  "Newgrange Passage Tomb": {
-    key: "newgrange",
-    logic: "A single axial passage drives movement into a concentrated chamber. The plan is all about threshold, compression, and a controlled moment of light.",
-    labels: [
-      { t: "Passage", x: 70, y: 86 },
-      { t: "Chamber", x: 140, y: 86 }
-    ]
-  },
-  "Palace of Knossos": {
-    key: "knossos",
-    logic: "Courtyard-centered organization with rooms layered around a communal void. The plan reads as additive, flexible, and circulation-driven.",
-    labels: [
-      { t: "Central court", x: 118, y: 82 },
-      { t: "Rooms", x: 58, y: 52 }
-    ]
-  }
-};
-
-function svgWrap(inner) {
-  return `<svg class="plan-svg" viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spatial diagram">
-    <rect x="0" y="0" width="240" height="160" fill="#0f0f18"/>
-    <g stroke="#c9a84c" stroke-opacity="0.75" fill="none" stroke-width="2">
-      ${inner}
-    </g>
-  </svg>`;
-}
-
-function svgLabels(labels) {
-  if (!labels || !labels.length) return "";
-  return `<g font-family="Inter, sans-serif" font-size="10" fill="#e8e6e3" fill-opacity="0.75">
-    ${labels.map(l => `<text x="${l.x}" y="${l.y}">${escapeHTML(l.t)}</text>`).join("")}
-  </g>`;
-}
-
-function buildSVG(diagram) {
-  const key = diagram.key;
-
-  if (key === "pantheon") {
-    const inner = `
-      <rect x="18" y="64" width="56" height="56" rx="2" />
-      <circle cx="142" cy="92" r="50" />
-      <circle cx="142" cy="92" r="4" fill="#c9a84c" fill-opacity="0.9" stroke="none" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "parthenon") {
-    const inner = `
-      <rect x="26" y="44" width="188" height="72" rx="2" />
-      <rect x="70" y="58" width="100" height="44" rx="2" stroke-opacity="0.55" />
-      <rect x="40" y="52" width="160" height="56" rx="2" stroke-dasharray="4 4" stroke-opacity="0.35" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "basilica") {
-    const inner = `
-      <rect x="28" y="56" width="160" height="48" rx="2" />
-      <rect x="28" y="56" width="30" height="48" rx="2" stroke-opacity="0.45" />
-      <rect x="158" y="56" width="30" height="48" rx="2" stroke-opacity="0.45" />
-      <path d="M188 56 A24 24 0 0 1 188 104" stroke-opacity="0.75" />
-      <path d="M188 56 A24 24 0 0 0 188 104" stroke-opacity="0.75" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "sanvitale") {
-    const inner = `
-      <polygon points="120,36 154,50 170,84 154,118 120,132 86,118 70,84 86,50" />
-      <polygon points="120,54 142,64 152,84 142,104 120,114 98,104 88,84 98,64" stroke-opacity="0.55" />
-      <circle cx="120" cy="84" r="5" fill="#c9a84c" fill-opacity="0.9" stroke="none" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "amphitheater") {
-    const inner = `
-      <ellipse cx="120" cy="84" rx="86" ry="52" />
-      <ellipse cx="120" cy="84" rx="54" ry="32" stroke-opacity="0.6" />
-      <rect x="92" y="74" width="56" height="20" rx="10" stroke-opacity="0.7" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "theater") {
-    const inner = `
-      <path d="M40 112 A80 80 0 0 1 200 112" />
-      <path d="M60 112 A60 60 0 0 1 180 112" stroke-opacity="0.55" />
-      <circle cx="120" cy="112" r="18" stroke-opacity="0.75" />
-      <line x1="120" y1="112" x2="120" y2="44" stroke-opacity="0.25" stroke-dasharray="4 4" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "stonehenge") {
-    const inner = `
-      <circle cx="120" cy="84" r="58" />
-      <circle cx="120" cy="84" r="38" stroke-opacity="0.55" />
-      <circle cx="120" cy="84" r="18" stroke-opacity="0.35" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "newgrange") {
-    const inner = `
-      <circle cx="120" cy="84" r="54" />
-      <rect x="36" y="78" width="70" height="12" rx="2" stroke-opacity="0.65" />
-      <circle cx="140" cy="84" r="18" stroke-opacity="0.55" />
-      <line x1="72" y1="84" x2="122" y2="84" stroke-opacity="0.8" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  if (key === "knossos") {
-    const inner = `
-      <rect x="44" y="40" width="152" height="96" rx="2" stroke-opacity="0.55" />
-      <rect x="88" y="66" width="64" height="44" rx="2" />
-      <rect x="54" y="50" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      <rect x="156" y="50" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      <rect x="54" y="102" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      <rect x="156" y="102" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      ${svgLabels(diagram.labels)}
-    `;
-    return svgWrap(inner);
-  }
-
-  return "";
-}
-
-function buildDiagramBlock(entry) {
-  const diagram = DIAGRAMS[entry.title];
-  if (!diagram) return "";
-  const svg = buildSVG(diagram);
-  const logic = diagram.logic || "";
-  return `
-    <div class="plan-wrap">
-      <div class="plan-topline">
-        <div class="plan-label">Spatial diagram</div>
-        <button class="plan-toggle" type="button">Show Spatial Diagram</button>
-      </div>
-      <div class="plan-panel">
-        ${svg}
-        <div class="plan-logic">
-          <strong>Spatial Logic</strong>
-          <p>${escapeHTML(logic)}</p>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// Small helper for safe text injection (used in diagrams)
-function escapeHTML(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll("\"", "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-
-// =============================================
-// RENDER ENGINE
-// =============================================
-const timeline = document.getElementById('timeline');
-const eraNav = document.getElementById('era-nav');
-const searchInput = document.getElementById('search-input');
-const entryCount = document.getElementById('entry-count');
-
-let allEntries = [];
-let activeEra = null;
-
-// Build nav and timeline
-DATA.forEach((eraData, eraIdx) => {
-  // Nav button
-  const btn = document.createElement('button');
-  btn.className = 'era-btn';
-  btn.textContent = eraData.era;
-  btn.dataset.era = eraData.era;
-  btn.addEventListener('click', () => {
-    if (activeEra === eraData.era) {
-      activeEra = null;
-      btn.classList.remove('active');
-    } else {
-      activeEra = eraData.era;
-      document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-    filterEntries();
-    // Scroll to era
-    if (activeEra) {
-      const section = document.querySelector(`[data-era-section="${eraData.era}"]`);
-      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+function initEraNav() {
+  const nav = document.getElementById('era-nav');
+  ERAS.forEach(era => {
+    const btn = document.createElement('button');
+    btn.className = 'era-btn';
+    btn.textContent = era;
+    btn.onclick = () => filterByEra(era, btn);
+    nav.appendChild(btn);
   });
-  eraNav.appendChild(btn);
+}
 
-  // Era section
-  const section = document.createElement('div');
-  section.className = 'era-section';
-  section.dataset.eraSection = eraData.era;
+function filterByEra(era, btn) {
+  document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  if (era === 'ALL') {
+    visibleEntries = [...DATA];
+  } else {
+    visibleEntries = DATA.filter(e => e.era === era);
+  }
+  
+  renderTimeline();
+  updateEntryCount();
+}
 
-  const header = document.createElement('div');
-  header.className = 'era-header';
-  const weekLabel = eraData.week ? `<div class="era-week">Week ${eraData.week}</div>` : '';
-  header.innerHTML = `<h2>${eraData.era}</h2><div class="era-dates">${eraData.eraRange}</div>${weekLabel}`;
-  section.appendChild(header);
+function searchEntries(query) {
+  const q = query.toLowerCase();
+  visibleEntries = DATA.filter(e => 
+    JSON.stringify(e).toLowerCase().includes(q)
+  );
+  renderTimeline();
+  updateEntryCount();
+}
 
-  eraData.entries.forEach((entry, i) => {
-    const side = i % 2 === 0 ? 'left' : 'right';
-    const card = document.createElement('div');
-    card.className = `entry ${side}`;
-    card.dataset.era = eraData.era;
-    card.dataset.search = `${entry.title} ${entry.location} ${entry.summary} ${entry.tags.join(' ')} ${entry.date}`.toLowerCase();
-
-    const diagramBlock = buildDiagramBlock(entry);
-
-    card.innerHTML = `
-      <div class="entry-date">${entry.date}</div>
-      <div class="entry-title">${entry.title}</div>
-      <div class="entry-location">${entry.location}</div>
-      <div class="entry-img-wrap"><img class="entry-img" alt="${entry.title}" loading="lazy" /></div>
-      <div class="entry-summary">${entry.summary}</div>
-      ${diagramBlock}
-      <div class="entry-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      <div class="expand-hint"></div>
-    `;
-
-    // One image per entry (Option A)
-    const imgEl = card.querySelector('.entry-img');
-    if (imgEl) loadWikiThumb(imgEl, entry);
-
-    card.addEventListener('click', () => {
-      card.classList.toggle('expanded');
-    });
-
-    // Diagram toggle (do not collapse the card)
-    const toggleBtn = card.querySelector('.plan-toggle');
-    const panel = card.querySelector('.plan-panel');
-    if (toggleBtn && panel) {
-      toggleBtn.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        panel.classList.toggle('open');
-        toggleBtn.textContent = panel.classList.contains('open') ? 'Hide Spatial Diagram' : 'Show Spatial Diagram';
+function renderTimeline() {
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+  
+  let isLeft = true;
+  
+  visibleEntries.forEach(eraData => {
+    // Era section header
+    const eraSection = document.createElement('div');
+    eraSection.className = 'era-section';
+    
+    const eraHeader = document.createElement('div');
+    eraHeader.className = 'era-header';
+    
+    const h2 = document.createElement('h2');
+    h2.textContent = eraData.era;
+    
+    if (eraData.ching) {
+      const chingBadge = document.createElement('span');
+      chingBadge.className = 'ching-ref';
+      chingBadge.textContent = eraData.ching;
+      h2.appendChild(chingBadge);
+    }
+    
+    eraHeader.appendChild(h2);
+    
+    const datesDiv = document.createElement('div');
+    datesDiv.className = 'era-dates';
+    datesDiv.textContent = eraData.eraRange;
+    eraHeader.appendChild(datesDiv);
+    
+    if (eraData.week) {
+      const weekDiv = document.createElement('div');
+      weekDiv.className = 'era-week';
+      weekDiv.textContent = `Week ${eraData.week}`;
+      eraHeader.appendChild(weekDiv);
+    }
+    
+    eraSection.appendChild(eraHeader);
+    
+    // Key concepts panel
+    if (eraData.concepts && eraData.concepts.length > 0) {
+      const eraStudy = document.createElement('div');
+      eraStudy.className = 'era-study';
+      
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'era-study-toggle';
+      toggleBtn.textContent = '📚 Key Concepts & Architects';
+      
+      const content = document.createElement('div');
+      content.className = 'era-study-content';
+      
+      const conceptsGrid = document.createElement('div');
+      conceptsGrid.className = 'concepts-grid';
+      
+      eraData.concepts.forEach(concept => {
+        const card = document.createElement('div');
+        card.className = 'concept-card';
+        card.innerHTML = `<strong>${concept.term}</strong><span>${concept.def}</span>`;
+        conceptsGrid.appendChild(card);
       });
+      
+      content.appendChild(conceptsGrid);
+      
+      if (eraData.keyArchitects) {
+        const archSection = document.createElement('div');
+        archSection.className = 'architects-section';
+        archSection.innerHTML = `<strong>Key Architects/Builders:</strong><p>${eraData.keyArchitects}</p>`;
+        content.appendChild(archSection);
+      }
+      
+      toggleBtn.onclick = () => content.classList.toggle('open');
+      
+      eraStudy.appendChild(toggleBtn);
+      eraStudy.appendChild(content);
+      eraSection.appendChild(eraStudy);
     }
+    
+    // Entries
+    eraData.entries.forEach(entry => {
+      const card = document.createElement('div');
+      card.className = `entry ${isLeft ? 'left' : 'right'} hidden`;
+      card.dataset.era = eraData.era;
+      
+      const dateDiv = document.createElement('div');
+      dateDiv.className = 'entry-date';
+      dateDiv.textContent = entry.date;
+      card.appendChild(dateDiv);
+      
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'entry-title';
+      titleDiv.textContent = entry.title;
+      card.appendChild(titleDiv);
+      
+      const locDiv = document.createElement('div');
+      locDiv.className = 'entry-location';
+      locDiv.textContent = entry.location;
+      card.appendChild(locDiv);
+      
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'entry-img-wrap';
+      const img = document.createElement('img');
+      img.className = 'entry-img';
+      img.alt = entry.title;
+      img.loading = 'lazy';
+      imgWrap.appendChild(img);
+      card.appendChild(imgWrap);
+      
+      const sumDiv = document.createElement('div');
+      sumDiv.className = 'entry-summary';
+      sumDiv.textContent = entry.summary;
+      card.appendChild(sumDiv);
+      
+      // Plan diagram
+      const diag = DIAGRAMS[entry.title];
+      if (diag) {
+        const planWrap = document.createElement('div');
+        planWrap.className = 'plan-wrap';
+        
+        const topline = document.createElement('div');
+        topline.className = 'plan-topline';
+        
+        const label = document.createElement('span');
+        label.className = 'plan-label';
+        label.textContent = 'Site Plan';
+        topline.appendChild(label);
+        
+        const btn = document.createElement('button');
+        btn.className = 'plan-toggle';
+        btn.textContent = 'Show Plan';
+        
+        const panel = document.createElement('div');
+        panel.className = 'plan-panel';
+        panel.innerHTML = diag;
+        
+        btn.onclick = () => panel.classList.toggle('open');
+        
+        topline.appendChild(btn);
+        planWrap.appendChild(topline);
+        planWrap.appendChild(panel);
+        
+        card.appendChild(planWrap);
+      }
+      
+      if (entry.tags && entry.tags.length > 0) {
+        const tagsDiv = document.createElement('div');
+        tagsDiv.className = 'entry-tags';
+        entry.tags.forEach(tag => {
+          const tagSpan = document.createElement('span');
+          tagSpan.className = 'tag';
+          tagSpan.textContent = tag;
+          tagsDiv.appendChild(tagSpan);
+        });
+        card.appendChild(tagsDiv);
+      }
+      
+      const hintDiv = document.createElement('div');
+      hintDiv.className = 'expand-hint';
+      card.appendChild(hintDiv);
+      
+      card.onclick = () => {
+        card.classList.toggle('expanded');
+      };
+      
+      eraSection.appendChild(card);
 
-    section.appendChild(card);
-    allEntries.push(card);
+      // Load Wikipedia thumbnail via JSONP (works on local file://)
+      const imgEl = card.querySelector('.entry-img');
+      if (imgEl) loadWikiThumb(imgEl, entry);
+
+      isLeft = !isLeft;
+    });
+    
+    timeline.appendChild(eraSection);
   });
+  
+  // Animate visible entries
+  setTimeout(() => {
+    document.querySelectorAll('.entry.hidden').forEach((el, idx) => {
+      setTimeout(() => {
+        el.classList.remove('hidden');
+        el.classList.add('visible');
+      }, idx * 50);
+    });
+  }, 100);
+}
 
-  timeline.appendChild(section);
+function updateEntryCount() {
+  const count = document.querySelectorAll('.entry').length;
+  document.getElementById('entry-count').textContent = `${count} entries`;
+}
+
+document.getElementById('search-input').addEventListener('keyup', (e) => {
+  searchEntries(e.target.value);
 });
 
-// Filter
-function filterEntries() {
-  const query = searchInput.value.toLowerCase().trim();
-  let visible = 0;
+initEraNav();
+renderTimeline();
+updateEntryCount();
 
-  allEntries.forEach(card => {
-    const matchEra = !activeEra || card.dataset.era === activeEra;
-    const matchSearch = !query || card.dataset.search.includes(query);
-    if (matchEra && matchSearch) {
-      card.classList.remove('hidden');
-      visible++;
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-
-  // Show/hide era sections
-  document.querySelectorAll('.era-section').forEach(sec => {
-    const hasVisible = sec.querySelectorAll('.entry:not(.hidden)').length > 0;
-    sec.classList.toggle('hidden', !hasVisible);
-  });
-
-  entryCount.textContent = `${visible} of ${allEntries.length} entries`;
-}
-
-searchInput.addEventListener('input', filterEntries);
-filterEntries();
-
-// Scroll animation
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
-
-allEntries.forEach(card => observer.observe(card));
 </script>
+
 </body>
 </html>
