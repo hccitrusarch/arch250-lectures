@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARCH 250 — Architecture History Timeline</title>
+<title>ARCH 250  -  Architecture History Timeline</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
@@ -265,6 +265,18 @@
   .entry.expanded .expand-hint::after { content: 'click to collapse'; }
   .entry:not(.expanded) .expand-hint::after { content: 'click to expand'; }
 
+
+  /* ENTRY IMAGE */
+  .entry-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 10px 0 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
   /* KEY CONCEPTS PANEL */
   .concepts-panel {
     max-width: 960px;
@@ -359,7 +371,7 @@ const DATA = [
         date: "c. 7500–5700 BCE",
         title: "Çatalhöyük",
         location: "Konya, Turkey",
-        summary: "One of the earliest proto-urban settlements. Densely packed mudbrick houses with no streets — entry was through roof openings via ladders. Interiors featured built-in platforms, hearths, and wall paintings of hunting scenes and geometric patterns. Population reached ~5,000–8,000. Shrines interspersed with domestic spaces suggest no separation of sacred and secular.",
+        summary: "One of the earliest proto-urban settlements. Densely packed mudbrick houses with no streets  -  entry was through roof openings via ladders. Interiors featured built-in platforms, hearths, and wall paintings of hunting scenes and geometric patterns. Population reached ~5,000–8,000. Shrines interspersed with domestic spaces suggest no separation of sacred and secular.",
         tags: ["proto-urban", "mudbrick", "Neolithic settlement", "wall painting"]
       },
       {
@@ -373,21 +385,21 @@ const DATA = [
         date: "c. 3000–2000 BCE",
         title: "Stonehenge",
         location: "Wiltshire, England",
-        summary: "The iconic stone circle evolved over ~1,500 years in multiple phases. The sarsen circle (c. 2500 BCE) features post-and-lintel construction with mortise-and-tenon joints — a woodworking technique translated into stone. Bluestones transported ~250 km from Wales. Aligned with summer solstice sunrise and winter solstice sunset. Function debated: astronomical observatory, ceremonial site, healing center.",
+        summary: "The iconic stone circle evolved over ~1,500 years in multiple phases. The sarsen circle (c. 2500 BCE) features post-and-lintel construction with mortise-and-tenon joints  -  a woodworking technique translated into stone. Bluestones transported ~250 km from Wales. Aligned with summer solstice sunrise and winter solstice sunset. Function debated: astronomical observatory, ceremonial site, healing center.",
         tags: ["megalithic", "post-and-lintel", "astronomical alignment", "sarsen", "bluestone"]
       },
       {
         date: "c. 3200 BCE",
         title: "Newgrange",
         location: "County Meath, Ireland",
-        summary: "Passage tomb with a 19-meter passage leading to a cruciform chamber. The roof box above the entrance allows sunlight to penetrate the full length of the passage only during the winter solstice sunrise — a feat of precise astronomical engineering. Corbelled vault ceiling has remained waterproof for 5,000 years. Exterior decorated with spiral and lozenge carvings.",
+        summary: "Passage tomb with a 19-meter passage leading to a cruciform chamber. The roof box above the entrance allows sunlight to penetrate the full length of the passage only during the winter solstice sunrise  -  a feat of precise astronomical engineering. Corbelled vault ceiling has remained waterproof for 5,000 years. Exterior decorated with spiral and lozenge carvings.",
         tags: ["passage tomb", "corbelled vault", "solstice alignment", "megalithic art"]
       },
       {
         date: "c. 4500–3000 BCE",
         title: "Megalithic Temples of Malta",
         location: "Malta",
-        summary: "Ħagar Qim, Mnajdra, and the Ġgantija temples on Gozo are among the oldest free-standing stone structures in the world — older than the Egyptian pyramids. Coralline limestone construction with trefoil/cloverleaf plans. Interior spaces suggest ritual processions. The Hypogeum of Ħal-Saflieni is a subterranean temple carved from living rock.",
+        summary: "Ħagar Qim, Mnajdra, and the Ġgantija temples on Gozo are among the oldest free-standing stone structures in the world  -  older than the Egyptian pyramids. Coralline limestone construction with trefoil/cloverleaf plans. Interior spaces suggest ritual processions. The Hypogeum of Ħal-Saflieni is a subterranean temple carved from living rock.",
         tags: ["free-standing temple", "limestone", "trefoil plan", "Hypogeum"]
       }
     ]
@@ -405,42 +417,42 @@ const DATA = [
         date: "c. 3500–3000 BCE",
         title: "White Temple & Ziggurat at Uruk",
         location: "Uruk (modern Warka), Iraq",
-        summary: "The White Temple sits atop a massive mud-brick platform — a precursor to the true ziggurat. Whitewashed walls gave it its name. The bent-axis approach required visitors to turn 90° upon entering, a ritual choreography of movement. Uruk was likely the world's first true city, with ~40,000 inhabitants.",
+        summary: "The White Temple sits atop a massive mud-brick platform  -  a precursor to the true ziggurat. Whitewashed walls gave it its name. The bent-axis approach required visitors to turn 90° upon entering, a ritual choreography of movement. Uruk was likely the world's first true city, with ~40,000 inhabitants.",
         tags: ["ziggurat", "mud-brick", "bent-axis plan", "Sumerian"]
       },
       {
         date: "c. 2100 BCE",
         title: "Ziggurat of Ur",
         location: "Ur (modern Tell el-Muqayyar), Iraq",
-        summary: "Built by King Ur-Nammu for the moon god Nanna. Three massive terraces of mud-brick with baked-brick facing and bitumen mortar. Triple staircase converges at a gatehouse. Originally ~30m tall. The ziggurat form — a stepped pyramid — served as a cosmic mountain bridging earth and heaven. Weep holes in the walls allowed internal moisture to escape, preventing structural failure.",
+        summary: "Built by King Ur-Nammu for the moon god Nanna. Three massive terraces of mud-brick with baked-brick facing and bitumen mortar. Triple staircase converges at a gatehouse. Originally ~30m tall. The ziggurat form  -  a stepped pyramid  -  served as a cosmic mountain bridging earth and heaven. Weep holes in the walls allowed internal moisture to escape, preventing structural failure.",
         tags: ["ziggurat", "Ur-Nammu", "mud-brick", "Sumerian", "Nanna"]
       },
       {
         date: "c. 1792–1750 BCE",
         title: "Babylon under Hammurabi",
         location: "Babylon, Iraq",
-        summary: "Hammurabi transformed Babylon into a major political capital. His law code (inscribed on a diorite stele) established principles of urban governance. The city plan featured a grid layout oriented to cardinal directions, canals integrated into the urban fabric, and massive fortification walls — a model of planned urbanism.",
+        summary: "Hammurabi transformed Babylon into a major political capital. His law code (inscribed on a diorite stele) established principles of urban governance. The city plan featured a grid layout oriented to cardinal directions, canals integrated into the urban fabric, and massive fortification walls  -  a model of planned urbanism.",
         tags: ["urban planning", "fortification", "Babylonian"]
       },
       {
         date: "c. 879 BCE",
         title: "Palace of Ashurnasirpal II at Nimrud",
         location: "Nimrud (Kalhu), Iraq",
-        summary: "The Northwest Palace exemplifies Assyrian palatial architecture. Massive stone lamassu (human-headed winged bulls) guarded entrances — designed to appear both standing (from front) and walking (from side) using a fifth leg. Interior walls lined with carved alabaster reliefs depicting military campaigns, hunting scenes, and ritual acts. The throne room (Room B) was the ceremonial heart of the empire.",
+        summary: "The Northwest Palace exemplifies Assyrian palatial architecture. Massive stone lamassu (human-headed winged bulls) guarded entrances  -  designed to appear both standing (from front) and walking (from side) using a fifth leg. Interior walls lined with carved alabaster reliefs depicting military campaigns, hunting scenes, and ritual acts. The throne room (Room B) was the ceremonial heart of the empire.",
         tags: ["Assyrian", "palace", "lamassu", "relief sculpture"]
       },
       {
         date: "c. 604–562 BCE",
         title: "Neo-Babylonian Babylon",
         location: "Babylon, Iraq",
-        summary: "Under Nebuchadnezzar II, Babylon became the largest city in the world. The Ishtar Gate — faced in glazed blue bricks with relief figures of bulls (Adad) and dragons (Mušḫuššu) — led into the Processional Way. The Etemenanki ziggurat (possible inspiration for the Tower of Babel) rose ~90m. The legendary Hanging Gardens (if real) may have used an Archimedean screw irrigation system.",
+        summary: "Under Nebuchadnezzar II, Babylon became the largest city in the world. The Ishtar Gate  -  faced in glazed blue bricks with relief figures of bulls (Adad) and dragons (Mušḫuššu)  -  led into the Processional Way. The Etemenanki ziggurat (possible inspiration for the Tower of Babel) rose ~90m. The legendary Hanging Gardens (if real) may have used an Archimedean screw irrigation system.",
         tags: ["Ishtar Gate", "glazed brick", "Nebuchadnezzar II", "Processional Way", "Hanging Gardens"]
       },
       {
         date: "c. 515 BCE",
         title: "Persepolis",
         location: "Fars Province, Iran",
-        summary: "Ceremonial capital of the Achaemenid Empire begun by Darius I. Built on a massive stone terrace (125,000 sq m). The Apadana (audience hall) featured 72 columns 20m tall with unique double-bull capitals. The Gate of All Nations featured colossal lamassu. Relief carvings on the Apadana staircase depict 23 subject nations bearing tribute — a propaganda program in stone celebrating imperial diversity.",
+        summary: "Ceremonial capital of the Achaemenid Empire begun by Darius I. Built on a massive stone terrace (125,000 sq m). The Apadana (audience hall) featured 72 columns 20m tall with unique double-bull capitals. The Gate of All Nations featured colossal lamassu. Relief carvings on the Apadana staircase depict 23 subject nations bearing tribute  -  a propaganda program in stone celebrating imperial diversity.",
         tags: ["Achaemenid", "Apadana", "column", "hypostyle hall", "Darius I"]
       }
     ]
@@ -458,56 +470,56 @@ const DATA = [
         date: "c. 2650 BCE",
         title: "Step Pyramid of Djoser",
         location: "Saqqara, Egypt",
-        summary: "Designed by Imhotep — history's first named architect. Evolved from a flat mastaba tomb through six successive enlargements into a stepped pyramid (62m tall). The surrounding mortuary complex includes a sed festival court, sham buildings with non-functional stone doors and columns (translating earlier reed/wood forms into stone for eternity), and a massive enclosure wall with a single real entrance among 14 false ones.",
+        summary: "Designed by Imhotep  -  history's first named architect. Evolved from a flat mastaba tomb through six successive enlargements into a stepped pyramid (62m tall). The surrounding mortuary complex includes a sed festival court, sham buildings with non-functional stone doors and columns (translating earlier reed/wood forms into stone for eternity), and a massive enclosure wall with a single real entrance among 14 false ones.",
         tags: ["Imhotep", "step pyramid", "mastaba", "Saqqara", "Old Kingdom"]
       },
       {
         date: "c. 2560 BCE",
         title: "Great Pyramid of Khufu",
         location: "Giza, Egypt",
-        summary: "The largest of the three Giza pyramids: 146m tall, 2.3 million limestone blocks averaging 2.5 tons each. Casing stones of polished Tura limestone (now mostly stripped). Internal chambers include the Grand Gallery (8.6m tall corbelled passage), King's Chamber with granite stress-relieving chambers above, and mysterious narrow shafts aligned with specific stars. Base is level to within 2.1 cm across 230m — extraordinary precision.",
+        summary: "The largest of the three Giza pyramids: 146m tall, 2.3 million limestone blocks averaging 2.5 tons each. Casing stones of polished Tura limestone (now mostly stripped). Internal chambers include the Grand Gallery (8.6m tall corbelled passage), King's Chamber with granite stress-relieving chambers above, and mysterious narrow shafts aligned with specific stars. Base is level to within 2.1 cm across 230m  -  extraordinary precision.",
         tags: ["true pyramid", "Khufu/Cheops", "limestone", "Old Kingdom", "Giza"]
       },
       {
         date: "c. 2500 BCE",
         title: "Great Sphinx & Valley Temple",
         location: "Giza, Egypt",
-        summary: "The Sphinx (73m long, 20m high) carved from a single bedrock outcrop, likely representing Khafre. The adjacent Valley Temple uses massive granite blocks (some 100+ tons) with no decoration — pure trabeated construction. Alabaster floors and red granite piers create a stark, powerful interior. Served as site for royal mummification rituals.",
+        summary: "The Sphinx (73m long, 20m high) carved from a single bedrock outcrop, likely representing Khafre. The adjacent Valley Temple uses massive granite blocks (some 100+ tons) with no decoration  -  pure trabeated construction. Alabaster floors and red granite piers create a stark, powerful interior. Served as site for royal mummification rituals.",
         tags: ["Sphinx", "Khafre", "granite", "trabeated", "Old Kingdom"]
       },
       {
         date: "c. 2055–1650 BCE",
         title: "Mortuary Temple of Mentuhotep II",
         location: "Deir el-Bahari, Egypt",
-        summary: "Middle Kingdom temple built against the Theban cliffs. Terraced design with colonnaded porticos integrated into the natural landscape — a prototype that Hatshepsut would later echo directly adjacent. Combines tomb, temple, and garden in a single axial composition.",
+        summary: "Middle Kingdom temple built against the Theban cliffs. Terraced design with colonnaded porticos integrated into the natural landscape  -  a prototype that Hatshepsut would later echo directly adjacent. Combines tomb, temple, and garden in a single axial composition.",
         tags: ["Middle Kingdom", "terraced temple", "Thebes", "Deir el-Bahari"]
       },
       {
         date: "c. 1470 BCE",
         title: "Mortuary Temple of Hatshepsut",
         location: "Deir el-Bahari, Egypt",
-        summary: "Designed by Senenmut for the female pharaoh Hatshepsut. Three terraced colonnaded levels rise against dramatic limestone cliffs. Long axial approach with ramps connecting each terrace. Proto-Doric columns in the upper colonnade. Reliefs depict the expedition to Punt and Hatshepsut's divine birth narrative — political propaganda legitimizing a woman's rule.",
+        summary: "Designed by Senenmut for the female pharaoh Hatshepsut. Three terraced colonnaded levels rise against dramatic limestone cliffs. Long axial approach with ramps connecting each terrace. Proto-Doric columns in the upper colonnade. Reliefs depict the expedition to Punt and Hatshepsut's divine birth narrative  -  political propaganda legitimizing a woman's rule.",
         tags: ["Hatshepsut", "Senenmut", "New Kingdom", "terraced temple", "proto-Doric"]
       },
       {
         date: "c. 1550–1070 BCE",
         title: "Temple of Amun at Karnak",
         location: "Luxor (Thebes), Egypt",
-        summary: "The largest religious complex ever built, developed over 2,000 years by ~30 pharaohs. The Great Hypostyle Hall (Seti I / Ramesses II) contains 134 columns in 16 rows — the central 12 are 21m tall with open papyrus capitals, flanking columns have closed-bud capitals. Clerestory lighting through the height difference. Pylon gateways, obelisks, sacred lakes, and processional axes create a layered spatial experience moving from public to sacred.",
+        summary: "The largest religious complex ever built, developed over 2,000 years by ~30 pharaohs. The Great Hypostyle Hall (Seti I / Ramesses II) contains 134 columns in 16 rows  -  the central 12 are 21m tall with open papyrus capitals, flanking columns have closed-bud capitals. Clerestory lighting through the height difference. Pylon gateways, obelisks, sacred lakes, and processional axes create a layered spatial experience moving from public to sacred.",
         tags: ["Karnak", "hypostyle hall", "pylon", "Amun", "New Kingdom", "clerestory"]
       },
       {
         date: "c. 1274 BCE",
         title: "Temple of Luxor",
         location: "Luxor, Egypt",
-        summary: "Connected to Karnak by a 3-km sphinx-lined processional avenue. Amenhotep III's colonnade court has 14 massive papyrus columns. Ramesses II added the first pylon with colossal statues and a peristyle court set at an angle to align with the processional route — pragmatic site planning. The annual Opet festival procession between Karnak and Luxor was the most important religious event in Thebes.",
+        summary: "Connected to Karnak by a 3-km sphinx-lined processional avenue. Amenhotep III's colonnade court has 14 massive papyrus columns. Ramesses II added the first pylon with colossal statues and a peristyle court set at an angle to align with the processional route  -  pragmatic site planning. The annual Opet festival procession between Karnak and Luxor was the most important religious event in Thebes.",
         tags: ["Luxor", "Amenhotep III", "Ramesses II", "processional", "New Kingdom"]
       },
       {
         date: "c. 1264 BCE",
         title: "Abu Simbel",
         location: "Nubia, Egypt",
-        summary: "Rock-cut temple of Ramesses II with four colossal seated figures (20m tall) flanking the entrance. The temple is oriented so that sunlight penetrates the full 60m length of the interior to illuminate the sanctuary statues on February 22 and October 22. The smaller adjacent temple honors Queen Nefertari. In 1968, the entire complex was cut into blocks and relocated 65m higher to avoid flooding from the Aswan High Dam — one of the greatest feats of archaeological engineering.",
+        summary: "Rock-cut temple of Ramesses II with four colossal seated figures (20m tall) flanking the entrance. The temple is oriented so that sunlight penetrates the full 60m length of the interior to illuminate the sanctuary statues on February 22 and October 22. The smaller adjacent temple honors Queen Nefertari. In 1968, the entire complex was cut into blocks and relocated 65m higher to avoid flooding from the Aswan High Dam  -  one of the greatest feats of archaeological engineering.",
         tags: ["Ramesses II", "rock-cut temple", "solar alignment", "New Kingdom", "colossal sculpture"]
       }
     ]
@@ -525,14 +537,14 @@ const DATA = [
         date: "c. 2000–1400 BCE",
         title: "Palace of Knossos",
         location: "Crete, Greece",
-        summary: "Center of Minoan civilization, excavated and controversially reconstructed by Arthur Evans. Sprawling, multi-story complex (~13,000 sq m) organized around a central court. Light wells, drainage systems, and flush toilets show sophisticated environmental engineering. Pier-and-door partitions allowed flexible room configurations. Vivid frescoes of bull-leaping, marine life, and processions. The labyrinthine plan may have inspired the myth of the Minotaur. No fortification walls — the Minoans relied on naval power.",
+        summary: "Center of Minoan civilization, excavated and controversially reconstructed by Arthur Evans. Sprawling, multi-story complex (~13,000 sq m) organized around a central court. Light wells, drainage systems, and flush toilets show sophisticated environmental engineering. Pier-and-door partitions allowed flexible room configurations. Vivid frescoes of bull-leaping, marine life, and processions. The labyrinthine plan may have inspired the myth of the Minotaur. No fortification walls  -  the Minoans relied on naval power.",
         tags: ["Minoan", "palace complex", "central court", "light well", "Arthur Evans"]
       },
       {
         date: "c. 1600–1100 BCE",
         title: "Citadel of Mycenae",
         location: "Peloponnese, Greece",
-        summary: "Fortified hilltop citadel of the Mycenaean warrior culture. Massive Cyclopean walls (stones so large later Greeks believed only giants could move them). The Lion Gate (c. 1250 BCE) — the oldest monumental sculpture in Europe — features a relieving triangle above the lintel with two heraldic lions flanking a column, a structural and symbolic innovation. The corbelled tholos tombs (Treasury of Atreus) represent the pinnacle of Bronze Age engineering.",
+        summary: "Fortified hilltop citadel of the Mycenaean warrior culture. Massive Cyclopean walls (stones so large later Greeks believed only giants could move them). The Lion Gate (c. 1250 BCE)  -  the oldest monumental sculpture in Europe  -  features a relieving triangle above the lintel with two heraldic lions flanking a column, a structural and symbolic innovation. The corbelled tholos tombs (Treasury of Atreus) represent the pinnacle of Bronze Age engineering.",
         tags: ["Mycenaean", "Cyclopean masonry", "Lion Gate", "citadel", "fortification"]
       },
       {
@@ -564,42 +576,42 @@ const DATA = [
         date: "c. 1600–1046 BCE",
         title: "Shang Dynasty Foundations",
         location: "Anyang & Zhengzhou, China",
-        summary: "The earliest Chinese monumental architecture. Palatial compounds at Yinxu (Anyang) used rammed-earth platforms (hangtu) — compressed layers of soil forming massive foundations, a technique that persisted for millennia. Timber post-and-beam construction (no load-bearing walls) established the fundamental Chinese structural system. Rectangular halls oriented along a north–south axis with symmetrical courtyards set the template for all later Chinese palatial and ritual architecture.",
+        summary: "The earliest Chinese monumental architecture. Palatial compounds at Yinxu (Anyang) used rammed-earth platforms (hangtu)  -  compressed layers of soil forming massive foundations, a technique that persisted for millennia. Timber post-and-beam construction (no load-bearing walls) established the fundamental Chinese structural system. Rectangular halls oriented along a north–south axis with symmetrical courtyards set the template for all later Chinese palatial and ritual architecture.",
         tags: ["Shang Dynasty", "rammed earth", "hangtu", "timber frame", "axial planning"]
       },
       {
         date: "c. 221–206 BCE",
         title: "Qin Dynasty: Great Wall & Terracotta Army",
         location: "China",
-        summary: "Qin Shi Huang unified earlier defensive walls into the first Great Wall — rammed-earth construction stretching thousands of kilometers. His mausoleum complex near Xi'an includes the Terracotta Army: ~8,000 life-size clay soldiers in underground pits guarding the emperor's tomb. The tomb mound itself was designed as a microcosm of the empire, with rivers of mercury representing waterways. Demonstrates architecture as imperial cosmology.",
+        summary: "Qin Shi Huang unified earlier defensive walls into the first Great Wall  -  rammed-earth construction stretching thousands of kilometers. His mausoleum complex near Xi'an includes the Terracotta Army: ~8,000 life-size clay soldiers in underground pits guarding the emperor's tomb. The tomb mound itself was designed as a microcosm of the empire, with rivers of mercury representing waterways. Demonstrates architecture as imperial cosmology.",
         tags: ["Qin Dynasty", "Great Wall", "rammed earth", "Terracotta Army", "imperial tomb"]
       },
       {
         date: "c. 206 BCE–220 CE",
         title: "Han Dynasty Architecture",
         location: "China",
-        summary: "The Han codified the Chinese timber-frame building system: columns on stone bases supporting a bracket-set (dougong) system that transfers roof loads. The dougong — interlocking wooden brackets — is the signature element of Chinese architecture, allowing wide roof overhangs without increasing column height. Mingqi (ceramic tomb models) provide detailed evidence of multi-story towers (que), courtyard houses (siheyuan), and watchtowers. Introduction of Buddhist architecture via the Silk Road.",
+        summary: "The Han codified the Chinese timber-frame building system: columns on stone bases supporting a bracket-set (dougong) system that transfers roof loads. The dougong  -  interlocking wooden brackets  -  is the signature element of Chinese architecture, allowing wide roof overhangs without increasing column height. Mingqi (ceramic tomb models) provide detailed evidence of multi-story towers (que), courtyard houses (siheyuan), and watchtowers. Introduction of Buddhist architecture via the Silk Road.",
         tags: ["Han Dynasty", "dougong", "bracket set", "timber frame", "mingqi", "siheyuan"]
       },
       {
         date: "c. 500s CE onward",
         title: "Chinese Buddhist Pagoda: Songyue Temple Pagoda",
         location: "Henan, China",
-        summary: "The Songyue Temple Pagoda (523 CE) is China's oldest surviving pagoda — a 40m-tall, 12-sided brick tower with 15 tiers. The pagoda form derived from the Indian stupa, transformed through Chinese building traditions into a multi-story tower. The evolution from Indian hemispherical mound to Chinese vertical tower is one of the great cultural translations in architectural history. Timber pagodas (like the Fogong Temple pagoda, 1056, the oldest surviving timber pagoda) used the dougong system at monumental scale.",
+        summary: "The Songyue Temple Pagoda (523 CE) is China's oldest surviving pagoda  -  a 40m-tall, 12-sided brick tower with 15 tiers. The pagoda form derived from the Indian stupa, transformed through Chinese building traditions into a multi-story tower. The evolution from Indian hemispherical mound to Chinese vertical tower is one of the great cultural translations in architectural history. Timber pagodas (like the Fogong Temple pagoda, 1056, the oldest surviving timber pagoda) used the dougong system at monumental scale.",
         tags: ["pagoda", "Buddhist", "stupa transformation", "brick", "Songyue"]
       },
       {
         date: "c. 300 BCE–300 CE",
         title: "Izumo & Ise Grand Shrines (Origins)",
         location: "Japan",
-        summary: "Shinto shrine architecture developed from prehistoric raised granaries. The Ise Grand Shrine (Naiku, inner shrine) embodies the purest form: unpainted hinoki cypress, raised floor on pillars, thatched roof with chigi (forked finials) and katsuogi (horizontal ridge logs). Ritually rebuilt every 20 years (shikinen sengu) — the current structures perpetuate an ancient form through continuous renewal. The shinmei-zukuri style at Ise is the most austere and sacred of Shinto shrine types.",
+        summary: "Shinto shrine architecture developed from prehistoric raised granaries. The Ise Grand Shrine (Naiku, inner shrine) embodies the purest form: unpainted hinoki cypress, raised floor on pillars, thatched roof with chigi (forked finials) and katsuogi (horizontal ridge logs). Ritually rebuilt every 20 years (shikinen sengu)  -  the current structures perpetuate an ancient form through continuous renewal. The shinmei-zukuri style at Ise is the most austere and sacred of Shinto shrine types.",
         tags: ["Shinto", "Ise Grand Shrine", "shikinen sengu", "hinoki cypress", "shinmei-zukuri"]
       },
       {
         date: "c. 607 CE",
         title: "Hōryū-ji Temple Complex",
         location: "Nara, Japan",
-        summary: "The oldest surviving wooden buildings in the world. Built under Prince Shōtoku, the complex preserves 7th-century Chinese-influenced Buddhist architecture that no longer survives in China itself. The five-story pagoda and kondō (golden hall) stand in an asymmetrical arrangement within a cloister — a departure from the strict axiality of Chinese models. Entasis on the columns suggests possible transmission from Greek/Gandharan traditions via the Silk Road. The bracket system (kumimono) is a Japanese adaptation of the Chinese dougong.",
+        summary: "The oldest surviving wooden buildings in the world. Built under Prince Shōtoku, the complex preserves 7th-century Chinese-influenced Buddhist architecture that no longer survives in China itself. The five-story pagoda and kondō (golden hall) stand in an asymmetrical arrangement within a cloister  -  a departure from the strict axiality of Chinese models. Entasis on the columns suggests possible transmission from Greek/Gandharan traditions via the Silk Road. The bracket system (kumimono) is a Japanese adaptation of the Chinese dougong.",
         tags: ["Hōryū-ji", "oldest wood buildings", "Buddhist", "Nara", "Prince Shōtoku", "kumimono"]
       }
     ]
@@ -617,7 +629,7 @@ const DATA = [
         date: "c. 1500–400 BCE",
         title: "Olmec Ceremonial Centers: La Venta & San Lorenzo",
         location: "Gulf Coast, Mexico",
-        summary: "The Olmec — Mesoamerica's 'mother culture' — built the earliest large-scale ceremonial complexes. La Venta's Great Pyramid (c. 400 BCE) is a fluted conical earth mound ~30m tall, aligned on a north–south axis with platforms, plazas, and colossal stone heads (up to 3.4m tall, 50 tons). Basalt transported over 80 km. The axial ceremonial complex — plaza, pyramid, platform — established the template for all later Mesoamerican urbanism.",
+        summary: "The Olmec  -  Mesoamerica's 'mother culture'  -  built the earliest large-scale ceremonial complexes. La Venta's Great Pyramid (c. 400 BCE) is a fluted conical earth mound ~30m tall, aligned on a north–south axis with platforms, plazas, and colossal stone heads (up to 3.4m tall, 50 tons). Basalt transported over 80 km. The axial ceremonial complex  -  plaza, pyramid, platform  -  established the template for all later Mesoamerican urbanism.",
         tags: ["Olmec", "ceremonial center", "earth mound", "colossal heads", "La Venta"]
       },
       {
@@ -631,28 +643,28 @@ const DATA = [
         date: "c. 250–900 CE",
         title: "Classic Maya Architecture: Tikal & Palenque",
         location: "Guatemala & Mexico",
-        summary: "Maya temple-pyramids are steep-sided stone structures topped by elaborate roof combs (towering stone lattice-work extending above the temple roof for visibility and display). Tikal's Temple I (c. 732 CE) rises 47m. Palenque's Palace (a unique multi-courtyard complex with a four-story tower — possibly an astronomical observatory) and the Temple of the Inscriptions (tomb of K'inich Janaab Pakal, discovered 1952 with a carved sarcophagus deep inside the pyramid) demonstrate Maya sophistication. Maya used the corbelled vault exclusively — they never developed the true arch.",
+        summary: "Maya temple-pyramids are steep-sided stone structures topped by elaborate roof combs (towering stone lattice-work extending above the temple roof for visibility and display). Tikal's Temple I (c. 732 CE) rises 47m. Palenque's Palace (a unique multi-courtyard complex with a four-story tower  -  possibly an astronomical observatory) and the Temple of the Inscriptions (tomb of K'inich Janaab Pakal, discovered 1952 with a carved sarcophagus deep inside the pyramid) demonstrate Maya sophistication. Maya used the corbelled vault exclusively  -  they never developed the true arch.",
         tags: ["Maya", "temple-pyramid", "roof comb", "corbelled vault", "Tikal", "Palenque"]
       },
       {
         date: "c. 600–1000 CE",
         title: "Maya Puuc Style: Uxmal",
         location: "Yucatán, Mexico",
-        summary: "The Puuc style of the Terminal Classic Maya features smooth lower walls surmounted by elaborate mosaic stone façades with geometric frets, Chaac rain-god masks, and latticework patterns. The Pyramid of the Magician at Uxmal has an unusual rounded base (elliptical plan). The Governor's Palace (c. 900 CE) — 98m long with a mosaic frieze of ~20,000 individually carved stones — is often cited as one of the most beautiful buildings in the pre-Columbian Americas. The Nunnery Quadrangle creates a formal enclosed courtyard with four elaborately decorated buildings.",
+        summary: "The Puuc style of the Terminal Classic Maya features smooth lower walls surmounted by elaborate mosaic stone façades with geometric frets, Chaac rain-god masks, and latticework patterns. The Pyramid of the Magician at Uxmal has an unusual rounded base (elliptical plan). The Governor's Palace (c. 900 CE)  -  98m long with a mosaic frieze of ~20,000 individually carved stones  -  is often cited as one of the most beautiful buildings in the pre-Columbian Americas. The Nunnery Quadrangle creates a formal enclosed courtyard with four elaborately decorated buildings.",
         tags: ["Puuc style", "Uxmal", "mosaic façade", "Chaac mask", "Terminal Classic Maya"]
       },
       {
         date: "c. 1325–1521 CE",
         title: "Tenochtitlán & Aztec Templo Mayor",
         location: "Mexico City, Mexico",
-        summary: "The Aztec capital built on an island in Lake Texcoco, connected to the mainland by causeways. Population ~200,000–300,000 — larger than any contemporary European city. The Templo Mayor (Great Temple) was a twin-pyramid dedicated to Tlaloc (rain) and Huitzilopochtli (war/sun), rebuilt in seven successive enlargements (each encasing the previous). Excavated beginning 1978 beneath Mexico City. The city's grid of canals, chinampas (floating gardens), and ceremonial precincts represents one of history's great urban achievements.",
+        summary: "The Aztec capital built on an island in Lake Texcoco, connected to the mainland by causeways. Population ~200,000–300,000  -  larger than any contemporary European city. The Templo Mayor (Great Temple) was a twin-pyramid dedicated to Tlaloc (rain) and Huitzilopochtli (war/sun), rebuilt in seven successive enlargements (each encasing the previous). Excavated beginning 1978 beneath Mexico City. The city's grid of canals, chinampas (floating gardens), and ceremonial precincts represents one of history's great urban achievements.",
         tags: ["Aztec", "Templo Mayor", "twin pyramid", "Tenochtitlán", "chinampas", "island city"]
       },
       {
         date: "c. 1438–1533 CE",
         title: "Inca Architecture: Machu Picchu & Cusco",
         location: "Peru",
-        summary: "Inca masonry achieved extraordinary precision without mortar, metal tools, or the wheel. Ashlar blocks (some weighing 100+ tons) cut to fit so tightly that a knife blade cannot pass between them. Sacsayhuamán's zigzag walls use megalithic polygonal stones. Machu Picchu (c. 1450 CE) — a royal estate/sacred site at 2,430m elevation — integrates terraces, temples, and residences into the mountain topography with sophisticated drainage and agricultural engineering. The Intihuatana ('hitching post of the sun') served as an astronomical marker.",
+        summary: "Inca masonry achieved extraordinary precision without mortar, metal tools, or the wheel. Ashlar blocks (some weighing 100+ tons) cut to fit so tightly that a knife blade cannot pass between them. Sacsayhuamán's zigzag walls use megalithic polygonal stones. Machu Picchu (c. 1450 CE)  -  a royal estate/sacred site at 2,430m elevation  -  integrates terraces, temples, and residences into the mountain topography with sophisticated drainage and agricultural engineering. The Intihuatana ('hitching post of the sun') served as an astronomical marker.",
         tags: ["Inca", "ashlar masonry", "Machu Picchu", "Sacsayhuamán", "Cusco", "terracing"]
       }
     ]
@@ -670,7 +682,7 @@ const DATA = [
         date: "c. 600 BCE",
         title: "Development of the Doric Order",
         location: "Greece & Magna Graecia",
-        summary: "The Doric order — the oldest and most austere of the Greek orders — codified by the 6th century BCE. Fluted columns (usually 20 flutes) with no base, rise from the stylobate. Echinus-and-abacus capitals support the entablature with alternating triglyphs and metopes in the frieze. The triglyph may echo earlier timber construction (beam ends). Optical refinements like entasis (slight column swelling) and stylobate curvature corrected visual distortions.",
+        summary: "The Doric order  -  the oldest and most austere of the Greek orders  -  codified by the 6th century BCE. Fluted columns (usually 20 flutes) with no base, rise from the stylobate. Echinus-and-abacus capitals support the entablature with alternating triglyphs and metopes in the frieze. The triglyph may echo earlier timber construction (beam ends). Optical refinements like entasis (slight column swelling) and stylobate curvature corrected visual distortions.",
         tags: ["Doric order", "entasis", "triglyph", "metope", "optical refinement"]
       },
       {
@@ -684,28 +696,28 @@ const DATA = [
         date: "c. 460 BCE",
         title: "Temple of Zeus at Olympia",
         location: "Olympia, Greece",
-        summary: "Canonical early Classical Doric temple (6 × 13 columns). Housed Phidias's colossal chryselephantine (gold and ivory) statue of Zeus — one of the Seven Wonders. Pediment sculptures depict the chariot race of Pelops (east) and the battle of Lapiths and Centaurs (west). The metopes show the Twelve Labors of Heracles. Established the proportional system refined at the Parthenon.",
+        summary: "Canonical early Classical Doric temple (6 × 13 columns). Housed Phidias's colossal chryselephantine (gold and ivory) statue of Zeus  -  one of the Seven Wonders. Pediment sculptures depict the chariot race of Pelops (east) and the battle of Lapiths and Centaurs (west). The metopes show the Twelve Labors of Heracles. Established the proportional system refined at the Parthenon.",
         tags: ["Doric", "Classical", "Phidias", "chryselephantine", "Olympia"]
       },
       {
         date: "447–432 BCE",
         title: "The Parthenon",
         location: "Athenian Acropolis, Greece",
-        summary: "Architects Ictinus and Callicrates, with sculptural program by Phidias. The supreme achievement of the Doric order: 8 × 17 columns of Pentelic marble. Extensive optical refinements — the stylobate curves upward 6 cm in the center, columns lean inward, corner columns are thicker and more closely spaced (corner contraction). The continuous Ionic frieze within the peristyle (depicting the Panathenaic procession) is a Doric/Ionic hybrid innovation. 9:4 ratio governs proportions throughout.",
+        summary: "Architects Ictinus and Callicrates, with sculptural program by Phidias. The supreme achievement of the Doric order: 8 × 17 columns of Pentelic marble. Extensive optical refinements  -  the stylobate curves upward 6 cm in the center, columns lean inward, corner columns are thicker and more closely spaced (corner contraction). The continuous Ionic frieze within the peristyle (depicting the Panathenaic procession) is a Doric/Ionic hybrid innovation. 9:4 ratio governs proportions throughout.",
         tags: ["Doric", "Classical", "Ictinus", "Callicrates", "Phidias", "optical refinement", "Acropolis"]
       },
       {
         date: "437–432 BCE",
         title: "The Propylaea",
         location: "Athenian Acropolis, Greece",
-        summary: "Designed by Mnesicles as the monumental gateway to the Acropolis. Combines Doric exterior columns with taller Ionic columns inside to manage the steep grade change. Asymmetrical plan accommodated existing sacred sites — a pragmatic masterpiece. The first major secular building to use marble on the Acropolis. Included a picture gallery (pinakotheke) in the north wing.",
+        summary: "Designed by Mnesicles as the monumental gateway to the Acropolis. Combines Doric exterior columns with taller Ionic columns inside to manage the steep grade change. Asymmetrical plan accommodated existing sacred sites  -  a pragmatic masterpiece. The first major secular building to use marble on the Acropolis. Included a picture gallery (pinakotheke) in the north wing.",
         tags: ["Doric-Ionic hybrid", "Mnesicles", "gateway", "Acropolis"]
       },
       {
         date: "c. 421–406 BCE",
         title: "The Erechtheion",
         location: "Athenian Acropolis, Greece",
-        summary: "Ionic temple with a radically asymmetrical plan, accommodating multiple cults and sacred sites (including the marks of Poseidon's trident, Athena's sacred olive tree, and the tomb of Kekrops). The Porch of the Caryatids — six draped female figures serving as columns — is the most famous use of figural supports in architecture. Multi-level plan navigates a 3m grade change.",
+        summary: "Ionic temple with a radically asymmetrical plan, accommodating multiple cults and sacred sites (including the marks of Poseidon's trident, Athena's sacred olive tree, and the tomb of Kekrops). The Porch of the Caryatids  -  six draped female figures serving as columns  -  is the most famous use of figural supports in architecture. Multi-level plan navigates a 3m grade change.",
         tags: ["Ionic", "Caryatid", "asymmetrical plan", "Acropolis"]
       },
       {
@@ -719,21 +731,21 @@ const DATA = [
         date: "c. 356–323 BCE",
         title: "Tholos at Delphi & the Corinthian Order",
         location: "Delphi, Greece",
-        summary: "The Corinthian order — with its acanthus-leaf capital — emerged in the late 5th century but matured during the 4th century. The Tholos at Delphi (c. 380 BCE) features a circular plan with 20 exterior Doric columns and 10 interior Corinthian columns. The Monument of Lysicrates in Athens (334 BCE) is the earliest known exterior use of the Corinthian order. The column's all-directional visual appeal made it ideal for round buildings and interiors.",
+        summary: "The Corinthian order  -  with its acanthus-leaf capital  -  emerged in the late 5th century but matured during the 4th century. The Tholos at Delphi (c. 380 BCE) features a circular plan with 20 exterior Doric columns and 10 interior Corinthian columns. The Monument of Lysicrates in Athens (334 BCE) is the earliest known exterior use of the Corinthian order. The column's all-directional visual appeal made it ideal for round buildings and interiors.",
         tags: ["Corinthian order", "tholos", "acanthus capital", "Delphi", "Lysicrates"]
       },
       {
         date: "c. 300 BCE",
         title: "Theater at Epidaurus",
         location: "Epidaurus, Greece",
-        summary: "Designed by Polykleitos the Younger. Seats 14,000 in a near-perfect horseshoe (slightly beyond semicircle). Extraordinary acoustics — a coin dropped on the orchestra floor can be heard in the top row 60m away. 55 rows divided by a diazoma into lower (34 rows) and upper (21 rows) sections. Integrated into the hillside (typical of Greek theaters, unlike freestanding Roman ones). Part of the Sanctuary of Asklepios (healing center).",
+        summary: "Designed by Polykleitos the Younger. Seats 14,000 in a near-perfect horseshoe (slightly beyond semicircle). Extraordinary acoustics  -  a coin dropped on the orchestra floor can be heard in the top row 60m away. 55 rows divided by a diazoma into lower (34 rows) and upper (21 rows) sections. Integrated into the hillside (typical of Greek theaters, unlike freestanding Roman ones). Part of the Sanctuary of Asklepios (healing center).",
         tags: ["theater", "acoustics", "Polykleitos", "Epidaurus", "Hellenistic"]
       },
       {
         date: "c. 280 BCE",
         title: "Great Altar of Zeus at Pergamon",
         location: "Pergamon, Turkey",
-        summary: "Massive Hellenistic altar (36m × 34m) on a high podium with monumental staircase. The 120m-long Gigantomachy frieze (battle of gods and giants) wraps the base — the most dramatic and emotionally charged sculptural program of antiquity. Baroque dynamism, deep undercutting, and intense expressions anticipate Roman and later Baroque sensibilities. Now reconstructed in Berlin's Pergamon Museum.",
+        summary: "Massive Hellenistic altar (36m × 34m) on a high podium with monumental staircase. The 120m-long Gigantomachy frieze (battle of gods and giants) wraps the base  -  the most dramatic and emotionally charged sculptural program of antiquity. Baroque dynamism, deep undercutting, and intense expressions anticipate Roman and later Baroque sensibilities. Now reconstructed in Berlin's Pergamon Museum.",
         tags: ["Hellenistic", "altar", "Gigantomachy", "Pergamon", "Baroque quality"]
       }
     ]
@@ -751,14 +763,14 @@ const DATA = [
         date: "c. 2nd century BCE",
         title: "Roman Concrete Revolution",
         location: "Rome & the Roman world",
-        summary: "Opus caementicium — Roman concrete made from volcanic pozzolana, lime, and aggregate — revolutionized construction. Unlike stone trabeation (post-and-lintel), concrete enabled curved forms: vaults, domes, and apses. Freed architecture from the structural limitations of the Greek orders. The orders became decorative 'applied' elements rather than structural necessities. Combined with brick-faced concrete (opus testaceum), it allowed rapid, large-scale construction across the empire.",
+        summary: "Opus caementicium  -  Roman concrete made from volcanic pozzolana, lime, and aggregate  -  revolutionized construction. Unlike stone trabeation (post-and-lintel), concrete enabled curved forms: vaults, domes, and apses. Freed architecture from the structural limitations of the Greek orders. The orders became decorative 'applied' elements rather than structural necessities. Combined with brick-faced concrete (opus testaceum), it allowed rapid, large-scale construction across the empire.",
         tags: ["Roman concrete", "opus caementicium", "pozzolana", "vault", "structural innovation"]
       },
       {
         date: "c. 80 CE",
         title: "The Colosseum (Flavian Amphitheater)",
         location: "Rome, Italy",
-        summary: "Seats ~50,000 in an elliptical plan (188m × 156m). Four stories: Doric (ground), Ionic, Corinthian, and Corinthian pilaster attic — a Roman 'textbook' of the superimposed orders. 80 arched entrances allowed complete filling/emptying in ~15 minutes via a system of vomitoria. The velarium (retractable canvas awning operated by sailors) shaded spectators. Hypogeum below the arena floor housed staging machinery, animal cages, and elevators.",
+        summary: "Seats ~50,000 in an elliptical plan (188m × 156m). Four stories: Doric (ground), Ionic, Corinthian, and Corinthian pilaster attic  -  a Roman 'textbook' of the superimposed orders. 80 arched entrances allowed complete filling/emptying in ~15 minutes via a system of vomitoria. The velarium (retractable canvas awning operated by sailors) shaded spectators. Hypogeum below the arena floor housed staging machinery, animal cages, and elevators.",
         tags: ["amphitheater", "superimposed orders", "Flavian", "concrete", "vomitorium"]
       },
       {
@@ -772,42 +784,42 @@ const DATA = [
         date: "c. 298–306 CE",
         title: "Baths of Diocletian",
         location: "Rome, Italy",
-        summary: "The largest of Rome's imperial thermae, accommodating 3,000 bathers simultaneously. The complex included a frigidarium, tepidarium, caldarium, natatio (swimming pool), palaestra (exercise yard), libraries, and gardens — a complete leisure/social center. Cross-vaulted and groin-vaulted spaces created vast uninterrupted interiors. Michelangelo later converted the frigidarium into the church of Santa Maria degli Angeli, preserving the original Roman vaulting.",
+        summary: "The largest of Rome's imperial thermae, accommodating 3,000 bathers simultaneously. The complex included a frigidarium, tepidarium, caldarium, natatio (swimming pool), palaestra (exercise yard), libraries, and gardens  -  a complete leisure/social center. Cross-vaulted and groin-vaulted spaces created vast uninterrupted interiors. Michelangelo later converted the frigidarium into the church of Santa Maria degli Angeli, preserving the original Roman vaulting.",
         tags: ["thermae", "groin vault", "cross vault", "Diocletian", "public architecture"]
       },
       {
         date: "c. 113 CE",
         title: "Trajan's Forum & Markets",
         location: "Rome, Italy",
-        summary: "Designed by Apollodorus of Damascus — the last and grandest of the Imperial Fora. The complex included the Basilica Ulpia (largest basilica in Rome), twin libraries (Greek and Latin), Trajan's Column (38m spiral relief narrating the Dacian Wars in 155 scenes), and the revolutionary Markets of Trajan — a multi-level commercial complex (c. 150 shops) with a great hemicycle. The Markets used concrete vaulting to create flexible interior spaces, anticipating modern shopping malls.",
+        summary: "Designed by Apollodorus of Damascus  -  the last and grandest of the Imperial Fora. The complex included the Basilica Ulpia (largest basilica in Rome), twin libraries (Greek and Latin), Trajan's Column (38m spiral relief narrating the Dacian Wars in 155 scenes), and the revolutionary Markets of Trajan  -  a multi-level commercial complex (c. 150 shops) with a great hemicycle. The Markets used concrete vaulting to create flexible interior spaces, anticipating modern shopping malls.",
         tags: ["forum", "Apollodorus", "Trajan", "basilica", "markets", "column"]
       },
       {
         date: "c. 203 CE",
         title: "Arch of Septimius Severus & Roman Triumphal Arches",
         location: "Rome, Italy",
-        summary: "Triumphal arches are quintessentially Roman inventions — freestanding monumental gateways celebrating military victories. The Arch of Titus (81 CE) established the single-bay form and contains the famous relief of the spoils of Jerusalem. The Arch of Septimius Severus (triple bay) and Arch of Constantine (315 CE — which re-used spolia from earlier monuments) are key examples. These arches influenced Renaissance and later architecture (e.g., the Arc de Triomphe).",
+        summary: "Triumphal arches are quintessentially Roman inventions  -  freestanding monumental gateways celebrating military victories. The Arch of Titus (81 CE) established the single-bay form and contains the famous relief of the spoils of Jerusalem. The Arch of Septimius Severus (triple bay) and Arch of Constantine (315 CE  -  which re-used spolia from earlier monuments) are key examples. These arches influenced Renaissance and later architecture (e.g., the Arc de Triomphe).",
         tags: ["triumphal arch", "spolia", "relief sculpture", "commemoration"]
       },
       {
         date: "c. 72 BCE onward",
         title: "Roman Domestic Architecture: Domus & Insulae",
         location: "Pompeii, Herculaneum, Ostia",
-        summary: "The Roman domus (single-family house) organized around the atrium (with impluvium/compluvium for rainwater) and peristyle garden. Pompeii and Herculaneum (buried 79 CE) preserve complete examples with wall paintings in the Four Pompeian Styles. The insula (apartment block), best preserved at Ostia, housed the urban masses in multi-story concrete-framed buildings — ancient high-density housing with shops at ground level.",
+        summary: "The Roman domus (single-family house) organized around the atrium (with impluvium/compluvium for rainwater) and peristyle garden. Pompeii and Herculaneum (buried 79 CE) preserve complete examples with wall paintings in the Four Pompeian Styles. The insula (apartment block), best preserved at Ostia, housed the urban masses in multi-story concrete-framed buildings  -  ancient high-density housing with shops at ground level.",
         tags: ["domus", "insula", "atrium", "peristyle", "Pompeii", "Four Styles"]
       },
       {
         date: "c. 27 BCE–14 CE",
         title: "Augustan Rome: Transforming a City",
         location: "Rome, Italy",
-        summary: "Augustus famously claimed to have 'found Rome a city of brick and left it a city of marble.' The Forum of Augustus, Temple of Mars Ultor, and Ara Pacis (Altar of Peace, with its refined relief carvings) established a classicizing imperial style. The Maison Carrée at Nîmes (c. 16 BCE) — a perfectly preserved Corinthian pseudoperipteral temple — exemplifies Augustan provincial architecture.",
+        summary: "Augustus famously claimed to have 'found Rome a city of brick and left it a city of marble.' The Forum of Augustus, Temple of Mars Ultor, and Ara Pacis (Altar of Peace, with its refined relief carvings) established a classicizing imperial style. The Maison Carrée at Nîmes (c. 16 BCE)  -  a perfectly preserved Corinthian pseudoperipteral temple  -  exemplifies Augustan provincial architecture.",
         tags: ["Augustus", "Ara Pacis", "Maison Carrée", "imperial style", "marble"]
       },
       {
         date: "c. 100–300 CE",
         title: "Roman Provincial Architecture",
         location: "Empire-wide",
-        summary: "Roman engineering spread across three continents. The Pont du Gard aqueduct (Nîmes, c. 19 BCE) — three tiers of arches spanning 275m — carried water 50 km with a gradient of 34 cm/km. Baalbek's Temple of Jupiter (Lebanon) has the largest stone blocks ever used in construction (Trilithon: three 800-ton stones). Hadrian's Wall, Diocletian's Palace at Split, the library at Ephesus, and Timgad's planned colonial grid demonstrate the empire's architectural reach.",
+        summary: "Roman engineering spread across three continents. The Pont du Gard aqueduct (Nîmes, c. 19 BCE)  -  three tiers of arches spanning 275m  -  carried water 50 km with a gradient of 34 cm/km. Baalbek's Temple of Jupiter (Lebanon) has the largest stone blocks ever used in construction (Trilithon: three 800-ton stones). Hadrian's Wall, Diocletian's Palace at Split, the library at Ephesus, and Timgad's planned colonial grid demonstrate the empire's architectural reach.",
         tags: ["aqueduct", "Pont du Gard", "Baalbek", "provincial", "engineering"]
       }
     ]
@@ -832,28 +844,28 @@ const DATA = [
         date: "c. 350 CE",
         title: "Santa Costanza",
         location: "Rome, Italy",
-        summary: "Originally a mausoleum for Constantine's daughter. Centrally planned with a circular ambulatory surrounding the domed center. The dome rests on 12 pairs of granite columns. Barrel-vaulted ambulatory retains original 4th-century mosaics (grape harvest scenes — blending pagan and Christian imagery). Demonstrates the centralized plan tradition alongside the longitudinal basilica.",
+        summary: "Originally a mausoleum for Constantine's daughter. Centrally planned with a circular ambulatory surrounding the domed center. The dome rests on 12 pairs of granite columns. Barrel-vaulted ambulatory retains original 4th-century mosaics (grape harvest scenes  -  blending pagan and Christian imagery). Demonstrates the centralized plan tradition alongside the longitudinal basilica.",
         tags: ["central plan", "mausoleum", "ambulatory", "mosaic", "dome"]
       },
       {
         date: "c. 432–440 CE",
         title: "Santa Maria Maggiore",
         location: "Rome, Italy",
-        summary: "One of the four papal basilicas, preserving its original 5th-century nave with Ionic columns and mosaic cycle depicting Old Testament scenes. The triumphal arch mosaics are among the finest examples of early Christian art. The flat, richly coffered ceiling contrasts with the luminous mosaic program. Demonstrates the Early Christian emphasis on interior splendor over exterior display — a deliberate inversion of pagan temple priorities.",
+        summary: "One of the four papal basilicas, preserving its original 5th-century nave with Ionic columns and mosaic cycle depicting Old Testament scenes. The triumphal arch mosaics are among the finest examples of early Christian art. The flat, richly coffered ceiling contrasts with the luminous mosaic program. Demonstrates the Early Christian emphasis on interior splendor over exterior display  -  a deliberate inversion of pagan temple priorities.",
         tags: ["basilica", "mosaic", "Ionic columns", "papal basilica"]
       },
       {
         date: "c. 526–547 CE",
         title: "San Vitale, Ravenna",
         location: "Ravenna, Italy",
-        summary: "Octagonal centralized church that bridges Roman and Byzantine traditions. Double-shell construction: inner octagon of piers supports a lightweight dome of interlocking ceramic tubes; outer octagonal ambulatory with gallery above. Famous for its shimmering gold-ground mosaics of Emperor Justinian and Empress Theodora with their courts — political and religious propaganda asserting imperial authority. Direct inspiration for Charlemagne's Palatine Chapel at Aachen.",
+        summary: "Octagonal centralized church that bridges Roman and Byzantine traditions. Double-shell construction: inner octagon of piers supports a lightweight dome of interlocking ceramic tubes; outer octagonal ambulatory with gallery above. Famous for its shimmering gold-ground mosaics of Emperor Justinian and Empress Theodora with their courts  -  political and religious propaganda asserting imperial authority. Direct inspiration for Charlemagne's Palatine Chapel at Aachen.",
         tags: ["octagonal plan", "Byzantine", "mosaic", "Justinian", "Ravenna", "centralized"]
       },
       {
         date: "c. 493–526 CE",
         title: "Sant'Apollinare Nuovo & in Classe",
         location: "Ravenna, Italy",
-        summary: "Sant'Apollinare Nuovo preserves the most complete cycle of Early Christian/Byzantine mosaics in a basilican setting: processions of saints and martyrs along the nave walls. Sant'Apollinare in Classe (c. 535–549), set in Ravenna's ancient port, features the magnificent apse mosaic of the Transfiguration — abstracted into symbolic geometry with a jeweled cross replacing Christ's figure.",
+        summary: "Sant'Apollinare Nuovo preserves the most complete cycle of Early Christian/Byzantine mosaics in a basilican setting: processions of saints and martyrs along the nave walls. Sant'Apollinare in Classe (c. 535–549), set in Ravenna's ancient port, features the magnificent apse mosaic of the Transfiguration  -  abstracted into symbolic geometry with a jeweled cross replacing Christ's figure.",
         tags: ["basilica", "mosaic", "Ravenna", "nave decoration", "Ostrogothic"]
       }
     ]
@@ -871,21 +883,21 @@ const DATA = [
         date: "532–537 CE",
         title: "Hagia Sophia",
         location: "Constantinople (Istanbul), Turkey",
-        summary: "Designed by Anthemius of Tralles and Isidorus of Miletus for Emperor Justinian. The vast dome (31m diameter, 55m above floor) rests on pendentives — the revolutionary solution for placing a circular dome on a square base. Semi-domes on east and west expand the interior longitudinally. 40 windows at the dome's base create the illusion that it floats on a ring of light. Procopius wrote it seemed 'suspended from heaven by a golden chain.' Converted to mosque (1453), now a museum. The structural type — dome on pendentives — became the defining feature of Byzantine architecture.",
+        summary: "Designed by Anthemius of Tralles and Isidorus of Miletus for Emperor Justinian. The vast dome (31m diameter, 55m above floor) rests on pendentives  -  the revolutionary solution for placing a circular dome on a square base. Semi-domes on east and west expand the interior longitudinally. 40 windows at the dome's base create the illusion that it floats on a ring of light. Procopius wrote it seemed 'suspended from heaven by a golden chain.' Converted to mosque (1453), now a museum. The structural type  -  dome on pendentives  -  became the defining feature of Byzantine architecture.",
         tags: ["dome", "pendentive", "Justinian", "Anthemius", "Isidorus", "Constantinople"]
       },
       {
         date: "c. 527–565 CE",
         title: "Justinianic Building Program",
         location: "Byzantine Empire",
-        summary: "Justinian's reign saw an extraordinary campaign of construction. Besides Hagia Sophia, the Church of Saints Sergius and Bacchus (a 'Little Hagia Sophia' with octagonal dome) and the now-destroyed Church of the Holy Apostles (cruciform plan with five domes — model for St. Mark's Venice) were key commissions. Procopius's 'De Aedificiis' (On Buildings) documents the emperor's architectural ambitions as deliberate statecraft.",
+        summary: "Justinian's reign saw an extraordinary campaign of construction. Besides Hagia Sophia, the Church of Saints Sergius and Bacchus (a 'Little Hagia Sophia' with octagonal dome) and the now-destroyed Church of the Holy Apostles (cruciform plan with five domes  -  model for St. Mark's Venice) were key commissions. Procopius's 'De Aedificiis' (On Buildings) documents the emperor's architectural ambitions as deliberate statecraft.",
         tags: ["Justinian", "centralized plan", "domed basilica", "imperial patronage"]
       },
       {
         date: "c. 1063–1094",
         title: "St. Mark's Basilica",
         location: "Venice, Italy",
-        summary: "Modeled on Justinian's (now-destroyed) Church of the Holy Apostles in Constantinople. Greek cross plan with five domes on pendentives — one over each arm and one over the crossing. Progressively encrusted with marble, mosaics (8,000 sq m of gold-ground mosaic), and spolia (including the four bronze horses looted from Constantinople in 1204). Exemplifies Venice's unique position as a cultural bridge between East and West.",
+        summary: "Modeled on Justinian's (now-destroyed) Church of the Holy Apostles in Constantinople. Greek cross plan with five domes on pendentives  -  one over each arm and one over the crossing. Progressively encrusted with marble, mosaics (8,000 sq m of gold-ground mosaic), and spolia (including the four bronze horses looted from Constantinople in 1204). Exemplifies Venice's unique position as a cultural bridge between East and West.",
         tags: ["Greek cross", "five domes", "mosaic", "Venice", "Byzantine influence"]
       },
       {
@@ -910,7 +922,7 @@ const DATA = [
         date: "c. 691 CE",
         title: "Dome of the Rock",
         location: "Jerusalem",
-        summary: "One of the earliest major Islamic monuments, built by Caliph Abd al-Malik on the Temple Mount. An octagonal plan with a double ambulatory surrounding the sacred rock (from which Muhammad is said to have ascended to heaven). The gilded wooden dome (20m diameter) sits on a tall drum. Byzantine mosaics and Roman/Byzantine structural techniques serve an Islamic theological program — an assertion of Islam's place in the Abrahamic tradition. Not a mosque but a shrine (mashhad).",
+        summary: "One of the earliest major Islamic monuments, built by Caliph Abd al-Malik on the Temple Mount. An octagonal plan with a double ambulatory surrounding the sacred rock (from which Muhammad is said to have ascended to heaven). The gilded wooden dome (20m diameter) sits on a tall drum. Byzantine mosaics and Roman/Byzantine structural techniques serve an Islamic theological program  -  an assertion of Islam's place in the Abrahamic tradition. Not a mosque but a shrine (mashhad).",
         tags: ["Umayyad", "octagonal plan", "dome", "Jerusalem", "shrine"]
       },
       {
@@ -924,28 +936,28 @@ const DATA = [
         date: "c. 848–852 CE",
         title: "Great Mosque of Samarra",
         location: "Samarra, Iraq",
-        summary: "The largest mosque ever built at the time (240m × 156m). The Malwiya minaret — a 52m-tall spiral tower with an external helical ramp — is one of the most distinctive forms in Islamic architecture. The vast hypostyle prayer hall used brick piers (rather than columns). Built by Abbasid Caliph al-Mutawakkil during Samarra's brief period as the Abbasid capital. The spiral form may reference ancient Mesopotamian ziggurats.",
+        summary: "The largest mosque ever built at the time (240m × 156m). The Malwiya minaret  -  a 52m-tall spiral tower with an external helical ramp  -  is one of the most distinctive forms in Islamic architecture. The vast hypostyle prayer hall used brick piers (rather than columns). Built by Abbasid Caliph al-Mutawakkil during Samarra's brief period as the Abbasid capital. The spiral form may reference ancient Mesopotamian ziggurats.",
         tags: ["Abbasid", "Malwiya", "spiral minaret", "hypostyle", "Samarra"]
       },
       {
         date: "c. 785–987 CE",
         title: "Great Mosque of Córdoba (Mezquita)",
         location: "Córdoba, Spain",
-        summary: "The masterpiece of Umayyad architecture in al-Andalus, expanded over 200 years by successive rulers. The double-tiered arches (horseshoe arches atop columns, with semicircular arches above) — using alternating red brick and white stone voussoirs — create a mesmerizing forest of columns (856 columns in the final form). The maqsura of al-Hakam II features interlacing polylobed arches and a ribbed dome with an intricate geometric pattern. A cathedral was inserted into the center in the 16th century.",
+        summary: "The masterpiece of Umayyad architecture in al-Andalus, expanded over 200 years by successive rulers. The double-tiered arches (horseshoe arches atop columns, with semicircular arches above)  -  using alternating red brick and white stone voussoirs  -  create a mesmerizing forest of columns (856 columns in the final form). The maqsura of al-Hakam II features interlacing polylobed arches and a ribbed dome with an intricate geometric pattern. A cathedral was inserted into the center in the 16th century.",
         tags: ["Umayyad", "Córdoba", "horseshoe arch", "double arcade", "al-Andalus", "Mezquita"]
       },
       {
         date: "c. 1354–1391",
         title: "The Alhambra",
         location: "Granada, Spain",
-        summary: "The Nasrid palatial complex — the last great monument of Islamic Spain. The Court of the Lions features 124 slender marble columns supporting muqarnas (honeycomb/stalactite vaulting) — a cascade of miniature concave forms that dissolve the ceiling into a celestial canopy. The Court of the Myrtles reflects the palace in a long pool. Intricate stucco carvings, ceramic tile (zellij), and calligraphic inscriptions create a layered textile-like surface. Water, light, and geometry combine to evoke paradise (janna).",
+        summary: "The Nasrid palatial complex  -  the last great monument of Islamic Spain. The Court of the Lions features 124 slender marble columns supporting muqarnas (honeycomb/stalactite vaulting)  -  a cascade of miniature concave forms that dissolve the ceiling into a celestial canopy. The Court of the Myrtles reflects the palace in a long pool. Intricate stucco carvings, ceramic tile (zellij), and calligraphic inscriptions create a layered textile-like surface. Water, light, and geometry combine to evoke paradise (janna).",
         tags: ["Nasrid", "Alhambra", "muqarnas", "Court of the Lions", "zellij", "paradise garden"]
       },
       {
         date: "c. 1550–1557",
         title: "Süleymaniye Mosque",
         location: "Istanbul, Turkey",
-        summary: "Mimar Sinan's imperial masterwork for Sultan Süleyman the Magnificent. A vast complex (külliye) including mosque, madrasas, hospital, caravanserai, and baths. The mosque dome (26.5m diameter, 53m high) rests on pendentives with semi-domes on two sides — a clear dialogue with Hagia Sophia. Sinan used a more rational and unified structural system than the Byzantine prototype. Stained glass by Ibrahim the Drunkard. Sinan considered his later Selimiye Mosque at Edirne (1574) his masterpiece — a single 31.3m dome on an octagonal base creating a unified interior.",
+        summary: "Mimar Sinan's imperial masterwork for Sultan Süleyman the Magnificent. A vast complex (külliye) including mosque, madrasas, hospital, caravanserai, and baths. The mosque dome (26.5m diameter, 53m high) rests on pendentives with semi-domes on two sides  -  a clear dialogue with Hagia Sophia. Sinan used a more rational and unified structural system than the Byzantine prototype. Stained glass by Ibrahim the Drunkard. Sinan considered his later Selimiye Mosque at Edirne (1574) his masterpiece  -  a single 31.3m dome on an octagonal base creating a unified interior.",
         tags: ["Mimar Sinan", "Ottoman", "külliye", "Süleyman", "dome", "Hagia Sophia dialogue"]
       },
       {
@@ -984,21 +996,21 @@ const DATA = [
         date: "c. 1063–1118",
         title: "Cathedral Complex of Pisa",
         location: "Pisa, Italy",
-        summary: "The ensemble — cathedral, baptistery, campanile (Leaning Tower), and camposanto — demonstrates Italian Romanesque. The cathedral's five-aisled nave, transept, and apse create a Latin cross. Blind arcading with loggias (superimposed tiers of open galleries) across the marble façade became a signature Pisan/Tuscan Romanesque motif. The campanile's famous lean (begun 1173) results from inadequate foundations in soft clay.",
+        summary: "The ensemble  -  cathedral, baptistery, campanile (Leaning Tower), and camposanto  -  demonstrates Italian Romanesque. The cathedral's five-aisled nave, transept, and apse create a Latin cross. Blind arcading with loggias (superimposed tiers of open galleries) across the marble façade became a signature Pisan/Tuscan Romanesque motif. The campanile's famous lean (begun 1173) results from inadequate foundations in soft clay.",
         tags: ["Italian Romanesque", "blind arcade", "loggia", "Pisa", "campanile"]
       },
       {
         date: "c. 1080–1130",
         title: "Durham Cathedral",
         location: "Durham, England",
-        summary: "A pioneering building in the history of architecture: among the first to use pointed arches in the nave arcade (c. 1093) and ribbed groin vaults over the nave (c. 1130) — innovations that would become defining features of Gothic architecture. Massive compound piers with incised geometric patterns alternate with cylindrical columns. The ribbed vault allowed thinner walls and larger windows while maintaining structural integrity. Built as both church and Norman fortress.",
+        summary: "A pioneering building in the history of architecture: among the first to use pointed arches in the nave arcade (c. 1093) and ribbed groin vaults over the nave (c. 1130)  -  innovations that would become defining features of Gothic architecture. Massive compound piers with incised geometric patterns alternate with cylindrical columns. The ribbed vault allowed thinner walls and larger windows while maintaining structural integrity. Built as both church and Norman fortress.",
         tags: ["ribbed vault", "pointed arch", "Norman", "compound pier", "proto-Gothic"]
       },
       {
         date: "c. 1088–1130",
         title: "Cluny III",
         location: "Cluny, France",
-        summary: "The third church of the Cluniac order was the largest church in Christendom until the 16th-century rebuilding of St. Peter's. Five aisles, double transepts, an ambulatory with radiating chapels — accommodating the monastery's elaborate liturgy. Pointed barrel vault over the nave reached 30m. Largely demolished after the French Revolution; only the south transept survives. Its influence on pilgrimage church design was immense.",
+        summary: "The third church of the Cluniac order was the largest church in Christendom until the 16th-century rebuilding of St. Peter's. Five aisles, double transepts, an ambulatory with radiating chapels  -  accommodating the monastery's elaborate liturgy. Pointed barrel vault over the nave reached 30m. Largely demolished after the French Revolution; only the south transept survives. Its influence on pilgrimage church design was immense.",
         tags: ["Cluniac", "pilgrimage church", "barrel vault", "ambulatory", "radiating chapels"]
       },
       {
@@ -1030,35 +1042,35 @@ const DATA = [
         date: "1140–1144",
         title: "Abbey Church of Saint-Denis",
         location: "Saint-Denis (Paris), France",
-        summary: "Abbot Suger's rebuilt choir is considered the birthplace of Gothic architecture. The ambulatory with radiating chapels was rebuilt using ribbed groin vaults, pointed arches, and thin walls of stained glass — creating a luminous, unified space replacing the compartmentalized Romanesque. Suger's theology of divine light (influenced by Pseudo-Dionysius) provided the intellectual framework: the church as an image of the Heavenly Jerusalem suffused with sacred light.",
+        summary: "Abbot Suger's rebuilt choir is considered the birthplace of Gothic architecture. The ambulatory with radiating chapels was rebuilt using ribbed groin vaults, pointed arches, and thin walls of stained glass  -  creating a luminous, unified space replacing the compartmentalized Romanesque. Suger's theology of divine light (influenced by Pseudo-Dionysius) provided the intellectual framework: the church as an image of the Heavenly Jerusalem suffused with sacred light.",
         tags: ["Abbot Suger", "ribbed vault", "pointed arch", "stained glass", "lux nova", "ambulatory"]
       },
       {
         date: "1163–c. 1260",
         title: "Notre-Dame de Paris",
         location: "Paris, France",
-        summary: "Early Gothic cathedral demonstrating the evolution of the system. Original four-story elevation (arcade, tribune, oculi, clerestory) was later modified. The flying buttress — possibly first used here — externalized the thrust of the vaults, allowing the walls to be opened up with ever-larger windows. The twin-tower west façade established the standard frontispiece for French Gothic. Sexpartite ribbed vaults over the nave. Badly damaged by fire in 2019, restoration ongoing.",
+        summary: "Early Gothic cathedral demonstrating the evolution of the system. Original four-story elevation (arcade, tribune, oculi, clerestory) was later modified. The flying buttress  -  possibly first used here  -  externalized the thrust of the vaults, allowing the walls to be opened up with ever-larger windows. The twin-tower west façade established the standard frontispiece for French Gothic. Sexpartite ribbed vaults over the nave. Badly damaged by fire in 2019, restoration ongoing.",
         tags: ["Early Gothic", "flying buttress", "sexpartite vault", "rose window", "Paris"]
       },
       {
         date: "1194–c. 1220",
         title: "Chartres Cathedral",
         location: "Chartres, France",
-        summary: "The 'classic' High Gothic statement. After a fire in 1194, rebuilt with a revolutionary three-story elevation (arcade, triforium, clerestory) replacing the four-story system — the triforium replaced the tribune gallery because flying buttresses now handled lateral thrust externally. Quadripartite ribbed vaults on a rectangular bay. 176 stained glass windows (mostly original) covering 2,600 sq m create an otherworldly interior light. The Royal Portal sculpture program (west façade, c. 1145) influenced Gothic sculpture across Europe.",
+        summary: "The 'classic' High Gothic statement. After a fire in 1194, rebuilt with a revolutionary three-story elevation (arcade, triforium, clerestory) replacing the four-story system  -  the triforium replaced the tribune gallery because flying buttresses now handled lateral thrust externally. Quadripartite ribbed vaults on a rectangular bay. 176 stained glass windows (mostly original) covering 2,600 sq m create an otherworldly interior light. The Royal Portal sculpture program (west façade, c. 1145) influenced Gothic sculpture across Europe.",
         tags: ["High Gothic", "three-story elevation", "quadripartite vault", "stained glass", "flying buttress"]
       },
       {
         date: "1220–c. 1270",
         title: "Amiens Cathedral",
         location: "Amiens, France",
-        summary: "The tallest complete Gothic cathedral in France: nave vault reaches 42.3m. The bar tracery of the windows (replacing plate tracery) allowed more complex, delicate window designs. The west façade is a sculptural encyclopedia: the 'Beau Dieu' trumeau figure of Christ and extensive portal programs. Interior volume is immense — the entire nave of Notre-Dame de Paris could fit inside. Represents the apogee of High Gothic structural ambition.",
+        summary: "The tallest complete Gothic cathedral in France: nave vault reaches 42.3m. The bar tracery of the windows (replacing plate tracery) allowed more complex, delicate window designs. The west façade is a sculptural encyclopedia: the 'Beau Dieu' trumeau figure of Christ and extensive portal programs. Interior volume is immense  -  the entire nave of Notre-Dame de Paris could fit inside. Represents the apogee of High Gothic structural ambition.",
         tags: ["High Gothic", "bar tracery", "Beau Dieu", "height record", "portal sculpture"]
       },
       {
         date: "1241–1248",
         title: "Sainte-Chapelle",
         location: "Paris, France",
-        summary: "Built by Louis IX to house the Crown of Thorns (purchased for more than the chapel's construction cost). The upper chapel is essentially a glass cage — walls are almost entirely dissolved into 15 soaring stained glass windows (15m tall), separated only by slender mullions and buttress piers. The Rayonnant Gothic style carried to its logical extreme: architecture reduced to the minimal structural skeleton required to support glass.",
+        summary: "Built by Louis IX to house the Crown of Thorns (purchased for more than the chapel's construction cost). The upper chapel is essentially a glass cage  -  walls are almost entirely dissolved into 15 soaring stained glass windows (15m tall), separated only by slender mullions and buttress piers. The Rayonnant Gothic style carried to its logical extreme: architecture reduced to the minimal structural skeleton required to support glass.",
         tags: ["Rayonnant", "stained glass", "Louis IX", "court chapel", "reliquary"]
       },
       {
@@ -1086,7 +1098,7 @@ const DATA = [
         date: "1386–1965",
         title: "Milan Cathedral (Duomo di Milano)",
         location: "Milan, Italy",
-        summary: "The largest Gothic cathedral in Italy and second largest in the world by volume. A contentious collaboration between Italian and northern European (French/German) builders — the famous 'ars sine scientia nihil est' debate over whether design should follow geometric (ad triangulum/ad quadratum) or structural principles. Flamboyant Gothic exterior with 3,400 statues. Took nearly 600 years to complete.",
+        summary: "The largest Gothic cathedral in Italy and second largest in the world by volume. A contentious collaboration between Italian and northern European (French/German) builders  -  the famous 'ars sine scientia nihil est' debate over whether design should follow geometric (ad triangulum/ad quadratum) or structural principles. Flamboyant Gothic exterior with 3,400 statues. Took nearly 600 years to complete.",
         tags: ["Italian Gothic", "Flamboyant", "ars sine scientia", "ad triangulum"]
       }
     ]
@@ -1111,7 +1123,7 @@ const DATA = [
         date: "1421–1440s",
         title: "Ospedale degli Innocenti",
         location: "Florence, Italy",
-        summary: "Brunelleschi's foundling hospital loggia — often cited as the first Renaissance building. A graceful arcade of Corinthian columns supporting round arches with pendentive-supported domes in the loggia bays. Modular proportional system based on the cube. Pietra serena (grey sandstone) articulates the structural geometry against white plaster walls — establishing the Brunelleschian vocabulary of clarity and mathematical order.",
+        summary: "Brunelleschi's foundling hospital loggia  -  often cited as the first Renaissance building. A graceful arcade of Corinthian columns supporting round arches with pendentive-supported domes in the loggia bays. Modular proportional system based on the cube. Pietra serena (grey sandstone) articulates the structural geometry against white plaster walls  -  establishing the Brunelleschian vocabulary of clarity and mathematical order.",
         tags: ["Brunelleschi", "loggia", "modular proportion", "pietra serena", "Corinthian"]
       },
       {
@@ -1132,14 +1144,14 @@ const DATA = [
         date: "1446–1470",
         title: "Palazzo Rucellai",
         location: "Florence, Italy",
-        summary: "Leon Battista Alberti's façade applies superimposed classical pilasters (Doric, Ionic, Corinthian) to the flat palazzo front — treating the building surface as a classical composition. Flat rustication unified by the pilaster grid. Alberti, a humanist theorist, wrote De re aedificatoria (1452), the first architectural treatise since Vitruvius, arguing that beauty arises from rational proportional harmony (concinnitas). He rarely supervised construction, working instead through other builders.",
+        summary: "Leon Battista Alberti's façade applies superimposed classical pilasters (Doric, Ionic, Corinthian) to the flat palazzo front  -  treating the building surface as a classical composition. Flat rustication unified by the pilaster grid. Alberti, a humanist theorist, wrote De re aedificatoria (1452), the first architectural treatise since Vitruvius, arguing that beauty arises from rational proportional harmony (concinnitas). He rarely supervised construction, working instead through other builders.",
         tags: ["Alberti", "superimposed orders", "pilaster", "De re aedificatoria", "humanist theory"]
       },
       {
         date: "1470–1476",
         title: "Sant'Andrea, Mantua",
         location: "Mantua, Italy",
-        summary: "Alberti's masterwork, completed after his death. The façade combines a temple front (giant-order pilasters supporting a pediment) with a triumphal arch motif — a synthesis that deeply influenced later architects, especially Palladio. The single barrel-vaulted nave (the widest since antiquity at the time) with side chapels replaced the traditional columnar basilica. This plan — nave with lateral chapels — was adopted by the Jesuits for Il Gesù a century later and became standard for Counter-Reformation churches.",
+        summary: "Alberti's masterwork, completed after his death. The façade combines a temple front (giant-order pilasters supporting a pediment) with a triumphal arch motif  -  a synthesis that deeply influenced later architects, especially Palladio. The single barrel-vaulted nave (the widest since antiquity at the time) with side chapels replaced the traditional columnar basilica. This plan  -  nave with lateral chapels  -  was adopted by the Jesuits for Il Gesù a century later and became standard for Counter-Reformation churches.",
         tags: ["Alberti", "temple front", "triumphal arch motif", "barrel vault", "giant order"]
       },
       {
@@ -1153,7 +1165,7 @@ const DATA = [
         date: "1502–1510",
         title: "Tempietto di San Pietro in Montorio",
         location: "Rome, Italy",
-        summary: "Donato Bramante's small circular temple marks the supposed site of St. Peter's crucifixion. A perfect Doric peristyle (16 columns) surrounds a cylindrical cella capped by a hemispherical dome — a direct evocation of ancient Roman circular temples (Temple of Vesta). Often considered the most 'perfect' High Renaissance building: complete unity of plan, elevation, and symbolic meaning. Bramante intended a circular courtyard around it (never built) that would have amplified the concentric geometry.",
+        summary: "Donato Bramante's small circular temple marks the supposed site of St. Peter's crucifixion. A perfect Doric peristyle (16 columns) surrounds a cylindrical cella capped by a hemispherical dome  -  a direct evocation of ancient Roman circular temples (Temple of Vesta). Often considered the most 'perfect' High Renaissance building: complete unity of plan, elevation, and symbolic meaning. Bramante intended a circular courtyard around it (never built) that would have amplified the concentric geometry.",
         tags: ["Bramante", "Doric", "tholos", "centralized plan", "High Renaissance"]
       },
       {
@@ -1167,7 +1179,7 @@ const DATA = [
         date: "c. 1510–1520",
         title: "Raphael's Architecture & the Vatican",
         location: "Rome, Italy",
-        summary: "Raphael served as architect of St. Peter's after Bramante's death and oversaw construction of several palazzi and villas. His Palazzo Branconio dell'Aquila (destroyed) innovated with its richly plastic façade. The Chigi Chapel in Santa Maria del Popolo unifies architecture, painting, sculpture, and mosaic. Raphael's School of Athens fresco (1509–1511) depicts an idealized barrel-vaulted classical architecture that influenced real buildings — art shaping architecture.",
+        summary: "Raphael served as architect of St. Peter's after Bramante's death and oversaw construction of several palazzi and villas. His Palazzo Branconio dell'Aquila (destroyed) innovated with its richly plastic façade. The Chigi Chapel in Santa Maria del Popolo unifies architecture, painting, sculpture, and mosaic. Raphael's School of Athens fresco (1509–1511) depicts an idealized barrel-vaulted classical architecture that influenced real buildings  -  art shaping architecture.",
         tags: ["Raphael", "Vatican", "Chigi Chapel", "High Renaissance", "integration of arts"]
       }
     ]
@@ -1185,14 +1197,14 @@ const DATA = [
         date: "c. 1519–1547",
         title: "Château de Chambord",
         location: "Loire Valley, France",
-        summary: "The largest and most ambitious of the Loire châteaux, built for Francis I. A medieval-style castle plan (central keep with round corner towers) dressed in Italian Renaissance detail. The famous double-helix staircase (possibly influenced by Leonardo da Vinci, who lived nearby) allows two people to ascend and descend without meeting. The roofscape — an exuberant forest of chimneys, dormers, turrets, and lanterns — is uniquely French. Represents the transitional moment when French Gothic meets Italian Renaissance.",
+        summary: "The largest and most ambitious of the Loire châteaux, built for Francis I. A medieval-style castle plan (central keep with round corner towers) dressed in Italian Renaissance detail. The famous double-helix staircase (possibly influenced by Leonardo da Vinci, who lived nearby) allows two people to ascend and descend without meeting. The roofscape  -  an exuberant forest of chimneys, dormers, turrets, and lanterns  -  is uniquely French. Represents the transitional moment when French Gothic meets Italian Renaissance.",
         tags: ["French Renaissance", "Francis I", "double-helix stair", "Loire Valley", "château"]
       },
       {
         date: "c. 1546–1578",
         title: "Lescot Wing of the Louvre",
         location: "Paris, France",
-        summary: "Pierre Lescot's west wing of the Cour Carrée introduced a fully classical vocabulary to French architecture. Superimposed orders (Corinthian over Composite), sculpted panels by Jean Goujon, and a steep French roof (mansard precursor) created a distinctly French classical idiom. The pavilion system — projecting central and corner bays articulating the long façade — became the organizing principle of French palatial architecture through Versailles and beyond.",
+        summary: "Pierre Lescot's west wing of the Cour Carrée introduced a fully classical vocabulary to French architecture. Superimposed orders (Corinthian over Composite), sculpted panels by Jean Goujon, and a steep French roof (mansard precursor) created a distinctly French classical idiom. The pavilion system  -  projecting central and corner bays articulating the long façade  -  became the organizing principle of French palatial architecture through Versailles and beyond.",
         tags: ["Pierre Lescot", "French classicism", "Louvre", "pavilion system", "Jean Goujon"]
       },
       {
@@ -1206,14 +1218,14 @@ const DATA = [
         date: "c. 1550–1616",
         title: "Elizabethan & Jacobean Country Houses",
         location: "England",
-        summary: "English Renaissance architecture arrived late and blended Flemish, French, and Italian influences with native traditions. The 'prodigy houses' — Longleat (1568–1580, Robert Smythson), Hardwick Hall (1590–1597, 'more glass than wall'), and Wollaton Hall (1580–1588) — demonstrate the English approach: symmetrical plans, vast window walls, classical ornament applied to essentially medieval structures. Inigo Jones (Queen's House, Greenwich, 1616–1635) later brought pure Palladianism to England.",
+        summary: "English Renaissance architecture arrived late and blended Flemish, French, and Italian influences with native traditions. The 'prodigy houses'  -  Longleat (1568–1580, Robert Smythson), Hardwick Hall (1590–1597, 'more glass than wall'), and Wollaton Hall (1580–1588)  -  demonstrate the English approach: symmetrical plans, vast window walls, classical ornament applied to essentially medieval structures. Inigo Jones (Queen's House, Greenwich, 1616–1635) later brought pure Palladianism to England.",
         tags: ["Elizabethan", "prodigy house", "Smythson", "Hardwick Hall", "Inigo Jones", "Palladianism"]
       },
       {
         date: "c. 1500–1620",
         title: "Northern European Renaissance: Antwerp, Amsterdam, Prague",
         location: "Low Countries, Central Europe",
-        summary: "The Northern Renaissance in architecture combined Italian classical forms with local traditions — strapwork ornament (derived from Flemish pattern books by Vredeman de Vries), stepped gables, and elaborate guild facades. Antwerp's Stadhuis (City Hall, 1561–1565, Cornelis Floris) introduced Italian classicism to the Low Countries. In Prague, the Belvedere (1538–1563) is one of the purest Italian Renaissance buildings north of the Alps. Augsburg's Rathaus (Elias Holl, 1615–1620) represents the culmination of German Renaissance civic architecture.",
+        summary: "The Northern Renaissance in architecture combined Italian classical forms with local traditions  -  strapwork ornament (derived from Flemish pattern books by Vredeman de Vries), stepped gables, and elaborate guild facades. Antwerp's Stadhuis (City Hall, 1561–1565, Cornelis Floris) introduced Italian classicism to the Low Countries. In Prague, the Belvedere (1538–1563) is one of the purest Italian Renaissance buildings north of the Alps. Augsburg's Rathaus (Elias Holl, 1615–1620) represents the culmination of German Renaissance civic architecture.",
         tags: ["Northern Renaissance", "strapwork", "Antwerp", "guild halls", "Vredeman de Vries"]
       }
     ]
@@ -1231,56 +1243,56 @@ const DATA = [
         date: "1519–1534",
         title: "Laurentian Library (Biblioteca Medicea Laurenziana)",
         location: "Florence, Italy",
-        summary: "Michelangelo's ricetto (vestibule) is a manifesto of Mannerism. Paired columns are recessed into the wall rather than projecting — inverting their structural logic. Blind windows (tabernacles) below the columns serve no function. Volute brackets taper downward (the reverse of structural expectation). The monumental staircase pours out like a flow of lava. Classical vocabulary is used against its own rules to create tension, claustrophobia, and dynamic energy. The reading room, by contrast, is calm and ordered.",
+        summary: "Michelangelo's ricetto (vestibule) is a manifesto of Mannerism. Paired columns are recessed into the wall rather than projecting  -  inverting their structural logic. Blind windows (tabernacles) below the columns serve no function. Volute brackets taper downward (the reverse of structural expectation). The monumental staircase pours out like a flow of lava. Classical vocabulary is used against its own rules to create tension, claustrophobia, and dynamic energy. The reading room, by contrast, is calm and ordered.",
         tags: ["Michelangelo", "Mannerist", "ricetto", "inverted logic", "paired columns"]
       },
       {
         date: "1524–1534",
         title: "Palazzo del Tè",
         location: "Mantua, Italy",
-        summary: "Giulio Romano's suburban villa for Federico II Gonzaga is the playful, provocative counterpart to Michelangelo's intense Mannerism. The courtyard façade features rusticated columns, deliberately dropped triglyphs (slipping keystones), and a loggia that mixes rough and smooth surfaces. The Sala dei Giganti (Room of the Giants) — a painted room where ceiling, walls, and even the fireplace dissolve into a cataclysmic scene of the fall of the giants — obliterates the boundary between architecture and painting.",
+        summary: "Giulio Romano's suburban villa for Federico II Gonzaga is the playful, provocative counterpart to Michelangelo's intense Mannerism. The courtyard façade features rusticated columns, deliberately dropped triglyphs (slipping keystones), and a loggia that mixes rough and smooth surfaces. The Sala dei Giganti (Room of the Giants)  -  a painted room where ceiling, walls, and even the fireplace dissolve into a cataclysmic scene of the fall of the giants  -  obliterates the boundary between architecture and painting.",
         tags: ["Giulio Romano", "Mannerist", "rustication", "dropped triglyph", "Sala dei Giganti"]
       },
       {
         date: "1546–1564",
         title: "Michelangelo's Capitoline Hill (Campidoglio)",
         location: "Rome, Italy",
-        summary: "Michelangelo redesigned the civic center of Rome. The trapezoidal piazza, flanked by the Palazzo dei Conservatori and Palazzo Nuovo (matching façades with giant-order Corinthian pilasters), focuses on the Palazzo dei Senatori and an oval pavement with the equestrian statue of Marcus Aurelius at center. The giant order — colossal pilasters spanning two stories — was Michelangelo's invention and became fundamental to Baroque and later architecture. The piazza is oriented away from the Forum (pagan past) toward St. Peter's (Christian future).",
+        summary: "Michelangelo redesigned the civic center of Rome. The trapezoidal piazza, flanked by the Palazzo dei Conservatori and Palazzo Nuovo (matching façades with giant-order Corinthian pilasters), focuses on the Palazzo dei Senatori and an oval pavement with the equestrian statue of Marcus Aurelius at center. The giant order  -  colossal pilasters spanning two stories  -  was Michelangelo's invention and became fundamental to Baroque and later architecture. The piazza is oriented away from the Forum (pagan past) toward St. Peter's (Christian future).",
         tags: ["Michelangelo", "giant order", "Campidoglio", "trapezoidal piazza", "civic design"]
       },
       {
         date: "1550–1551",
         title: "Villa Giulia",
         location: "Rome, Italy",
-        summary: "Built for Pope Julius III by Vignola (with contributions from Ammannati and Vasari). A sequence of surprising spatial experiences: the entrance façade is severe and classical, but behind it unfolds a layered progression of courtyard → loggia → sunken nymphaeum → garden — each space dropping to a lower level. The visitor is drawn inward and downward in a cinematic sequence of reveals. The nymphaeum's caryatids and grotesque ornament heighten the Mannerist sensibility.",
+        summary: "Built for Pope Julius III by Vignola (with contributions from Ammannati and Vasari). A sequence of surprising spatial experiences: the entrance façade is severe and classical, but behind it unfolds a layered progression of courtyard → loggia → sunken nymphaeum → garden  -  each space dropping to a lower level. The visitor is drawn inward and downward in a cinematic sequence of reveals. The nymphaeum's caryatids and grotesque ornament heighten the Mannerist sensibility.",
         tags: ["Vignola", "nymphaeum", "spatial sequence", "Mannerist", "villa"]
       },
       {
         date: "1568–1584",
         title: "Il Gesù",
         location: "Rome, Italy",
-        summary: "Designed by Vignola (plan) with façade by Giacomo della Porta. The mother church of the Jesuit order established the model for Counter-Reformation church design: wide, barrel-vaulted nave with interconnected side chapels (for preaching to large congregations), short transept, and prominent dome over the crossing. Della Porta's façade — with its scroll buttresses (volutes) connecting upper and lower stories — was the most influential church front of the next two centuries. The plan derives from Alberti's Sant'Andrea.",
+        summary: "Designed by Vignola (plan) with façade by Giacomo della Porta. The mother church of the Jesuit order established the model for Counter-Reformation church design: wide, barrel-vaulted nave with interconnected side chapels (for preaching to large congregations), short transept, and prominent dome over the crossing. Della Porta's façade  -  with its scroll buttresses (volutes) connecting upper and lower stories  -  was the most influential church front of the next two centuries. The plan derives from Alberti's Sant'Andrea.",
         tags: ["Vignola", "Giacomo della Porta", "Jesuit", "Counter-Reformation", "scroll buttress"]
       },
       {
         date: "1549–1580",
         title: "Palladian Villas & the Basilica Palladiana",
         location: "Veneto, Italy",
-        summary: "Andrea Palladio synthesized classical Roman architecture, Vitruvian theory, and Venetian villa tradition. The Villa Rotonda (c. 1567–1592): a perfect square plan with four identical temple-front porticos and a central dome — architecture as pure geometry. The Basilica Palladiana in Vicenza wraps existing Gothic structures with a two-story loggia using the 'Palladian motif' (serliana): arch flanked by flat-headed openings. His Quattro Libri dell'Architettura (1570) — with precise measured drawings — became the most influential architectural treatise in history, shaping Neoclassicism, English Palladianism, and American architecture (Jefferson's Monticello).",
+        summary: "Andrea Palladio synthesized classical Roman architecture, Vitruvian theory, and Venetian villa tradition. The Villa Rotonda (c. 1567–1592): a perfect square plan with four identical temple-front porticos and a central dome  -  architecture as pure geometry. The Basilica Palladiana in Vicenza wraps existing Gothic structures with a two-story loggia using the 'Palladian motif' (serliana): arch flanked by flat-headed openings. His Quattro Libri dell'Architettura (1570)  -  with precise measured drawings  -  became the most influential architectural treatise in history, shaping Neoclassicism, English Palladianism, and American architecture (Jefferson's Monticello).",
         tags: ["Palladio", "Villa Rotonda", "serliana", "Quattro Libri", "temple front", "Vicenza"]
       },
       {
         date: "1560–1580",
         title: "San Giorgio Maggiore & Il Redentore",
         location: "Venice, Italy",
-        summary: "Palladio's Venetian churches solved the problem of applying a classical temple front to a basilican section (wide nave + lower aisles). His solution: interlocking temple fronts — a tall central one for the nave and lower half-pediments for the aisles. San Giorgio Maggiore (begun 1566) commands the view from the Piazzetta. Il Redentore (1577–1592), built as a thanksgiving for the end of plague, features a serene white interior where the sequence of spaces — nave, monks' choir behind a screen of columns, and chancel — creates a telescoping perspective effect.",
+        summary: "Palladio's Venetian churches solved the problem of applying a classical temple front to a basilican section (wide nave + lower aisles). His solution: interlocking temple fronts  -  a tall central one for the nave and lower half-pediments for the aisles. San Giorgio Maggiore (begun 1566) commands the view from the Piazzetta. Il Redentore (1577–1592), built as a thanksgiving for the end of plague, features a serene white interior where the sequence of spaces  -  nave, monks' choir behind a screen of columns, and chancel  -  creates a telescoping perspective effect.",
         tags: ["Palladio", "interlocking temple fronts", "Venice", "Il Redentore", "San Giorgio"]
       },
       {
         date: "1559–1584",
         title: "Uffizi, Florence",
         location: "Florence, Italy",
-        summary: "Giorgio Vasari's administrative offices for Cosimo I de' Medici create a long, narrow piazza-corridor between two matching wings that terminates in a loggia framing a view of the Arno. The compressed perspective and U-shaped plan create a dramatic urban space — essentially an outdoor room. Vasari, also the author of Lives of the Artists (the foundational text of art history), understood architecture as scenography. The building now houses one of the world's great art museums.",
+        summary: "Giorgio Vasari's administrative offices for Cosimo I de' Medici create a long, narrow piazza-corridor between two matching wings that terminates in a loggia framing a view of the Arno. The compressed perspective and U-shaped plan create a dramatic urban space  -  essentially an outdoor room. Vasari, also the author of Lives of the Artists (the foundational text of art history), understood architecture as scenography. The building now houses one of the world's great art museums.",
         tags: ["Vasari", "Uffizi", "urban space", "scenography", "Cosimo I"]
       }
     ]
@@ -1297,6 +1309,58 @@ const entryCount = document.getElementById('entry-count');
 
 let allEntries = [];
 let activeEra = null;
+
+const WIKI_CACHE = new Map();
+function loadWikipediaThumb(title, imgEl) {
+  if (!imgEl) return;
+  const key = title.toLowerCase();
+  if (WIKI_CACHE.has(key)) {
+    const src = WIKI_CACHE.get(key);
+    if (src) imgEl.src = src;
+    else imgEl.classList.add('hidden');
+    return;
+  }
+
+  const candidates = [
+    title,
+    `${title} (building)`,
+    `${title} (architecture)`,
+    `${title} (temple)`,
+    `${title} (church)`,
+    `${title} (Rome)`,
+  ];
+
+  const tryFetch = async (idx) => {
+    if (idx >= candidates.length) {
+      WIKI_CACHE.set(key, null);
+      imgEl.classList.add('hidden');
+      return;
+    }
+    const t = candidates[idx].replace(/\s+/g, ' ').trim();
+    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t)}`;
+
+    try {
+      const res = await fetch(url, { headers: { 'accept': 'application/json' } });
+      if (!res.ok) return tryFetch(idx + 1);
+
+      const data = await res.json();
+      const thumb = (data && data.thumbnail && data.thumbnail.source) ||
+                    (data && data.originalimage && data.originalimage.source) ||
+                    null;
+
+      if (thumb) {
+        WIKI_CACHE.set(key, thumb);
+        imgEl.src = thumb;
+      } else {
+        return tryFetch(idx + 1);
+      }
+    } catch (e) {
+      return tryFetch(idx + 1);
+    }
+  };
+
+  tryFetch(0);
+}
 
 // Build nav and timeline
 DATA.forEach((eraData, eraIdx) => {
@@ -1345,10 +1409,17 @@ DATA.forEach((eraData, eraIdx) => {
       <div class="entry-date">${entry.date}</div>
       <div class="entry-title">${entry.title}</div>
       <div class="entry-location">${entry.location}</div>
+      <img class="entry-img" alt="${entry.title}" loading="lazy" />
       <div class="entry-summary">${entry.summary}</div>
       <div class="entry-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
       <div class="expand-hint"></div>
     `;
+
+    // Auto-load a representative image from Wikipedia (REST summary API)
+    const img = card.querySelector('.entry-img');
+    const wikiTitle = (entry.wiki || entry.title).trim();
+
+    loadWikipediaThumb(wikiTitle, img);
 
     card.addEventListener('click', () => {
       card.classList.toggle('expanded');
