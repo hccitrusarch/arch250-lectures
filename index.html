@@ -484,6 +484,94 @@
   }
 
 
+
+  /* ANIMATED BACKGROUND: Nebula + Stars */
+  .bg-sky {
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+      radial-gradient(1200px 800px at 20% 10%, rgba(201,168,76,0.10), transparent 55%),
+      radial-gradient(900px 700px at 80% 20%, rgba(120,110,255,0.10), transparent 60%),
+      radial-gradient(1000px 800px at 60% 80%, rgba(255,90,180,0.08), transparent 60%),
+      radial-gradient(1400px 1000px at 40% 60%, rgba(40,200,255,0.06), transparent 65%),
+      linear-gradient(180deg, #07070c 0%, #0a0a0f 45%, #07070c 100%);
+  }
+
+  .bg-sky::before,
+  .bg-sky::after {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background-repeat: repeat;
+    background-size: 360px 360px;
+    opacity: 0.35;
+    filter: blur(0px);
+    transform: translate3d(0,0,0);
+    animation: starDrift 70s linear infinite;
+  }
+
+  /* Dense star layer */
+  .bg-sky::before {
+    background-image:
+      radial-gradient(2px 2px at 10px 20px, rgba(255,255,255,0.9) 50%, transparent 55%),
+      radial-gradient(1px 1px at 60px 80px, rgba(255,255,255,0.7) 50%, transparent 55%),
+      radial-gradient(1.5px 1.5px at 120px 40px, rgba(255,255,255,0.8) 50%, transparent 55%),
+      radial-gradient(1px 1px at 200px 140px, rgba(255,255,255,0.6) 50%, transparent 55%),
+      radial-gradient(2px 2px at 280px 220px, rgba(255,255,255,0.85) 50%, transparent 55%),
+      radial-gradient(1px 1px at 330px 310px, rgba(255,255,255,0.55) 50%, transparent 55%),
+      radial-gradient(1.5px 1.5px at 40px 260px, rgba(255,255,255,0.65) 50%, transparent 55%),
+      radial-gradient(1px 1px at 170px 300px, rgba(255,255,255,0.5) 50%, transparent 55%),
+      radial-gradient(2px 2px at 260px 70px, rgba(255,255,255,0.75) 50%, transparent 55%);
+  }
+
+  /* Sparse, larger, twinkling layer */
+  .bg-sky::after {
+    background-size: 520px 520px;
+    opacity: 0.22;
+    animation: starDrift 115s linear infinite, starTwinkle 6s ease-in-out infinite;
+    background-image:
+      radial-gradient(2.2px 2.2px at 50px 120px, rgba(255,255,255,0.75) 50%, transparent 55%),
+      radial-gradient(2.8px 2.8px at 260px 260px, rgba(255,255,255,0.85) 50%, transparent 55%),
+      radial-gradient(2px 2px at 420px 80px, rgba(255,255,255,0.7) 50%, transparent 55%),
+      radial-gradient(3px 3px at 160px 420px, rgba(255,255,255,0.8) 50%, transparent 55%);
+  }
+
+  @keyframes starDrift {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(18%, 12%, 0); }
+  }
+  @keyframes starTwinkle {
+    0%, 100% { opacity: 0.20; }
+    50%      { opacity: 0.32; }
+  }
+
+  /* Optional subtle constellation lines (very faint) */
+  .constellations {
+    position: absolute;
+    inset: 0;
+    opacity: 0.14;
+    mix-blend-mode: screen;
+    filter: blur(0.2px);
+    animation: constellationFloat 40s ease-in-out infinite;
+  }
+  @keyframes constellationFloat {
+    0%, 100% { transform: translate3d(0,0,0) scale(1); }
+    50%      { transform: translate3d(-10px, 12px, 0) scale(1.02); }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .bg-sky::before,
+    .bg-sky::after,
+    .constellations {
+      animation: none !important;
+    }
+  }
+
+
   /* RESPONSIVE */
   @media (max-width: 700px) {
     #timeline::before { left: 20px; }
@@ -504,6 +592,30 @@
 </style>
 </head>
 <body>
+
+<div class="bg-sky" aria-hidden="true">
+  <svg class="constellations" viewBox="0 0 1200 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1">
+      <!-- Simple constellation clusters -->
+      <path d="M120 120 L180 90 L240 140 L300 110" />
+      <path d="M860 140 L920 110 L980 160 L1040 130" />
+      <path d="M260 520 L320 480 L380 530 L440 500 L500 540" />
+      <path d="M760 520 L820 490 L880 540 L940 510" />
+    </g>
+    <g fill="rgba(255,255,255,0.75)">
+      <circle cx="120" cy="120" r="2.2"/><circle cx="180" cy="90" r="2"/>
+      <circle cx="240" cy="140" r="2.2"/><circle cx="300" cy="110" r="2"/>
+      <circle cx="860" cy="140" r="2.2"/><circle cx="920" cy="110" r="2"/>
+      <circle cx="980" cy="160" r="2.2"/><circle cx="1040" cy="130" r="2"/>
+      <circle cx="260" cy="520" r="2.2"/><circle cx="320" cy="480" r="2"/>
+      <circle cx="380" cy="530" r="2.2"/><circle cx="440" cy="500" r="2"/>
+      <circle cx="500" cy="540" r="2.2"/>
+      <circle cx="760" cy="520" r="2.2"/><circle cx="820" cy="490" r="2"/>
+      <circle cx="880" cy="540" r="2.2"/><circle cx="940" cy="510" r="2"/>
+    </g>
+  </svg>
+</div>
+
 
 <header>
   <h1>ARCH 250 - History of Architecture</h1>
