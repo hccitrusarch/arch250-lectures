@@ -486,62 +486,54 @@
 
 
 
-  /* ANIMATED BACKGROUND: Nebula + Stars */
-    
+  
 
 
 
-  /* ANIMATED BACKGROUND: Cosmic Renaissance manuscript */
+  /* ANIMATED BACKGROUND: Cosmic Renaissance manuscript (inline SVG pattern, GitHub Pages-safe) */
   .bg-manuscript {
     position: fixed;
     inset: 0;
     z-index: -100;
     pointer-events: none;
     overflow: hidden;
-    background:
-                radial-gradient(1200px 900px at 30% 20%, rgba(201,168,76,0.14), transparent 60%),
-                radial-gradient(1200px 900px at 70% 70%, rgba(255,255,255,0.06), transparent 65%),
-                linear-gradient(180deg, #040409 0%, #07070c 55%, #040409 100%);
+    background: radial-gradient(1200px 900px at 30% 20%, rgba(201,168,76,0.10), transparent 60%),
+                radial-gradient(1200px 900px at 70% 70%, rgba(255,255,255,0.05), transparent 65%),
+                linear-gradient(180deg, #06060b 0%, #0a0a0f 55%, #06060b 100%);
   }
 
-  .bg-manuscript::before,
-  .bg-manuscript::after {
-    content: "";
+  .bg-manuscript svg {
     position: absolute;
     inset: -60%;
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22520%22%20height%3D%22520%22%20viewBox%3D%220%200%20520%20520%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22parch%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2314141f%22/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230a0a0f%22/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%0A%20%20%20%20%3CradialGradient%20id%3D%22glow%22%20cx%3D%2235%25%22%20cy%3D%2230%25%22%20r%3D%2270%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23c9a84c%22%20stop-opacity%3D%220.20%22/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23000000%22%20stop-opacity%3D%220%22/%3E%0A%20%20%20%20%3C/radialGradient%3E%0A%0A%20%20%20%20%3Cfilter%20id%3D%22paper%22%3E%0A%20%20%20%20%20%20%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.9%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%20result%3D%22n%22/%3E%0A%20%20%20%20%20%20%3CfeColorMatrix%20in%3D%22n%22%20type%3D%22matrix%22%0A%20%20%20%20%20%20%20%20values%3D%220%200%200%200%200.9%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%200%200%200%200%200.84%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%200%200%200%200%200.70%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%200%200%200%200.12%200%22%20result%3D%22t%22/%3E%0A%20%20%20%20%20%20%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22t%22%20mode%3D%22multiply%22/%3E%0A%20%20%20%20%3C/filter%3E%0A%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.ink%20%7B%20stroke%3A%23c9a84c%3B%20stroke-opacity%3A0.22%3B%20fill%3Anone%3B%20stroke-width%3A1%3B%20%7D%0A%20%20%20%20%20%20.ink2%7B%20stroke%3A%23ffffff%3B%20stroke-opacity%3A0.10%3B%20fill%3Anone%3B%20stroke-width%3A1%3B%20%7D%0A%20%20%20%20%20%20.dot%20%7B%20fill%3A%23ffffff%3B%20opacity%3A0.12%3B%20%7D%0A%20%20%20%20%20%20.dot2%7B%20fill%3A%23c9a84c%3B%20opacity%3A0.14%3B%20%7D%0A%20%20%20%20%20%20.text%20%7B%20fill%3A%23c9a84c%3B%20opacity%3A0.18%3B%20font-family%3Aserif%3B%20font-size%3A12px%3B%20letter-spacing%3A0.08em%3B%20%7D%0A%20%20%20%20%3C/style%3E%0A%20%20%3C/defs%3E%0A%0A%20%20%3Crect%20width%3D%22520%22%20height%3D%22520%22%20fill%3D%22url%28%23parch%29%22/%3E%0A%20%20%3Crect%20width%3D%22520%22%20height%3D%22520%22%20fill%3D%22url%28%23glow%29%22%20opacity%3D%220.9%22/%3E%0A%20%20%3Cg%20filter%3D%22url%28%23paper%29%22%20opacity%3D%220.55%22%3E%0A%20%20%20%20%3Crect%20width%3D%22520%22%20height%3D%22520%22%20fill%3D%22%231a1a26%22%20opacity%3D%220.25%22/%3E%0A%20%20%3C/g%3E%0A%0A%20%20%3C%21--%20Compass%20rose%20--%3E%0A%20%20%3Cg%20transform%3D%22translate%28120%2C120%29%22%3E%0A%20%20%20%20%3Ccircle%20r%3D%2244%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Ccircle%20r%3D%2228%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0-52%20L10-10%20L0-20%20L-10-10%20Z%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M52%200%20L10%2010%20L20%200%20L10%20-10%20Z%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2052%20L-10%2010%20L0%2020%20L10%2010%20Z%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-52%200%20L-10%20-10%20L-20%200%20L-10%2010%20Z%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Ctext%20x%3D%22-6%22%20y%3D%22-62%22%20class%3D%22text%22%3EN%3C/text%3E%0A%20%20%3C/g%3E%0A%0A%20%20%3C%21--%20Astrolabe%20rings%20--%3E%0A%20%20%3Cg%20transform%3D%22translate%28390%2C150%29%22%3E%0A%20%20%20%20%3Ccircle%20r%3D%2262%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Ccircle%20r%3D%2246%22%20class%3D%22ink2%22/%3E%0A%20%20%20%20%3Ccircle%20r%3D%2230%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-62%200%20H62%22%20class%3D%22ink2%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%20-62%20V62%22%20class%3D%22ink2%22/%3E%0A%20%20%20%20%3Ccircle%20r%3D%224%22%20fill%3D%22%23c9a84c%22%20opacity%3D%220.18%22/%3E%0A%20%20%3C/g%3E%0A%0A%20%20%3C%21--%20Filigree%20corner%20--%3E%0A%20%20%3Cg%20transform%3D%22translate%280%2C0%29%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M20%20110%20C30%2060%2C%2070%2030%2C%20110%2020%22%20class%3D%22ink%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M30%20120%20C45%2070%2C%2085%2045%2C%20120%2030%22%20class%3D%22ink2%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M18%2040%20C30%2030%2C%2040%2018%2C%2060%2018%22%20class%3D%22ink2%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M18%2060%20C40%2055%2C%2055%2040%2C%2060%2018%22%20class%3D%22ink%22/%3E%0A%20%20%3C/g%3E%0A%0A%20%20%3C%21--%20Constellation%20lines%20--%3E%0A%20%20%3Cg%3E%0A%20%20%20%20%3Cpath%20d%3D%22M210%20330%20L260%20300%20L310%20340%20L370%20320%22%20class%3D%22ink2%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22210%22%20cy%3D%22330%22%20r%3D%222.4%22%20class%3D%22dot2%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22300%22%20r%3D%222.0%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22310%22%20cy%3D%22340%22%20r%3D%222.2%22%20class%3D%22dot2%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22370%22%20cy%3D%22320%22%20r%3D%222.0%22%20class%3D%22dot%22/%3E%0A%20%20%3C/g%3E%0A%0A%20%20%3C%21--%20Star%20field%20--%3E%0A%20%20%3Cg%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%22240%22%20r%3D%221.2%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2290%22%20cy%3D%22270%22%20r%3D%221.0%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22150%22%20cy%3D%22220%22%20r%3D%221.1%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22200%22%20cy%3D%22250%22%20r%3D%221.0%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22210%22%20r%3D%221.2%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22420%22%20cy%3D%22250%22%20r%3D%221.0%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22470%22%20cy%3D%22220%22%20r%3D%221.2%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22440%22%20cy%3D%22420%22%20r%3D%221.1%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22110%22%20cy%3D%22430%22%20r%3D%221.2%22%20class%3D%22dot%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%22460%22%20r%3D%221.0%22%20class%3D%22dot%22/%3E%0A%20%20%3C/g%3E%0A%0A%20%20%3C%21--%20Marginalia%20hint%20--%3E%0A%20%20%3Ctext%20x%3D%22265%22%20y%3D%22505%22%20class%3D%22text%22%20text-anchor%3D%22middle%22%3ECOSMOS%20%C2%B7%20ORDO%20%C2%B7%20FORMA%3C/text%3E%0A%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 520px 520px;
+    width: 220%;
+    height: 220%;
+  }
+
+  .bg-manuscript .layer-a {
+    opacity: 0.42;
     transform: translate3d(0,0,0);
+    animation: msDriftA 120s linear infinite;
   }
 
-  .bg-manuscript::before {
-    opacity: 0.90;
-    animation: manuscriptDriftA 120s linear infinite;
+  .bg-manuscript .layer-b {
+    opacity: 0.22;
+    transform: translate3d(0,0,0);
+    animation: msDriftB 75s linear infinite;
   }
 
-  .bg-manuscript::after {
-    opacity: 0.55;
-    mix-blend-mode: normal;
-    filter: blur(0px);
-    animation: manuscriptDriftB 70s linear infinite;
+  @keyframes msDriftA {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(14%, 10%, 0); }
   }
 
-  @keyframes manuscriptDriftA {
-    0%   { transform: translate3d(0, 0, 0) rotate(0.001deg); }
-    100% { transform: translate3d(14%, 10%, 0) rotate(0.001deg); }
-  }
-
-  @keyframes manuscriptDriftB {
-    0%   { transform: translate3d(0, 0, 0) rotate(0.001deg); }
-    100% { transform: translate3d(-10%, 16%, 0) rotate(0.001deg); }
+  @keyframes msDriftB {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-10%, 16%, 0); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .bg-manuscript::before,
-    .bg-manuscript::after {
-      animation: none !important;
-    }
+    .bg-manuscript .layer-a,
+    .bg-manuscript .layer-b { animation: none !important; }
   }
 
 
@@ -565,7 +557,6 @@
 </style>
 </head>
 <body>
-<div class="bg-manuscript" aria-hidden="true"></div>
 
 <header>
   <h1>ARCH 250 - History of Architecture</h1>
