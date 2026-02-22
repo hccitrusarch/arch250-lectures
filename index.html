@@ -249,35 +249,6 @@
     height: auto;
   }
   .entry.has-img .entry-img-wrap { display: block; }
-
-  /* PLAN DIAGRAM (Option A) */
-  .plan-container {
-    margin-top: 10px;
-  }
-  .toggle-plan {
-    appearance: none;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text);
-    font-size: 0.8rem;
-    padding: 6px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-  .toggle-plan:hover { border-color: var(--accent-dim); }
-  .plan-img {
-    width: 100%;
-    max-width: 260px;
-    display: block;
-    margin-top: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: #0f0f18;
-    filter: grayscale(100%);
-    opacity: 0.9;
-  }
-  .plan-img.hidden { display: none; }
-
   .entry-summary {
     font-size: 0.82rem;
     color: var(--text-muted);
@@ -285,6 +256,70 @@
     display: none;
   }
   .entry.expanded .entry-summary { display: block; }
+
+  /* SPATIAL DIAGRAMS (B2) */
+  .plan-wrap {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .plan-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .plan-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .plan-toggle {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.74rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.05s;
+    white-space: nowrap;
+  }
+  .plan-toggle:hover { border-color: var(--accent-dim); }
+  .plan-toggle:active { transform: translateY(1px); }
+  .plan-panel { display: none; }
+  .plan-panel.open { display: block; }
+  .plan-svg {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #0f0f18;
+  }
+  .plan-logic {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .plan-logic strong {
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .plan-logic p {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
   .entry-tags {
     display: flex;
     flex-wrap: wrap;
@@ -1350,32 +1385,6 @@ const WIKI_TITLE_OVERRIDES = {
   "Old St. Peter’s Basilica": "Old St. Peter's Basilica",
 };
 
-// Plan diagram overrides (Wikimedia Commons). One plan per selected monument.
-// If an image fails to load, it will hide automatically.
-const PLAN_OVERRIDES = {
-  "Newgrange": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Newgrange_plan.svg",
-  "Stonehenge": "https://upload.wikimedia.org/wikipedia/commons/3/34/Stonehenge_plan.svg",
-  "Ziggurat of Ur": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Ziggurat_of_Ur_plan.svg",
-  "Step Pyramid of Djoser": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Step_Pyramid_of_Djoser_plan.svg",
-  "Mortuary Temple of Hatshepsut": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Hatshepsut_temple_plan.svg",
-  "Temple of Amun at Karnak": "https://upload.wikimedia.org/wikipedia/commons/0/07/Karnak_temple_plan.svg",
-  "Palace of Knossos": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Knossos_palace_plan.svg",
-  "Treasury of Atreus": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Treasury_of_Atreus_plan.svg",
-  "Parthenon": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Parthenon_plan.svg",
-  "Erechtheion": "https://upload.wikimedia.org/wikipedia/commons/9/92/Erechtheion_plan.svg",
-  "Theater at Epidaurus": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Theatre_of_Epidaurus_plan.svg",
-  "Colosseum": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Colosseum_plan.svg",
-  "Pantheon": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Pantheon_plan.svg",
-  "Old St. Peter's Basilica": "https://upload.wikimedia.org/wikipedia/commons/5/52/Old_St_Peter%27s_Basilica_plan.svg",
-  "San Vitale": "https://upload.wikimedia.org/wikipedia/commons/4/4c/San_Vitale_plan.svg",
-  "Hagia Sophia": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hagia_Sophia_plan.svg"
-};
-
-function getPlanUrl(entry) {
-  const t = (entry && entry.title) ? entry.title : "";
-  return PLAN_OVERRIDES[t] || null;
-}
-
 // Normalize punctuation so Wikipedia titles resolve more often
 function normalizeWikiTitle(str) {
   return (str || "")
@@ -1488,6 +1497,239 @@ function loadWikiThumb(imgEl, entry) {
 }
 
 
+
+// =============================================
+// SPATIAL DIAGRAMS (B2) - inline SVG, no external files
+// =============================================
+const DIAGRAMS = {
+  "The Pantheon": {
+    key: "pantheon",
+    logic: "Centralized space organized around a perfect circle. Movement and perception resolve toward one vertical axis of light beneath the oculus.",
+    labels: [
+      { t: "Portico", x: 36, y: 92 },
+      { t: "Rotunda", x: 120, y: 64 },
+      { t: "Oculus axis", x: 118, y: 118 }
+    ]
+  },
+  "The Parthenon": {
+    key: "parthenon",
+    logic: "Perimeter colonnade creates an exterior procession and rhythmic enclosure. The cella sits as a nested core within a larger peristyle field.",
+    labels: [
+      { t: "Peristyle", x: 86, y: 48 },
+      { t: "Cella", x: 110, y: 84 }
+    ]
+  },
+  "Old St. Peter's Basilica": {
+    key: "basilica",
+    logic: "Longitudinal plan pulls movement forward toward the apse. Side aisles support circulation while preserving a strong axial hierarchy.",
+    labels: [
+      { t: "Nave", x: 96, y: 74 },
+      { t: "Aisles", x: 62, y: 74 },
+      { t: "Apse", x: 168, y: 74 }
+    ]
+  },
+  "San Vitale, Ravenna": {
+    key: "sanvitale",
+    logic: "Centralized octagon with layered perimeter spaces. The plan blurs a single forward axis and instead emphasizes rotation around a spiritual center.",
+    labels: [
+      { t: "Octagon", x: 112, y: 56 },
+      { t: "Ambulatory", x: 116, y: 124 }
+    ]
+  },
+  "The Colosseum (Flavian Amphitheater)": {
+    key: "amphitheater",
+    logic: "Elliptical bowl organizes spectators around a central arena. Circulation wraps the perimeter, feeding seating wedges through a radial-vault system.",
+    labels: [
+      { t: "Arena", x: 116, y: 84 },
+      { t: "Seating", x: 66, y: 56 }
+    ]
+  },
+  "Theater at Epidaurus": {
+    key: "theater",
+    logic: "Radial seating compresses attention toward the orchestra. The semicircle organizes sightlines and acoustics, turning landscape into architecture.",
+    labels: [
+      { t: "Cavea", x: 96, y: 50 },
+      { t: "Orchestra", x: 116, y: 118 }
+    ]
+  },
+  "Stonehenge": {
+    key: "stonehenge",
+    logic: "Concentric rings establish a ceremonial center. Spatial meaning comes from approach, alignment, and enclosure rather than interior rooms.",
+    labels: [
+      { t: "Sarsen ring", x: 90, y: 54 },
+      { t: "Trilithons", x: 120, y: 96 }
+    ]
+  },
+  "Newgrange Passage Tomb": {
+    key: "newgrange",
+    logic: "A single axial passage drives movement into a concentrated chamber. The plan is all about threshold, compression, and a controlled moment of light.",
+    labels: [
+      { t: "Passage", x: 70, y: 86 },
+      { t: "Chamber", x: 140, y: 86 }
+    ]
+  },
+  "Palace of Knossos": {
+    key: "knossos",
+    logic: "Courtyard-centered organization with rooms layered around a communal void. The plan reads as additive, flexible, and circulation-driven.",
+    labels: [
+      { t: "Central court", x: 118, y: 82 },
+      { t: "Rooms", x: 58, y: 52 }
+    ]
+  }
+};
+
+function svgWrap(inner) {
+  return `<svg class="plan-svg" viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spatial diagram">
+    <rect x="0" y="0" width="240" height="160" fill="#0f0f18"/>
+    <g stroke="#c9a84c" stroke-opacity="0.75" fill="none" stroke-width="2">
+      ${inner}
+    </g>
+  </svg>`;
+}
+
+function svgLabels(labels) {
+  if (!labels || !labels.length) return "";
+  return `<g font-family="Inter, sans-serif" font-size="10" fill="#e8e6e3" fill-opacity="0.75">
+    ${labels.map(l => `<text x="${l.x}" y="${l.y}">${escapeHTML(l.t)}</text>`).join("")}
+  </g>`;
+}
+
+function buildSVG(diagram) {
+  const key = diagram.key;
+
+  if (key === "pantheon") {
+    const inner = `
+      <rect x="18" y="64" width="56" height="56" rx="2" />
+      <circle cx="142" cy="92" r="50" />
+      <circle cx="142" cy="92" r="4" fill="#c9a84c" fill-opacity="0.9" stroke="none" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "parthenon") {
+    const inner = `
+      <rect x="26" y="44" width="188" height="72" rx="2" />
+      <rect x="70" y="58" width="100" height="44" rx="2" stroke-opacity="0.55" />
+      <rect x="40" y="52" width="160" height="56" rx="2" stroke-dasharray="4 4" stroke-opacity="0.35" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "basilica") {
+    const inner = `
+      <rect x="28" y="56" width="160" height="48" rx="2" />
+      <rect x="28" y="56" width="30" height="48" rx="2" stroke-opacity="0.45" />
+      <rect x="158" y="56" width="30" height="48" rx="2" stroke-opacity="0.45" />
+      <path d="M188 56 A24 24 0 0 1 188 104" stroke-opacity="0.75" />
+      <path d="M188 56 A24 24 0 0 0 188 104" stroke-opacity="0.75" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "sanvitale") {
+    const inner = `
+      <polygon points="120,36 154,50 170,84 154,118 120,132 86,118 70,84 86,50" />
+      <polygon points="120,54 142,64 152,84 142,104 120,114 98,104 88,84 98,64" stroke-opacity="0.55" />
+      <circle cx="120" cy="84" r="5" fill="#c9a84c" fill-opacity="0.9" stroke="none" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "amphitheater") {
+    const inner = `
+      <ellipse cx="120" cy="84" rx="86" ry="52" />
+      <ellipse cx="120" cy="84" rx="54" ry="32" stroke-opacity="0.6" />
+      <rect x="92" y="74" width="56" height="20" rx="10" stroke-opacity="0.7" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "theater") {
+    const inner = `
+      <path d="M40 112 A80 80 0 0 1 200 112" />
+      <path d="M60 112 A60 60 0 0 1 180 112" stroke-opacity="0.55" />
+      <circle cx="120" cy="112" r="18" stroke-opacity="0.75" />
+      <line x1="120" y1="112" x2="120" y2="44" stroke-opacity="0.25" stroke-dasharray="4 4" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "stonehenge") {
+    const inner = `
+      <circle cx="120" cy="84" r="58" />
+      <circle cx="120" cy="84" r="38" stroke-opacity="0.55" />
+      <circle cx="120" cy="84" r="18" stroke-opacity="0.35" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "newgrange") {
+    const inner = `
+      <circle cx="120" cy="84" r="54" />
+      <rect x="36" y="78" width="70" height="12" rx="2" stroke-opacity="0.65" />
+      <circle cx="140" cy="84" r="18" stroke-opacity="0.55" />
+      <line x1="72" y1="84" x2="122" y2="84" stroke-opacity="0.8" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  if (key === "knossos") {
+    const inner = `
+      <rect x="44" y="40" width="152" height="96" rx="2" stroke-opacity="0.55" />
+      <rect x="88" y="66" width="64" height="44" rx="2" />
+      <rect x="54" y="50" width="28" height="24" rx="2" stroke-opacity="0.35" />
+      <rect x="156" y="50" width="28" height="24" rx="2" stroke-opacity="0.35" />
+      <rect x="54" y="102" width="28" height="24" rx="2" stroke-opacity="0.35" />
+      <rect x="156" y="102" width="28" height="24" rx="2" stroke-opacity="0.35" />
+      ${svgLabels(diagram.labels)}
+    `;
+    return svgWrap(inner);
+  }
+
+  return "";
+}
+
+function buildDiagramBlock(entry) {
+  const diagram = DIAGRAMS[entry.title];
+  if (!diagram) return "";
+  const svg = buildSVG(diagram);
+  const logic = diagram.logic || "";
+  return `
+    <div class="plan-wrap">
+      <div class="plan-topline">
+        <div class="plan-label">Spatial diagram</div>
+        <button class="plan-toggle" type="button">Show Spatial Diagram</button>
+      </div>
+      <div class="plan-panel">
+        ${svg}
+        <div class="plan-logic">
+          <strong>Spatial Logic</strong>
+          <p>${escapeHTML(logic)}</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Small helper for safe text injection (used in diagrams)
+function escapeHTML(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll("\"", "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+
 // =============================================
 // RENDER ENGINE
 // =============================================
@@ -1542,16 +1784,15 @@ DATA.forEach((eraData, eraIdx) => {
     card.dataset.era = eraData.era;
     card.dataset.search = `${entry.title} ${entry.location} ${entry.summary} ${entry.tags.join(' ')} ${entry.date}`.toLowerCase();
 
+    const diagramBlock = buildDiagramBlock(entry);
+
     card.innerHTML = `
       <div class="entry-date">${entry.date}</div>
       <div class="entry-title">${entry.title}</div>
       <div class="entry-location">${entry.location}</div>
       <div class="entry-img-wrap"><img class="entry-img" alt="${entry.title}" loading="lazy" /></div>
       <div class="entry-summary">${entry.summary}</div>
-      <div class="plan-container" style="display:none">
-        <button class="toggle-plan" type="button">Show Plan</button>
-        <img class="plan-img hidden" alt="${entry.title} plan" loading="lazy" />
-      </div>
+      ${diagramBlock}
       <div class="entry-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
       <div class="expand-hint"></div>
     `;
@@ -1560,31 +1801,20 @@ DATA.forEach((eraData, eraIdx) => {
     const imgEl = card.querySelector('.entry-img');
     if (imgEl) loadWikiThumb(imgEl, entry);
 
-    // Plan diagram (Option A)
-    const planUrl = getPlanUrl(entry);
-    const planContainer = card.querySelector('.plan-container');
-    const planImg = card.querySelector('.plan-img');
-    const planBtn = card.querySelector('.toggle-plan');
-
-    if (planUrl && planContainer && planImg && planBtn) {
-      planContainer.style.display = 'block';
-      planImg.src = planUrl;
-
-      planImg.onerror = () => {
-        // Hide if the URL is missing or blocked
-        planContainer.style.display = 'none';
-      };
-
-      planBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isHidden = planImg.classList.toggle('hidden') === true;
-        planBtn.textContent = isHidden ? 'Show Plan' : 'Hide Plan';
-      });
-    }
-
     card.addEventListener('click', () => {
       card.classList.toggle('expanded');
     });
+
+    // Diagram toggle (do not collapse the card)
+    const toggleBtn = card.querySelector('.plan-toggle');
+    const panel = card.querySelector('.plan-panel');
+    if (toggleBtn && panel) {
+      toggleBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        panel.classList.toggle('open');
+        toggleBtn.textContent = panel.classList.contains('open') ? 'Hide Spatial Diagram' : 'Show Spatial Diagram';
+      });
+    }
 
     section.appendChild(card);
     allEntries.push(card);
