@@ -21,10 +21,10 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
+    margin: 0;
     font-family: 'Inter', sans-serif;
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
-    overflow-x: hidden;
   }
 
   /* HEADER */
@@ -486,10 +486,10 @@
 
 
   /* ANIMATED BACKGROUND: Nebula + Stars */
-  .bg-sky {
+    .bg-sky {
     position: fixed;
     inset: 0;
-    z-index: -5;
+    z-index: -100;
     pointer-events: none;
     overflow: hidden;
     background:
