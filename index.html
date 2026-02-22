@@ -1310,56 +1310,23 @@ const entryCount = document.getElementById('entry-count');
 let allEntries = [];
 let activeEra = null;
 
-const WIKI_CACHE = new Map();
-function loadWikipediaThumb(title, imgEl) {
-  if (!imgEl) return;
-  const key = title.toLowerCase();
-  if (WIKI_CACHE.has(key)) {
-    const src = WIKI_CACHE.get(key);
-    if (src) imgEl.src = src;
-    else imgEl.classList.add('hidden');
-    return;
-  }
+// Image loader (no fetch): uses Unsplash Source with monument keywords.
+// This avoids CORS issues when opening the file locally (file://).
+function setEntryImage(entry, imgEl) {
+  const qParts = [];
+  if (entry.title) qParts.push(entry.title);
+  if (entry.location) qParts.push(entry.location);
+  if (entry.tags && entry.tags.length) qParts.push(entry.tags[0]);
+  const q = encodeURIComponent(qParts.join(' '));
 
-  const candidates = [
-    title,
-    `${title} (building)`,
-    `${title} (architecture)`,
-    `${title} (temple)`,
-    `${title} (church)`,
-    `${title} (Rome)`,
-  ];
+  // Unsplash Source returns a relevant photo without needing an API key.
+  // Note: results can vary; if you want locked images per monument, we can pin specific URLs.
+  imgEl.src = `https://source.unsplash.com/featured/900x520?${q}`;
 
-  const tryFetch = async (idx) => {
-    if (idx >= candidates.length) {
-      WIKI_CACHE.set(key, null);
-      imgEl.classList.add('hidden');
-      return;
-    }
-    const t = candidates[idx].replace(/\s+/g, ' ').trim();
-    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t)}`;
-
-    try {
-      const res = await fetch(url, { headers: { 'accept': 'application/json' } });
-      if (!res.ok) return tryFetch(idx + 1);
-
-      const data = await res.json();
-      const thumb = (data && data.thumbnail && data.thumbnail.source) ||
-                    (data && data.originalimage && data.originalimage.source) ||
-                    null;
-
-      if (thumb) {
-        WIKI_CACHE.set(key, thumb);
-        imgEl.src = thumb;
-      } else {
-        return tryFetch(idx + 1);
-      }
-    } catch (e) {
-      return tryFetch(idx + 1);
-    }
-  };
-
-  tryFetch(0);
+  // Hide the image area if it fails to load.
+  imgEl.addEventListener('error', () => {
+    imgEl.style.display = 'none';
+  }, { once: true });
 }
 
 // Build nav and timeline
@@ -1417,9 +1384,8 @@ DATA.forEach((eraData, eraIdx) => {
 
     // Auto-load a representative image from Wikipedia (REST summary API)
     const img = card.querySelector('.entry-img');
-    const wikiTitle = (entry.wiki || entry.title).trim();
 
-    loadWikipediaThumb(wikiTitle, img);
+    setEntryImage(entry, img);
 
     card.addEventListener('click', () => {
       card.classList.toggle('expanded');
