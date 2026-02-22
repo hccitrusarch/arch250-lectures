@@ -249,6 +249,35 @@
     height: auto;
   }
   .entry.has-img .entry-img-wrap { display: block; }
+
+  /* PLAN DIAGRAM (Option A) */
+  .plan-container {
+    margin-top: 10px;
+  }
+  .toggle-plan {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .toggle-plan:hover { border-color: var(--accent-dim); }
+  .plan-img {
+    width: 100%;
+    max-width: 260px;
+    display: block;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #0f0f18;
+    filter: grayscale(100%);
+    opacity: 0.9;
+  }
+  .plan-img.hidden { display: none; }
+
   .entry-summary {
     font-size: 0.82rem;
     color: var(--text-muted);
@@ -1304,9 +1333,12 @@ const DATA = [
 ];
 
 // -------------------------------------------------------------
-// Image loading (Wikipedia JSONP)
+// Image loading (Wikipedia JSONP, Option A)
 // Works when the file is opened locally (file://) because it does
 // not use fetch/XHR.
+// Strategy:
+//  1) Try direct title lookup (with redirects)
+//  2) If no thumbnail, run a Wikipedia search (title + location) and use the top hit
 // -------------------------------------------------------------
 
 // Some timeline labels are not ideal Wikipedia page titles.
@@ -1318,40 +1350,65 @@ const WIKI_TITLE_OVERRIDES = {
   "Old St. Peter’s Basilica": "Old St. Peter's Basilica",
 };
 
-function getWikiTitle(entry) {
-  return entry.wiki || WIKI_TITLE_OVERRIDES[entry.title] || entry.title;
+// Plan diagram overrides (Wikimedia Commons). One plan per selected monument.
+// If an image fails to load, it will hide automatically.
+const PLAN_OVERRIDES = {
+  "Newgrange": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Newgrange_plan.svg",
+  "Stonehenge": "https://upload.wikimedia.org/wikipedia/commons/3/34/Stonehenge_plan.svg",
+  "Ziggurat of Ur": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Ziggurat_of_Ur_plan.svg",
+  "Step Pyramid of Djoser": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Step_Pyramid_of_Djoser_plan.svg",
+  "Mortuary Temple of Hatshepsut": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Hatshepsut_temple_plan.svg",
+  "Temple of Amun at Karnak": "https://upload.wikimedia.org/wikipedia/commons/0/07/Karnak_temple_plan.svg",
+  "Palace of Knossos": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Knossos_palace_plan.svg",
+  "Treasury of Atreus": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Treasury_of_Atreus_plan.svg",
+  "Parthenon": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Parthenon_plan.svg",
+  "Erechtheion": "https://upload.wikimedia.org/wikipedia/commons/9/92/Erechtheion_plan.svg",
+  "Theater at Epidaurus": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Theatre_of_Epidaurus_plan.svg",
+  "Colosseum": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Colosseum_plan.svg",
+  "Pantheon": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Pantheon_plan.svg",
+  "Old St. Peter's Basilica": "https://upload.wikimedia.org/wikipedia/commons/5/52/Old_St_Peter%27s_Basilica_plan.svg",
+  "San Vitale": "https://upload.wikimedia.org/wikipedia/commons/4/4c/San_Vitale_plan.svg",
+  "Hagia Sophia": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hagia_Sophia_plan.svg"
+};
+
+function getPlanUrl(entry) {
+  const t = (entry && entry.title) ? entry.title : "";
+  return PLAN_OVERRIDES[t] || null;
 }
 
-function loadWikiThumb(imgEl, entry) {
-  const title = getWikiTitle(entry);
-  const wrap = imgEl.closest('.entry');
-  const cbName = `wiki_cb_${Math.random().toString(36).slice(2)}`;
+// Normalize punctuation so Wikipedia titles resolve more often
+function normalizeWikiTitle(str) {
+  return (str || "")
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getWikiTitle(entry) {
+  return normalizeWikiTitle(entry.wiki || WIKI_TITLE_OVERRIDES[entry.title] || entry.title);
+}
+
+function jsonp(url, cbName, onDone) {
   const script = document.createElement('script');
-
   window[cbName] = (data) => {
-    try {
-      const pages = data && data.query && data.query.pages ? data.query.pages : null;
-      const firstKey = pages ? Object.keys(pages)[0] : null;
-      const page = firstKey ? pages[firstKey] : null;
-      const thumb = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
-
-      if (thumb) {
-        imgEl.src = thumb;
-        wrap.classList.add('has-img');
-      }
-    } catch (e) {
-      // no-op
-    } finally {
-      delete window[cbName];
+    try { onDone(data); }
+    finally {
+      try { delete window[cbName]; } catch (e) {}
       script.remove();
     }
   };
-
   script.onerror = () => {
-    delete window[cbName];
+    try { delete window[cbName]; } catch (e) {}
     script.remove();
+    onDone(null);
   };
+  script.src = url;
+  document.head.appendChild(script);
+}
 
+function wikiThumbByTitle(title, done) {
+  const cbName = `wiki_title_${Math.random().toString(36).slice(2)}`;
   const api = 'https://en.wikipedia.org/w/api.php';
   const params = new URLSearchParams({
     action: 'query',
@@ -1363,10 +1420,73 @@ function loadWikiThumb(imgEl, entry) {
     titles: title,
     callback: cbName,
   });
-
-  script.src = `${api}?${params.toString()}`;
-  document.head.appendChild(script);
+  const url = `${api}?${params.toString()}`;
+  jsonp(url, cbName, (data) => {
+    try {
+      const pages = data && data.query && data.query.pages ? data.query.pages : null;
+      const firstKey = pages ? Object.keys(pages)[0] : null;
+      const page = firstKey ? pages[firstKey] : null;
+      const thumb = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
+      done(thumb || null);
+    } catch (e) {
+      done(null);
+    }
+  });
 }
+
+function wikiThumbBySearch(term, done) {
+  const cbName = `wiki_search_${Math.random().toString(36).slice(2)}`;
+  const api = 'https://en.wikipedia.org/w/api.php';
+  // generator=search lets us retrieve a thumbnail in the same response
+  const params = new URLSearchParams({
+    action: 'query',
+    format: 'json',
+    generator: 'search',
+    gsrsearch: term,
+    gsrlimit: '1',
+    prop: 'pageimages',
+    piprop: 'thumbnail',
+    pithumbsize: '700',
+    redirects: '1',
+    callback: cbName,
+  });
+  const url = `${api}?${params.toString()}`;
+  jsonp(url, cbName, (data) => {
+    try {
+      const pages = data && data.query && data.query.pages ? data.query.pages : null;
+      const key = pages ? Object.keys(pages)[0] : null;
+      const page = key ? pages[key] : null;
+      const thumb = page && page.thumbnail && page.thumbnail.source ? page.thumbnail.source : null;
+      done(thumb || null);
+    } catch (e) {
+      done(null);
+    }
+  });
+}
+
+function loadWikiThumb(imgEl, entry) {
+  const wrap = imgEl.closest('.entry');
+  const title = getWikiTitle(entry);
+
+  // 1) Direct title lookup
+  wikiThumbByTitle(title, (thumb1) => {
+    if (thumb1) {
+      imgEl.src = thumb1;
+      wrap.classList.add('has-img');
+      return;
+    }
+
+    // 2) Search fallback (title + location helps a lot)
+    const searchTerm = normalizeWikiTitle(`${title} ${entry.location || ""}`.trim());
+    wikiThumbBySearch(searchTerm, (thumb2) => {
+      if (thumb2) {
+        imgEl.src = thumb2;
+        wrap.classList.add('has-img');
+      }
+    });
+  });
+}
+
 
 // =============================================
 // RENDER ENGINE
@@ -1428,6 +1548,10 @@ DATA.forEach((eraData, eraIdx) => {
       <div class="entry-location">${entry.location}</div>
       <div class="entry-img-wrap"><img class="entry-img" alt="${entry.title}" loading="lazy" /></div>
       <div class="entry-summary">${entry.summary}</div>
+      <div class="plan-container" style="display:none">
+        <button class="toggle-plan" type="button">Show Plan</button>
+        <img class="plan-img hidden" alt="${entry.title} plan" loading="lazy" />
+      </div>
       <div class="entry-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
       <div class="expand-hint"></div>
     `;
@@ -1435,6 +1559,28 @@ DATA.forEach((eraData, eraIdx) => {
     // One image per entry (Option A)
     const imgEl = card.querySelector('.entry-img');
     if (imgEl) loadWikiThumb(imgEl, entry);
+
+    // Plan diagram (Option A)
+    const planUrl = getPlanUrl(entry);
+    const planContainer = card.querySelector('.plan-container');
+    const planImg = card.querySelector('.plan-img');
+    const planBtn = card.querySelector('.toggle-plan');
+
+    if (planUrl && planContainer && planImg && planBtn) {
+      planContainer.style.display = 'block';
+      planImg.src = planUrl;
+
+      planImg.onerror = () => {
+        // Hide if the URL is missing or blocked
+        planContainer.style.display = 'none';
+      };
+
+      planBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = planImg.classList.toggle('hidden') === true;
+        planBtn.textContent = isHidden ? 'Show Plan' : 'Hide Plan';
+      });
+    }
 
     card.addEventListener('click', () => {
       card.classList.toggle('expanded');
