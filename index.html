@@ -1,576 +1,722 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARCH 250  -  Architecture History Timeline</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARCH 250 - History of Architecture | Interactive Timeline</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+:root{
+  --silver:#e6e6e6;
+  --gray:#424245;
+  --white:#f5f5f7;
+  --blue:#0066cc;
+  --orange:#f56300;
 
-  :root {
-    --bg: #0a0a0f;
-    --surface: #14141f;
-    --surface2: #1e1e2e;
-    --border: #2a2a3a;
-    --text: #e8e6e3;
-    --text-muted: #8a8a9a;
-    --accent: #c9a84c;
-    --accent-dim: #7a6530;
-  }
+  --bg: var(--white);
+  --surface:#ffffff;
+  --border: rgba(0,0,0,0.10);
+  --shadow: 0 10px 28px rgba(0,0,0,0.08);
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  --text:#1d1d1f;
+  --muted:#6e6e73;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Futura PT","Futura","Avenir Next","Avenir","Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  overflow-x:hidden;
+}
+/* subtle texture so white does not feel empty */
+.bg{
+  position:fixed; inset:0; z-index:-2;
+  background:
+    radial-gradient(1200px 700px at 15% 18%, rgba(0,102,204,0.07), transparent 65%),
+    radial-gradient(900px 600px at 85% 22%, rgba(245,99,0,0.06), transparent 60%),
+    radial-gradient(900px 700px at 50% 105%, rgba(0,0,0,0.05), transparent 55%);
+}
+.bg:after{
+  content:"";
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(135deg,
+    rgba(0,0,0,0.03) 0px,
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px,
+    transparent 18px);
+  opacity:0.22;
+  pointer-events:none;
+}
+header{
+  position:sticky; top:0; z-index:60;
+  background:linear-gradient(180deg, rgba(245,245,247,0.92) 0%, rgba(245,245,247,0.78) 100%);
+  backdrop-filter: blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  max-width:1180px;
+  margin:0 auto;
+  padding:14px 18px 10px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width: 320px;
+}
+.logo img{height:62px;width:auto;display:block}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-text .arch{
+  font-weight:800;
+  letter-spacing:0.24em;
+  font-size:20px;
+  color:var(--gray);
+  text-transform:uppercase;
+}
+.logo-text .hoa{
+  margin-top:6px;
+  font-weight:700;
+  letter-spacing:0.22em;
+  font-size:14px;
+  color:var(--blue);
+  text-transform:uppercase;
+}
+.logo-text .sub{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:0.02em;
+}
+.top-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:640px;
+  max-width:55vw;
+}
+.search{
+  flex:1;
+  display:flex;
+  align-items:center;
+  background:rgba(255,255,255,0.92);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:10px 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.search input{
+  border:none; outline:none; background:transparent;
+  width:100%;
+  font-size:14px;
+  color:var(--text);
+}
+.search input::placeholder{color:var(--muted)}
+.count{
+  font-size:13px;
+  color:var(--muted);
+  min-width:120px;
+  text-align:right;
+}
+/* Era pills */
+.era-nav{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 18px 14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.pill{
+  appearance:none;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.75);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:12px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:transform 0.08s, background 0.2s, border-color 0.2s;
+  white-space:nowrap;
+}
+.pill:hover{border-color:rgba(0,0,0,0.20)}
+.pill:active{transform:translateY(1px)}
+.pill.active{
+  background:rgba(0,102,204,0.10);
+  border-color:rgba(0,102,204,0.32);
+  color:var(--blue);
+  font-weight:700;
+}
+main{
+  max-width:1180px;
+  margin:0 auto;
+  padding:18px 18px 88px;
+}
+.timeline{
+  position:relative;
+  padding-top:10px;
+}
+.timeline:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:linear-gradient(180deg,
+    transparent 0%,
+    rgba(0,0,0,0.14) 10%,
+    rgba(0,0,0,0.14) 90%,
+    transparent 100%);
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+/* Era header */
+.era{margin:20px 0 52px}
+.era-head{display:flex;justify-content:center;margin:18px 0 22px}
+.era-head-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:14px 16px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.78);
+  border-radius:14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+.era-title-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
+.era-title{
+  font-size:16px;
+  letter-spacing:0.10em;
+  text-transform:uppercase;
+  font-weight:800;
+  color:var(--gray);
+  text-align:center;
+}
+.ching-chip{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(0,102,204,0.10);
+  border:1px solid rgba(0,102,204,0.22);
+  color:var(--blue);
+  font-weight:700;
+  letter-spacing:0.04em;
+  white-space:nowrap;
+}
+.era-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  color:var(--muted);
+  font-size:12px;
+}
+.week-chip{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.10);
+  background:rgba(255,255,255,0.75);
+  color:var(--muted);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
 
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: transparent;
-    color: var(--text);
-    overflow-x: hidden;
-  }
+/* Entry card */
+.entry{
+  position:relative;
+  width:46%;
+  background:rgba(255,255,255,0.90);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px 18px 14px;
+  margin:0 0 24px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+  cursor:pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.entry:hover{
+  transform: translateY(-2px);
+  border-color: rgba(0,102,204,0.25);
+  box-shadow: var(--shadow);
+}
+.entry.left{margin-right:auto}
+.entry.right{margin-left:auto}
+.entry:after{
+  content:"";
+  position:absolute;
+  top:26px;
+  width:10px;height:10px;
+  background:var(--blue);
+  border-radius:50%;
+  box-shadow:0 0 0 4px rgba(245,245,247,0.95);
+}
+.entry.left:after{right:-34px}
+.entry.right:after{left:-34px}
+.entry:before{
+  content:"";
+  position:absolute;
+  top:30px;
+  width:28px;height:2px;
+  background:rgba(0,0,0,0.12);
+}
+.entry.left:before{right:-28px}
+.entry.right:before{left:-28px}
 
-  /* HEADER */
-  header {
-    text-align: center;
-    padding: 60px 20px 30px;
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, #12121a 0%, var(--bg) 100%);
-  }
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--accent);
-  }
-  header p {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-top: 8px;
-    font-weight: 300;
-  }
+.entry-date{
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--blue);
+  font-weight:800;
+}
+.entry-title{
+  margin-top:6px;
+  font-size:16px;
+  font-weight:800;
+  line-height:1.25;
+}
+.entry-location{
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+  font-style:italic;
+}
+.entry-img-wrap{
+  margin-top:12px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.00));
+  display:none;
+}
+.entry.has-img .entry-img-wrap{display:block}
+.entry-img{display:block;width:100%;height:auto}
+.entry-summary{
+  margin-top:10px;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.55;
+  display:none;
+}
+.entry.expanded .entry-summary{display:block}
 
-  /* ERA NAV */
-  #era-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-    padding: 18px 20px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .era-btn {
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 0.78rem;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: all 0.25s;
-    white-space: nowrap;
-  }
-  .era-btn:hover, .era-btn.active {
-    background: var(--accent);
-    color: #0a0a0f;
-    border-color: var(--accent);
-    font-weight: 500;
-  }
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:12px;
+}
+.tag{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.75);
+  color:var(--muted);
+}
+.hint{
+  margin-top:10px;
+  font-size:12px;
+  color: rgba(0,102,204,0.55);
+}
+.entry:hover .hint{color:var(--blue)}
+.entry.expanded .hint:after{content:"click to collapse"}
+.entry:not(.expanded) .hint:after{content:"click to expand"}
 
-  /* FILTER BAR */
-  #filter-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-  }
-  #search-input {
-    padding: 8px 16px;
-    width: 320px;
-    max-width: 60vw;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    color: var(--text);
-    font-size: 0.85rem;
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  #search-input:focus { border-color: var(--accent); }
-  #search-input::placeholder { color: var(--text-muted); }
+/* Plan diagram */
+.plan-wrap{
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid rgba(0,0,0,0.08);
+}
+.plan-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.plan-label{
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+.plan-toggle{
+  appearance:none;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.85);
+  color:var(--text);
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:12px;
+  cursor:pointer;
+  transition:border-color 0.2s, transform 0.05s;
+  white-space:nowrap;
+}
+.plan-toggle:hover{border-color:rgba(0,102,204,0.28)}
+.plan-toggle:active{transform:translateY(1px)}
+.plan-panel{display:none;margin-top:10px}
+.plan-panel.open{display:block}
+.plan-svg{
+  width:100%;
+  max-width:320px;
+  height:auto;
+  display:block;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#ffffff;
+}
+.plan-logic{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.80);
+}
+.plan-logic strong{color:var(--blue);font-size:12px}
+.plan-logic p{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.5}
 
-  #entry-count {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-  }
+/* responsive */
+@media (max-width: 780px){
+  .top-actions{max-width:none;width:auto}
+  .timeline:before{left:20px}
+  .entry{width:calc(100% - 58px); margin-left:58px !important;}
+  .entry:after{left:-42px !important; right:auto !important;}
+  .entry:before{left:-34px !important; right:auto !important;}
+}
+/* scroll in */
+.entry{opacity:0; transform: translateY(14px);}
+.entry.visible{opacity:1; transform: translateY(0); transition: opacity 0.55s, transform 0.55s, border-color 0.18s, box-shadow 0.18s;}
+.hidden{display:none !important}
 
-  /* TIMELINE CONTAINER */
-  #timeline {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
-    position: relative;
-  }
-
-  /* Central spine */
-  #timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border);
-    transform: translateX(-50%);
-  }
-
-  /* ERA SECTION */
-  .era-section {
-    margin-bottom: 60px;
-  }
-  .era-header {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 30px;
-  }
-  .era-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--accent);
-    display: inline-block;
-    background: var(--bg);
-    padding: 8px 24px;
-    border: 1px solid var(--accent-dim);
-    border-radius: 4px;
-  }
-  .era-header .era-dates {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 6px;
-    font-weight: 300;
-  }
-  .era-header .era-week {
-    font-size: 0.7rem;
-    color: var(--accent);
-    margin-top: 4px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  /* ENTRY CARD */
-  .entry {
-    position: relative;
-    width: 44%;
-    padding: 18px 22px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 24px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .entry:hover {
-    border-color: var(--accent-dim);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  }
-  .entry.left { margin-left: 0; margin-right: auto; }
-  .entry.right { margin-left: auto; margin-right: 0; }
-
-  /* Connector dot */
-  .entry::after {
-    content: '';
-    position: absolute;
-    top: 24px;
-    width: 10px;
-    height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    border: 2px solid var(--bg);
-  }
-  .entry.left::after { right: -32px; }
-  .entry.right::after { left: -32px; }
-
-  /* Connector line */
-  .entry::before {
-    content: '';
-    position: absolute;
-    top: 28px;
-    width: 24px;
-    height: 1px;
-    background: var(--border);
-  }
-  .entry.left::before { right: -24px; }
-  .entry.right::before { left: -24px; }
-
-  .entry-date {
-    font-size: 0.72rem;
-    color: var(--accent);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 6px;
-  }
-  .entry-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-    line-height: 1.3;
-  }
-  .entry-location {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-style: italic;
-  }
-
-  /* ENTRY IMAGE */
-  .entry-img-wrap {
-    margin: 10px 0 6px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: #0f0f18;
-    display: none;
-  }
-  .entry-img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .entry.has-img .entry-img-wrap { display: block; }
-  .entry-summary {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-    display: none;
-  }
-  .entry.expanded .entry-summary { display: block; }
-
-  /* SPATIAL DIAGRAMS (B2) */
-  .plan-wrap {
-    margin-top: 12px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-  .plan-topline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .plan-label {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .plan-toggle {
-    appearance: none;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 0.74rem;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.05s;
-    white-space: nowrap;
-  }
-  .plan-toggle:hover { border-color: var(--accent-dim); }
-  .plan-toggle:active { transform: translateY(1px); }
-  .plan-panel { display: none; }
-  .plan-panel.open { display: block; }
-  .plan-svg {
-    width: 100%;
-    max-width: 280px;
-    height: auto;
-    display: block;
-    margin-top: 6px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: #0f0f18;
-  }
-  .plan-logic {
-    margin-top: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .plan-logic strong {
-    color: var(--accent);
-    font-size: 0.8rem;
-  }
-  .plan-logic p {
-    margin-top: 6px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .entry-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 10px;
-  }
-  .tag {
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background: var(--surface2);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-
-  .expand-hint {
-    font-size: 0.7rem;
-    color: var(--accent-dim);
-    margin-top: 8px;
-    transition: color 0.2s;
-  }
-  .entry:hover .expand-hint { color: var(--accent); }
-  .entry.expanded .expand-hint::after { content: 'click to collapse'; }
-  .entry:not(.expanded) .expand-hint::after { content: 'click to expand'; }
-
-  /* KEY CONCEPTS PANEL */
-  .concepts-panel {
-    max-width: 960px;
-    margin: 0 auto 40px;
-    padding: 0 20px;
-    display: none;
-  }
-  .concepts-panel.visible { display: block; }
-  .concepts-panel h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--accent);
-    margin-bottom: 14px;
-    text-align: center;
-  }
-  .concepts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-  }
-  .concept-card {
-    padding: 12px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-  .concept-card strong {
-    font-size: 0.82rem;
-    color: var(--text);
-    display: block;
-    margin-bottom: 4px;
-  }
-  .concept-card span {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-
-  /* ERA STUDY PANEL (Expanded Key Terms) */
-  .era-study {
-    max-width: 960px;
-    margin: 18px auto 26px;
-    padding: 0 20px;
-  }
-  .era-study-toggle {
-    display: block;
-    width: 100%;
-    padding: 14px 18px;
-    background: var(--surface);
-    border: 2px solid var(--accent-dim);
-    border-radius: 10px;
-    color: var(--accent);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-    text-align: left;
-  }
-  .era-study-toggle:hover {
-    border-color: var(--accent);
-    background: var(--surface2);
-  }
-  .era-study-content {
-    display: none;
-    margin-top: 12px;
-    padding: 18px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-  }
-  .era-study-content.open { display: block; }
-
-  .concepts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .concept-card {
-    padding: 12px 14px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-  .concept-card strong {
-    font-size: 0.82rem;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-  }
-  .concept-card span {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    line-height: 1.45;
-    display: block;
-  }
-  .concept-line,
-  .concept-examples,
-  .concept-check {
-    margin-top: 8px;
-    font-size: 0.76rem;
-    color: var(--text-muted);
-    line-height: 1.45;
-  }
-  .concept-line em,
-  .concept-examples em,
-  .concept-check em {
-    color: var(--accent);
-    font-style: normal;
-    font-weight: 700;
-  }
-  .concept-check {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-
-  .architects-section {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-  .architects-section strong {
-    font-size: 0.82rem;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 6px;
-  }
-  .architects-section p {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-
-
-  
-
+/* Study blocks (Keywords / Vocab / Learning Objectives / SLO) */
+.study{display:flex;justify-content:center;margin:10px 0 18px}
+.study-card{
+  width:min(1040px, 100%);
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.88);
+  border-radius:18px;
+  box-shadow:var(--shadow2);
+  overflow:hidden;
+}
+.study-top{
+  display:flex;
+  gap:10px;
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+  align-items:center;
+  flex-wrap:wrap;
+}
+.study-top .label{
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:0.14em;
+  font-size:12px;
+  text-transform:uppercase;
+  margin-right:auto;
+}
+.study-collapse{
+  border:1px solid var(--border);
+  background:rgba(245,245,247,0.7);
+  padding:8px 10px;
+  border-radius:12px;
+  font-size:12px;
+  color:var(--gray);
+  cursor:pointer;
+}
+.tab{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.65);
+  padding:8px 10px;
+  border-radius:12px;
+  font-size:12px;
+  color:var(--muted);
+  cursor:pointer;
+}
+.tab.active{
+  border-color:rgba(0,102,204,0.35);
+  background:rgba(0,102,204,0.10);
+  color:var(--blue);
+  font-weight:800;
+}
+.study-body{padding:12px;display:none}
+.study-card.open .study-body{display:block}
+.study-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:10px}
+.study-item{
+  border:1px solid var(--border);
+  background:rgba(245,245,247,0.7);
+  border-radius:14px;
+  padding:10px;
+}
+.study-item .k{
+  font-weight:900;
+  font-size:12px;
+  color:var(--gray);
+  letter-spacing:0.06em;
+}
+.study-item .v{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.35;
+}
+.study-list{display:flex;flex-direction:column;gap:8px}
+.study-bullet{
+  border:1px solid var(--border);
+  background:rgba(245,245,247,0.7);
+  border-radius:14px;
+  padding:10px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.4;
+}
+.study-bullet strong{color:var(--gray)}
+.study-bullet .tag{
+  display:inline-block;
+  margin-left:8px;
+  font-size:11px;
+  font-weight:900;
+  color:var(--orange);
+  letter-spacing:0.04em;
+}
 
 
-  /* ANIMATED BACKGROUND: Cosmic Renaissance manuscript (inline SVG pattern, GitHub Pages-safe) */
-  .bg-manuscript {
-    position: fixed;
-    inset: 0;
-    z-index: -100;
-    pointer-events: none;
-    overflow: hidden;
-    background: radial-gradient(1200px 900px at 30% 20%, rgba(201,168,76,0.10), transparent 60%),
-                radial-gradient(1200px 900px at 70% 70%, rgba(255,255,255,0.05), transparent 65%),
-                linear-gradient(180deg, #06060b 0%, #0a0a0f 55%, #06060b 100%);
-  }
+/* Interactive controls */
+.filters{margin:14px auto 0; max-width:1180px; padding:0 18px 10px;}
+.filter-row{display:flex; gap:12px; align-items:center; margin:10px 0;}
+.filter-label{width:80px; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted);}
+.filter-chips{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.chip{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); color:var(--text); padding:7px 10px; border-radius:999px; font-size:13px; cursor:pointer; transition:transform 160ms ease, background 160ms ease, box-shadow 160ms ease;}
+.chip:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
+.chip.active{background:rgba(0,102,204,0.12); border-color:rgba(0,102,204,0.35);}
+.filter-actions{display:flex; gap:10px; align-items:center; margin-top:10px;}
+.btn{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); padding:9px 12px; border-radius:12px; font-size:13px; cursor:pointer; transition:transform 160ms ease, box-shadow 160ms ease, background 160ms ease;}
+.btn:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
+.btn:disabled{opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none;}
+.btn.primary{background:rgba(245,99,0,0.12); border-color:rgba(245,99,0,0.35);}
 
-  .bg-manuscript svg {
-    position: absolute;
-    inset: -60%;
-    width: 220%;
-    height: 220%;
-  }
+/* Entry tools */
+.entry-tools{display:flex; gap:10px; align-items:center; margin-top:10px;}
+.entry-mini{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.icon-btn{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); width:36px; height:36px; border-radius:12px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:transform 160ms ease, box-shadow 160ms ease;}
+.icon-btn:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
 
-  .bg-manuscript .layer-a {
-    opacity: 0.42;
-    transform: translate3d(0,0,0);
-    animation: msDriftA 120s linear infinite;
-  }
+.entry{transition:transform 180ms ease, box-shadow 180ms ease;}
+.entry:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(0,0,0,0.12);}
 
-  .bg-manuscript .layer-b {
-    opacity: 0.22;
-    transform: translate3d(0,0,0);
-    animation: msDriftB 75s linear infinite;
-  }
+.compare-selected{outline:2px solid rgba(245,99,0,0.55);}
+.compare-selected .entry-title{color:var(--orange);}
 
-  @keyframes msDriftA {
-    0%   { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(14%, 10%, 0); }
-  }
+/* Compare dock */
+.compare-dock{position:fixed; left:0; right:0; bottom:0; z-index:50; transform:translateY(110%); transition:transform 260ms cubic-bezier(.2,.9,.2,1); padding:14px 14px 18px; pointer-events:none;}
+.compare-dock.open{transform:translateY(0); pointer-events:auto;}
+.compare-inner{max-width:1180px; margin:0 auto; background:rgba(255,255,255,0.92); border:1px solid var(--border); border-radius:18px; box-shadow:0 18px 60px rgba(0,0,0,0.18); backdrop-filter: blur(14px); padding:12px 12px 14px;}
+.compare-title{font-size:14px; font-weight:700; margin:2px 6px 10px;}
+.compare-slots{display:flex; gap:10px; flex-wrap:wrap; padding:0 6px;}
+.compare-slot{flex:1 1 280px; border:1px dashed rgba(0,0,0,0.18); border-radius:14px; padding:10px; min-height:74px; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+.compare-slot.filled{border-style:solid; background:rgba(0,0,0,0.03);}
+.compare-slot-title{font-size:13px; font-weight:700;}
+.compare-slot-sub{font-size:12px; color:var(--muted);}
+.compare-actions{display:flex; gap:10px; justify-content:flex-end; padding:10px 6px 0;}
 
-  @keyframes msDriftB {
-    0%   { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-10%, 16%, 0); }
-  }
+/* Modal */
+.modal{position:fixed; inset:0; z-index:60; display:none;}
+.modal.open{display:block;}
+.modal-backdrop{position:absolute; inset:0; background:rgba(0,0,0,0.45);}
+.modal-card{position:relative; max-width:980px; margin:4vh auto; background:rgba(255,255,255,0.95); border:1px solid var(--border); border-radius:20px; box-shadow:0 26px 90px rgba(0,0,0,0.25); overflow:hidden; backdrop-filter: blur(16px);}
+.modal-top{display:flex; justify-content:space-between; align-items:flex-start; padding:14px 14px 10px; border-bottom:1px solid rgba(0,0,0,0.08);}
+.modal-title{font-size:16px; font-weight:800;}
+.modal-sub{font-size:12px; color:var(--muted); margin-top:2px;}
+.modal-tools{display:flex; justify-content:space-between; gap:14px; align-items:center; padding:10px 14px; border-bottom:1px solid rgba(0,0,0,0.06);}
+.modal-hint{font-size:12px; color:var(--muted);}
+.modal-body{padding:14px;}
+.modal-body svg{width:100%; height:auto; display:block;}
+.layer-toggle{display:flex; gap:8px; flex-wrap:wrap;}
 
-  @media (prefers-reduced-motion: reduce) {
-    .bg-manuscript .layer-a,
-    .bg-manuscript .layer-b { animation: none !important; }
-  }
+/* Plan panel enhancements */
+.plan-tools{display:flex; justify-content:space-between; gap:10px; align-items:center; margin:10px 0 8px;}
+.plan-tools .layer-toggle{gap:6px;}
+.plan-logic{margin-top:10px;}
+
+/* Reduced text by default */
+.entry-summary{max-height:3.8em; overflow:hidden; transition:max-height 240ms ease;}
+.entry.expanded .entry-summary{max-height:18em;}
 
 
-  /* RESPONSIVE */
-  @media (max-width: 700px) {
-    #timeline::before { left: 20px; }
-    .entry { width: calc(100% - 50px); margin-left: 50px !important; margin-right: 0 !important; }
-    .entry::after { left: -38px !important; right: auto !important; }
-    .entry::before { left: -30px !important; right: auto !important; }
-    .era-btn { font-size: 0.7rem; padding: 5px 10px; }
-    header h1 { font-size: 1.6rem; }
-  }
+/* ── VIEW-MODE TOGGLES ────────────────────────────────── */
+.view-modes{display:flex;gap:6px;align-items:center;margin-left:10px;flex-shrink:0}
+.mode-btn{appearance:none;border:1px solid var(--border);background:rgba(255,255,255,0.85);color:var(--muted);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:transform 0.08s,background 0.2s,border-color 0.2s;white-space:nowrap;font-family:inherit}
+.mode-btn:hover{border-color:rgba(0,102,204,0.30);color:var(--text)}
+.mode-btn.active{background:rgba(0,102,204,0.12);border-color:rgba(0,102,204,0.40);color:var(--blue)}
 
-  /* SCROLL ANIMATION */
-  .entry { opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s, border-color 0.3s, box-shadow 0.3s; }
-  .entry.visible { opacity: 1; transform: translateY(0); }
-  .entry:hover.visible { transform: translateY(-2px); }
+/* ── FLASHCARD OVERLAY ────────────────────────────────── */
+.fc-overlay{position:fixed;inset:0;z-index:300;background:rgba(245,245,247,0.97);backdrop-filter:blur(20px);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto}
+.fc-overlay.open{display:flex}
+.fc-header{width:100%;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:2;flex-wrap:wrap;gap:10px}
+.fc-header-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fc-title{font-weight:900;font-size:15px;color:var(--gray);letter-spacing:0.10em;text-transform:uppercase}
+.fc-progress{font-size:12px;color:var(--muted);min-width:60px}
+.fc-era-sel{border:1px solid var(--border);background:rgba(255,255,255,0.85);color:var(--text);padding:6px 10px;border-radius:10px;font-size:12px;font-family:inherit;cursor:pointer;max-width:200px}
+.fc-body{display:flex;flex-direction:column;align-items:center;padding:32px 20px 60px;width:100%;max-width:640px}
+.fc-card-wrap{perspective:1200px;width:100%;height:320px;cursor:pointer;margin-bottom:20px}
+.fc-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.23,1,0.32,1)}
+.fc-card-wrap.flipped .fc-card-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;padding:28px 30px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--border);box-shadow:0 16px 48px rgba(0,0,0,0.09)}
+.fc-front{background:#ffffff;align-items:center;text-align:center}
+.fc-back{background:linear-gradient(140deg,rgba(0,102,204,0.04),#fff);transform:rotateY(180deg);justify-content:flex-start}
+.fc-era-chip{font-size:10px;padding:3px 10px;border-radius:999px;background:rgba(0,102,204,0.09);border:1px solid rgba(0,102,204,0.20);color:var(--blue);font-weight:800;letter-spacing:0.06em;margin-bottom:14px;display:inline-block}
+.fc-term{font-size:30px;font-weight:900;color:var(--gray);line-height:1.2;margin-bottom:8px}
+.fc-flip-hint{font-size:12px;color:var(--muted);margin-top:14px;opacity:0.7}
+.fc-section-label{font-size:10px;text-transform:uppercase;letter-spacing:0.10em;color:var(--blue);font-weight:800;margin-bottom:4px;margin-top:12px}
+.fc-section-label:first-child{margin-top:0}
+.fc-def{font-size:14px;color:var(--text);line-height:1.55;margin-bottom:2px}
+.fc-rec{font-size:13px;color:var(--muted);line-height:1.45}
+.fc-check-box{margin-top:12px;padding:9px 12px;border-radius:11px;background:rgba(245,99,0,0.07);border:1px solid rgba(245,99,0,0.18);font-size:12px;color:var(--orange);line-height:1.4}
+.fc-nav{display:flex;align-items:center;gap:14px;margin-top:4px}
+.fc-nav-btn{appearance:none;border:1px solid var(--border);background:rgba(255,255,255,0.90);color:var(--text);width:46px;height:46px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,transform 0.08s;box-shadow:0 4px 14px rgba(0,0,0,0.06);font-family:inherit}
+.fc-nav-btn:hover{border-color:rgba(0,102,204,0.30);transform:translateY(-1px)}
+.fc-nav-btn:disabled{opacity:0.35;pointer-events:none}
+.fc-shuffle-btn{appearance:none;border:1px solid var(--border);background:rgba(255,255,255,0.85);color:var(--muted);padding:9px 16px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:border-color 0.2s,color 0.2s;font-family:inherit}
+.fc-shuffle-btn:hover{border-color:rgba(0,102,204,0.30);color:var(--blue)}
 
-  /* HIDDEN */
-  .hidden { display: none !important; }
+/* ── MAP VIEW ─────────────────────────────────────────── */
+.map-panel{display:none;max-width:1180px;margin:0 auto;padding:18px 18px 88px}
+.map-panel.open{display:block}
+.map-container{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);background:#d4e5f5}
+.map-svg{width:100%;height:auto;display:block;cursor:crosshair}
+.map-dot{cursor:pointer;transition:all 0.12s}
+.map-dot:hover circle{r:7}
+.map-popup{position:absolute;background:#ffffff;border:1px solid var(--border);border-radius:14px;padding:12px 14px;box-shadow:0 12px 36px rgba(0,0,0,0.13);max-width:250px;min-width:190px;z-index:20;opacity:0;transform:translateY(6px) scale(0.97);transition:opacity 0.18s,transform 0.18s;pointer-events:none}
+.map-popup.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.map-popup-date{font-size:10px;color:var(--blue);font-weight:800;letter-spacing:0.09em;text-transform:uppercase}
+.map-popup-title{font-size:13px;font-weight:800;color:var(--text);margin-top:3px;line-height:1.25}
+.map-popup-loc{font-size:11px;color:var(--muted);font-style:italic;margin-top:2px}
+.map-popup-era{font-size:10px;margin-top:6px;padding:3px 8px;border-radius:999px;background:rgba(0,102,204,0.08);color:var(--blue);display:inline-block;font-weight:700}
+.map-popup-close{position:absolute;top:6px;right:8px;background:none;border:none;font-size:14px;cursor:pointer;color:var(--muted);line-height:1;padding:2px}
+.map-legend{display:flex;flex-wrap:wrap;gap:7px;padding:10px 14px;border-top:1px solid var(--border);background:rgba(255,255,255,0.82)}
+.map-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);padding:3px 9px;border-radius:999px;background:rgba(255,255,255,0.85);border:1px solid var(--border);cursor:pointer;transition:border-color 0.15s,opacity 0.2s}
+.map-legend-item:hover{border-color:rgba(0,102,204,0.25)}
+.map-legend-item.faded{opacity:0.3}
+.map-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ── INFLUENCE DIAGRAM ────────────────────────────────── */
+.inf-panel{display:none;max-width:1180px;margin:0 auto;padding:18px 18px 88px}
+.inf-panel.open{display:block}
+.inf-wrap{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#ffffff;box-shadow:var(--shadow)}
+.inf-svg{width:100%;height:auto;display:block}
+.inf-node-g{cursor:pointer}
+.inf-node-g:hover rect{stroke:rgba(0,102,204,0.55)!important;stroke-width:2}
+.inf-tooltip{position:fixed;background:#fff;border:1px solid var(--border);border-radius:11px;padding:9px 13px;font-size:12px;box-shadow:0 8px 26px rgba(0,0,0,0.12);max-width:260px;pointer-events:none;z-index:400;display:none;line-height:1.45;color:var(--text)}
+.inf-tooltip.visible{display:block}
+.inf-desc{margin-top:4px;font-size:11px;color:var(--muted)}
+.inf-subtitle{max-width:1180px;margin:0 auto;padding:0 18px 10px;font-size:12px;color:var(--muted);line-height:1.5}
+
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true"></div>
 
 <header>
-  <h1>ARCH 250 - History of Architecture</h1>
-  <p>Prehistory to Mannerism &middot; Interactive Timeline</p>
+  <div class="header-inner">
+    <div class="logo">
+      <svg width="62" height="62" viewBox="0 0 64 64" aria-label="ARCH 250 mark" role="img" style="display:block">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0066cc" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#f56300" stop-opacity="0.10"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="url(#g)" stroke="rgba(0,0,0,0.10)"/>
+  <path d="M16 42 L32 18 L48 42" fill="none" stroke="#424245" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24 34 L40 34" fill="none" stroke="#0066cc" stroke-width="3" stroke-linecap="round"/>
+  <text x="32" y="54" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#424245" letter-spacing="2">250</text>
+</svg>
+      <div class="logo-text">
+        <div class="arch">ARCH 250</div>
+        <div class="hoa">History of Architecture</div>
+        <div class="sub">Prehistory to Mannerism · Citrus College</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div class="search">
+        <input id="search" type="text" placeholder="Search buildings, architects, concepts..." />
+      </div>
+      <div class="count" id="count"></div>
+    <div class="view-modes">
+      <button class="mode-btn active" id="modeTimeline" type="button">Timeline</button>
+      <button class="mode-btn" id="modeMap" type="button">Map</button>
+      <button class="mode-btn" id="modeInfluences" type="button">Influences</button>
+      <button class="mode-btn" id="modeFlashcards" type="button">Flashcards</button>
+    </div>
+    </div>
+
+
+    <div class="filters">
+      <div class="filter-row">
+        <div class="filter-label">Type</div>
+        <div class="filter-chips" id="typeFilters"></div>
+      </div>
+      <div class="filter-row">
+        <div class="filter-label">Structure</div>
+        <div class="filter-chips" id="structFilters"></div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn" id="clearFilters" type="button">Clear filters</button>
+        <button class="btn primary" id="compareOpen" type="button" disabled>Compare (0)</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="era-nav" id="eraNav"></div>
 </header>
 
-<nav id="era-nav"></nav>
+<main>
+  <div class="timeline" id="timeline"></div>
+</main>
 
-<div id="filter-bar">
-  <input type="text" id="search-input" placeholder="Search buildings, architects, concepts&hellip;" />
-  <span id="entry-count"></span>
+
+<div class="compare-dock" id="compareDock" aria-live="polite">
+  <div class="compare-inner">
+    <div class="compare-title">Compare mode</div>
+    <div class="compare-slots" id="compareSlots"></div>
+    <div class="compare-actions">
+      <button class="btn" id="compareClear" type="button">Clear</button>
+      <button class="btn primary" id="compareGo" type="button" disabled>Compare selected</button>
+    </div>
+  </div>
 </div>
 
-<div id="timeline"></div>
+<div class="modal" id="planModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" data-close="1"></div>
+  <div class="modal-card" role="document">
+    <div class="modal-top">
+      <div>
+        <div class="modal-title" id="planModalTitle"></div>
+        <div class="modal-sub" id="planModalSub"></div>
+      </div>
+      <button class="icon-btn" id="planModalClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-tools">
+      <div class="layer-toggle" role="group" aria-label="Diagram layers">
+        <button class="chip active" type="button" data-layer="base">Base</button>
+        <button class="chip" type="button" data-layer="structure">Structure</button>
+        <button class="chip" type="button" data-layer="circulation">Circulation</button>
+        <button class="chip" type="button" data-layer="hierarchy">Hierarchy</button>
+      </div>
+      <div class="modal-hint">If a layer is not available for this plan, it stays hidden.</div>
+    </div>
+    <div class="modal-body" id="planModalBody"></div>
+  </div>
+</div>
+
 
 <script>
 const DATA = [
@@ -2025,25 +2171,13 @@ const DATA = [
   }
 ];
 
-// -------------------------------------------------------------
-// Image loading (Wikipedia JSONP, Option A)
-// Works when the file is opened locally (file://) because it does
-// not use fetch/XHR.
-// Strategy:
-//  1) Try direct title lookup (with redirects)
-//  2) If no thumbnail, run a Wikipedia search (title + location) and use the top hit
-// -------------------------------------------------------------
-
-// Some timeline labels are not ideal Wikipedia page titles.
-// Add fixes here as needed.
 const WIKI_TITLE_OVERRIDES = {
   "White Temple & Ziggurat at Uruk": "White Temple (Uruk)",
   "Megalithic Temples of Malta": "Megalithic Temples of Malta",
   "Hagia Sophia": "Hagia Sophia",
-  "Old St. Peter’s Basilica": "Old St. Peter's Basilica",
+  "Old St. Peter's Basilica": "Old St. Peter's Basilica"
 };
 
-// Normalize punctuation so Wikipedia titles resolve more often
 function normalizeWikiTitle(str) {
   return (str || "")
     .replace(/[“”]/g, '"')
@@ -2051,13 +2185,11 @@ function normalizeWikiTitle(str) {
     .replace(/\s+/g, " ")
     .trim();
 }
-
 function getWikiTitle(entry) {
   return normalizeWikiTitle(entry.wiki || WIKI_TITLE_OVERRIDES[entry.title] || entry.title);
 }
-
 function jsonp(url, cbName, onDone) {
-  const script = document.createElement('script');
+  const script = document.createElement("script");
   window[cbName] = (data) => {
     try { onDone(data); }
     finally {
@@ -2073,22 +2205,20 @@ function jsonp(url, cbName, onDone) {
   script.src = url;
   document.head.appendChild(script);
 }
-
 function wikiThumbByTitle(title, done) {
   const cbName = `wiki_title_${Math.random().toString(36).slice(2)}`;
-  const api = 'https://en.wikipedia.org/w/api.php';
+  const api = "https://en.wikipedia.org/w/api.php";
   const params = new URLSearchParams({
-    action: 'query',
-    format: 'json',
-    prop: 'pageimages',
-    piprop: 'thumbnail',
-    pithumbsize: '700',
-    redirects: '1',
+    action: "query",
+    format: "json",
+    prop: "pageimages",
+    piprop: "thumbnail",
+    pithumbsize: "700",
+    redirects: "1",
     titles: title,
-    callback: cbName,
+    callback: cbName
   });
-  const url = `${api}?${params.toString()}`;
-  jsonp(url, cbName, (data) => {
+  jsonp(`${api}?${params.toString()}`, cbName, (data) => {
     try {
       const pages = data && data.query && data.query.pages ? data.query.pages : null;
       const firstKey = pages ? Object.keys(pages)[0] : null;
@@ -2100,25 +2230,22 @@ function wikiThumbByTitle(title, done) {
     }
   });
 }
-
 function wikiThumbBySearch(term, done) {
   const cbName = `wiki_search_${Math.random().toString(36).slice(2)}`;
-  const api = 'https://en.wikipedia.org/w/api.php';
-  // generator=search lets us retrieve a thumbnail in the same response
+  const api = "https://en.wikipedia.org/w/api.php";
   const params = new URLSearchParams({
-    action: 'query',
-    format: 'json',
-    generator: 'search',
+    action: "query",
+    format: "json",
+    generator: "search",
     gsrsearch: term,
-    gsrlimit: '1',
-    prop: 'pageimages',
-    piprop: 'thumbnail',
-    pithumbsize: '700',
-    redirects: '1',
-    callback: cbName,
+    gsrlimit: "1",
+    prop: "pageimages",
+    piprop: "thumbnail",
+    pithumbsize: "700",
+    redirects: "1",
+    callback: cbName
   });
-  const url = `${api}?${params.toString()}`;
-  jsonp(url, cbName, (data) => {
+  jsonp(`${api}?${params.toString()}`, cbName, (data) => {
     try {
       const pages = data && data.query && data.query.pages ? data.query.pages : null;
       const key = pages ? Object.keys(pages)[0] : null;
@@ -2130,35 +2257,25 @@ function wikiThumbBySearch(term, done) {
     }
   });
 }
-
 function loadWikiThumb(imgEl, entry) {
-  const wrap = imgEl.closest('.entry');
+  const wrap = imgEl.closest(".entry");
   const title = getWikiTitle(entry);
-
-  // 1) Direct title lookup
   wikiThumbByTitle(title, (thumb1) => {
     if (thumb1) {
       imgEl.src = thumb1;
-      wrap.classList.add('has-img');
+      wrap.classList.add("has-img");
       return;
     }
-
-    // 2) Search fallback (title + location helps a lot)
     const searchTerm = normalizeWikiTitle(`${title} ${entry.location || ""}`.trim());
     wikiThumbBySearch(searchTerm, (thumb2) => {
       if (thumb2) {
         imgEl.src = thumb2;
-        wrap.classList.add('has-img');
+        wrap.classList.add("has-img");
       }
     });
   });
 }
 
-
-
-// =============================================
-// SPATIAL DIAGRAMS (B2) - inline SVG, no external files
-// =============================================
 const DIAGRAMS = {
   "The Pantheon": {
     key: "pantheon",
@@ -2236,125 +2353,133 @@ const DIAGRAMS = {
   }
 };
 
+function escapeHTML(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function svgWrap(inner) {
-  return `<svg class="plan-svg" viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spatial diagram">
-    <rect x="0" y="0" width="240" height="160" fill="#0f0f18"/>
-    <g stroke="#c9a84c" stroke-opacity="0.75" fill="none" stroke-width="2">
+  return `<svg class="plan-svg" viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plan diagram">
+    <defs>
+      <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+        <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+      </pattern>
+      <pattern id="gridBold" width="80" height="80" patternUnits="userSpaceOnUse">
+        <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.2"/>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="240" height="160" fill="#ffffff"/>
+    <rect x="0" y="0" width="240" height="160" fill="url(#grid)"/>
+    <rect x="0" y="0" width="240" height="160" fill="url(#gridBold)"/>
+    <g stroke="#0066cc" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       ${inner}
     </g>
   </svg>`;
 }
-
 function svgLabels(labels) {
   if (!labels || !labels.length) return "";
-  return `<g font-family="Inter, sans-serif" font-size="10" fill="#e8e6e3" fill-opacity="0.75">
+  return `<g font-family="Inter, system-ui, sans-serif" font-size="10" fill="rgba(0,0,0,0.70)">
     ${labels.map(l => `<text x="${l.x}" y="${l.y}">${escapeHTML(l.t)}</text>`).join("")}
   </g>`;
 }
-
 function buildSVG(diagram) {
   const key = diagram.key;
-
   if (key === "pantheon") {
     const inner = `
-      <rect x="18" y="64" width="56" height="56" rx="2" />
+      <rect x="18" y="64" width="56" height="56" rx="3" stroke="rgba(0,0,0,0.35)" />
       <circle cx="142" cy="92" r="50" />
-      <circle cx="142" cy="92" r="4" fill="#c9a84c" fill-opacity="0.9" stroke="none" />
+      <circle cx="142" cy="92" r="4" fill="#0066cc" stroke="none" />
+      <line x1="142" y1="40" x2="142" y2="144" stroke="rgba(0,0,0,0.18)" stroke-dasharray="4 4" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "parthenon") {
     const inner = `
-      <rect x="26" y="44" width="188" height="72" rx="2" />
-      <rect x="70" y="58" width="100" height="44" rx="2" stroke-opacity="0.55" />
-      <rect x="40" y="52" width="160" height="56" rx="2" stroke-dasharray="4 4" stroke-opacity="0.35" />
+      <rect x="26" y="44" width="188" height="72" rx="3" />
+      <rect x="70" y="58" width="100" height="44" rx="3" stroke="rgba(0,0,0,0.35)" />
+      <rect x="40" y="52" width="160" height="56" rx="3" stroke="rgba(0,0,0,0.18)" stroke-dasharray="5 5" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "basilica") {
     const inner = `
-      <rect x="28" y="56" width="160" height="48" rx="2" />
-      <rect x="28" y="56" width="30" height="48" rx="2" stroke-opacity="0.45" />
-      <rect x="158" y="56" width="30" height="48" rx="2" stroke-opacity="0.45" />
-      <path d="M188 56 A24 24 0 0 1 188 104" stroke-opacity="0.75" />
-      <path d="M188 56 A24 24 0 0 0 188 104" stroke-opacity="0.75" />
+      <rect x="28" y="56" width="160" height="48" rx="3" />
+      <rect x="28" y="56" width="30" height="48" rx="3" stroke="rgba(0,0,0,0.28)" />
+      <rect x="158" y="56" width="30" height="48" rx="3" stroke="rgba(0,0,0,0.28)" />
+      <path d="M188 56 A24 24 0 0 1 188 104" />
+      <path d="M188 56 A24 24 0 0 0 188 104" />
+      <line x1="28" y1="80" x2="212" y2="80" stroke="rgba(0,0,0,0.16)" stroke-dasharray="4 4" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "sanvitale") {
     const inner = `
       <polygon points="120,36 154,50 170,84 154,118 120,132 86,118 70,84 86,50" />
-      <polygon points="120,54 142,64 152,84 142,104 120,114 98,104 88,84 98,64" stroke-opacity="0.55" />
-      <circle cx="120" cy="84" r="5" fill="#c9a84c" fill-opacity="0.9" stroke="none" />
+      <polygon points="120,54 142,64 152,84 142,104 120,114 98,104 88,84 98,64" stroke="rgba(0,0,0,0.35)" />
+      <circle cx="120" cy="84" r="5" fill="#0066cc" stroke="none" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "amphitheater") {
     const inner = `
       <ellipse cx="120" cy="84" rx="86" ry="52" />
-      <ellipse cx="120" cy="84" rx="54" ry="32" stroke-opacity="0.6" />
-      <rect x="92" y="74" width="56" height="20" rx="10" stroke-opacity="0.7" />
+      <ellipse cx="120" cy="84" rx="54" ry="32" stroke="rgba(0,0,0,0.35)" />
+      <rect x="92" y="74" width="56" height="20" rx="10" stroke="rgba(0,0,0,0.35)" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "theater") {
     const inner = `
       <path d="M40 112 A80 80 0 0 1 200 112" />
-      <path d="M60 112 A60 60 0 0 1 180 112" stroke-opacity="0.55" />
-      <circle cx="120" cy="112" r="18" stroke-opacity="0.75" />
-      <line x1="120" y1="112" x2="120" y2="44" stroke-opacity="0.25" stroke-dasharray="4 4" />
+      <path d="M60 112 A60 60 0 0 1 180 112" stroke="rgba(0,0,0,0.35)" />
+      <circle cx="120" cy="112" r="18" stroke="rgba(0,0,0,0.35)" />
+      <line x1="120" y1="112" x2="120" y2="44" stroke="rgba(0,0,0,0.16)" stroke-dasharray="4 4" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "stonehenge") {
     const inner = `
       <circle cx="120" cy="84" r="58" />
-      <circle cx="120" cy="84" r="38" stroke-opacity="0.55" />
-      <circle cx="120" cy="84" r="18" stroke-opacity="0.35" />
+      <circle cx="120" cy="84" r="38" stroke="rgba(0,0,0,0.35)" />
+      <circle cx="120" cy="84" r="18" stroke="rgba(0,0,0,0.18)" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "newgrange") {
     const inner = `
       <circle cx="120" cy="84" r="54" />
-      <rect x="36" y="78" width="70" height="12" rx="2" stroke-opacity="0.65" />
-      <circle cx="140" cy="84" r="18" stroke-opacity="0.55" />
-      <line x1="72" y1="84" x2="122" y2="84" stroke-opacity="0.8" />
+      <rect x="36" y="78" width="70" height="12" rx="3" stroke="rgba(0,0,0,0.35)" />
+      <circle cx="140" cy="84" r="18" stroke="rgba(0,0,0,0.35)" />
+      <line x1="72" y1="84" x2="122" y2="84" stroke="rgba(0,0,0,0.16)" stroke-dasharray="4 4" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   if (key === "knossos") {
     const inner = `
-      <rect x="44" y="40" width="152" height="96" rx="2" stroke-opacity="0.55" />
-      <rect x="88" y="66" width="64" height="44" rx="2" />
-      <rect x="54" y="50" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      <rect x="156" y="50" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      <rect x="54" y="102" width="28" height="24" rx="2" stroke-opacity="0.35" />
-      <rect x="156" y="102" width="28" height="24" rx="2" stroke-opacity="0.35" />
+      <rect x="44" y="40" width="152" height="96" rx="3" stroke="rgba(0,0,0,0.35)" />
+      <rect x="88" y="66" width="64" height="44" rx="3" />
+      <rect x="54" y="50" width="28" height="24" rx="3" stroke="rgba(0,0,0,0.18)" />
+      <rect x="156" y="50" width="28" height="24" rx="3" stroke="rgba(0,0,0,0.18)" />
+      <rect x="54" y="102" width="28" height="24" rx="3" stroke="rgba(0,0,0,0.18)" />
+      <rect x="156" y="102" width="28" height="24" rx="3" stroke="rgba(0,0,0,0.18)" />
       ${svgLabels(diagram.labels)}
     `;
     return svgWrap(inner);
   }
-
   return "";
 }
-
 function buildDiagramBlock(entry) {
   const diagram = DIAGRAMS[entry.title];
   if (!diagram) return "";
@@ -2362,12 +2487,21 @@ function buildDiagramBlock(entry) {
   const logic = diagram.logic || "";
   return `
     <div class="plan-wrap">
-      <div class="plan-topline">
-        <div class="plan-label">Spatial diagram</div>
-        <button class="plan-toggle" type="button">Show Spatial Diagram</button>
+      <div class="plan-top">
+        <div class="plan-label">Plan diagram</div>
+        <button class="plan-toggle" type="button">Show Plan Diagram</button>
       </div>
       <div class="plan-panel">
-        ${svg}
+        <div class="plan-tools">
+          <button class="btn plan-focus" type="button">Focus plan</button>
+          <div class="layer-toggle" role="group" aria-label="Diagram layers">
+            <button class="chip active" type="button" data-layer="base">Base</button>
+            <button class="chip" type="button" data-layer="structure">Structure</button>
+            <button class="chip" type="button" data-layer="circulation">Circulation</button>
+            <button class="chip" type="button" data-layer="hierarchy">Hierarchy</button>
+          </div>
+        </div>
+        <div class="plan-svg">${svg}</div>
         <div class="plan-logic">
           <strong>Spatial Logic</strong>
           <p>${escapeHTML(logic)}</p>
@@ -2377,150 +2511,1812 @@ function buildDiagramBlock(entry) {
   `;
 }
 
-// Small helper for safe text injection (used in diagrams)
-function escapeHTML(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll("\"", "&quot;")
-    .replaceAll("'", "&#39;");
+
+const timelineEl = document.getElementById("timeline");
+const eraNavEl = document.getElementById("eraNav");
+const searchEl = document.getElementById("search");
+const countEl = document.getElementById("count");
+
+const typeFiltersEl = document.getElementById("typeFilters");
+const structFiltersEl = document.getElementById("structFilters");
+const clearFiltersBtn = document.getElementById("clearFilters");
+const compareOpenBtn = document.getElementById("compareOpen");
+
+const compareDockEl = document.getElementById("compareDock");
+const compareSlotsEl = document.getElementById("compareSlots");
+const compareClearBtn = document.getElementById("compareClear");
+const compareGoBtn = document.getElementById("compareGo");
+
+const planModalEl = document.getElementById("planModal");
+const planModalTitleEl = document.getElementById("planModalTitle");
+const planModalSubEl = document.getElementById("planModalSub");
+const planModalBodyEl = document.getElementById("planModalBody");
+const planModalCloseBtn = document.getElementById("planModalClose");
+
+const ACTIVE = {
+  era: null,
+  types: new Set(),
+  structures: new Set(),
+  compare: []
+};
+
+const TYPE_ORDER = ["Sacred","Civic","Domestic","Palatial","Infrastructure","Funerary","Urbanism","Landscape","Military","Other"];
+const STRUCT_ORDER = ["Trabeated","Corbelled","Vaulted","Domed","Skeletal","Hybrid","Earthwork","Other"];
+
+function inferType(entry){
+  const t = (entry.type || "").trim();
+  if(t) return t;
+  const tags = (entry.tags || []).map(x => (x||"").toLowerCase());
+  const s = (entry.summary||"").toLowerCase();
+  if(tags.some(x => x.includes("temple") || x.includes("church") || x.includes("cathedral") || x.includes("mosque")) || s.includes("temple") || s.includes("church") || s.includes("cathedral") || s.includes("mosque")) return "Sacred";
+  if(tags.some(x => x.includes("forum") || x.includes("basilica") || x.includes("theater") || x.includes("theatre") || x.includes("agora") || x.includes("stoa")) || s.includes("forum") || s.includes("basilica") || s.includes("theater") || s.includes("agora") || s.includes("stoa")) return "Civic";
+  if(tags.some(x => x.includes("house") || x.includes("domus") || x.includes("villa") || x.includes("palazzo")) || s.includes("house") || s.includes("domus") || s.includes("villa") || s.includes("palazzo")) return "Domestic";
+  if(tags.some(x => x.includes("palace") || x.includes("palatial")) || s.includes("palace")) return "Palatial";
+  if(tags.some(x => x.includes("aqueduct") || x.includes("bath") || x.includes("bridge") || x.includes("road")) || s.includes("aqueduct") || s.includes("bath")) return "Infrastructure";
+  if(tags.some(x => x.includes("tomb") || x.includes("pyramid") || x.includes("mortuary")) || s.includes("tomb") || s.includes("pyramid") || s.includes("mortuary")) return "Funerary";
+  if(tags.some(x => x.includes("city") || x.includes("urban") || x.includes("settlement")) || s.includes("city") || s.includes("settlement")) return "Urbanism";
+  if(tags.some(x => x.includes("garden") || x.includes("landscape")) || s.includes("garden")) return "Landscape";
+  if(tags.some(x => x.includes("fort") || x.includes("wall") || x.includes("citadel")) || s.includes("fort") || s.includes("wall") || s.includes("citadel")) return "Military";
+  return "Other";
+}
+
+function inferStructure(entry){
+  const st = (entry.structure || "").trim();
+  if(st) return st;
+  const tags = (entry.tags || []).map(x => (x||"").toLowerCase());
+  const s = (entry.summary||"").toLowerCase();
+  if(tags.some(x => x.includes("dome") || x.includes("domed")) || s.includes("dome") || s.includes("oculus") || s.includes("pendentive")) return "Domed";
+  if(tags.some(x => x.includes("vault") || x.includes("rib") || x.includes("arch")) || s.includes("vault") || s.includes("barrel") || s.includes("groin") || s.includes("arch")) return "Vaulted";
+  if(tags.some(x => x.includes("buttress") || x.includes("flying")) || s.includes("buttress") || s.includes("rib vault")) return "Skeletal";
+  if(tags.some(x => x.includes("corbel")) || s.includes("corbel")) return "Corbelled";
+  if(tags.some(x => x.includes("post") || x.includes("lintel") || x.includes("trabeated") || x.includes("column")) || s.includes("post") || s.includes("lintel") || s.includes("trabeated")) return "Trabeated";
+  if(tags.some(x => x.includes("earthwork") || x.includes("mound")) || s.includes("earthwork") || s.includes("mound")) return "Earthwork";
+  return "Hybrid";
+}
+
+function uniqueSorted(list, order){
+  const set = new Set(list.filter(Boolean));
+  const arr = [...set];
+  arr.sort((a,b) => {
+    const ai = order.indexOf(a); const bi = order.indexOf(b);
+    if(ai === -1 && bi === -1) return a.localeCompare(b);
+    if(ai === -1) return 1;
+    if(bi === -1) return -1;
+    return ai - bi;
+  });
+  return arr;
+}
+
+function renderChips(container, items, activeSet){
+  container.innerHTML = "";
+  items.forEach(name => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (activeSet.has(name) ? " active" : "");
+    btn.type = "button";
+    btn.textContent = name;
+    btn.addEventListener("click", () => {
+      if(activeSet.has(name)) activeSet.delete(name); else activeSet.add(name);
+      btn.classList.toggle("active");
+      filter();
+    });
+    container.appendChild(btn);
+  });
+}
+
+let activeEra = null;
+let allCards = [];
+
+
+const STUDY_BLOCKS = {
+  "Prehistoric & Neolithic": {
+    keywords: [
+      {k:"Monumentality", v:"From shelter to symbolic building at communal scale."},
+      {k:"Ritual space", v:"Enclosure, axis, and threshold shaping belief and gathering."},
+      {k:"Settlement logic", v:"Cluster, access, and shared edges shaping daily life."}
+    ],
+    vocab: [
+      {k:"Megalith", v:"Large stones used for ritual monuments: menhirs, dolmens, circles."},
+      {k:"Menhir", v:"Single upright standing stone used as marker or ritual element."},
+      {k:"Dolmen", v:"Capstone chamber formed by uprights supporting a large stone lintel."},
+      {k:"Passage tomb", v:"Long corridor leading to a burial chamber, often solar aligned."},
+      {k:"Henge", v:"Circular earthwork enclosure often associated with timber or stone settings."},
+      {k:"Cairn", v:"Stone mound covering a tomb or marking a ceremonial place."},
+      {k:"Tumulus", v:"Earthen burial mound; landscape monument tied to memory and territory."},
+      {k:"Dry stone", v:"Stone construction without mortar, relying on gravity and fit."},
+      {k:"Post and lintel", v:"Two vertical supports carrying a horizontal beam; trabeated system."},
+      {k:"Corbel", v:"Stepped overlap creating a false arch or vault."},
+      {k:"Wattle and daub", v:"Timber lattice infilled with clay, creating quick enclosure walls."},
+      {k:"Tell", v:"Artificial mound formed by repeated rebuilding of mudbrick settlements."},
+      {k:"Trabeated system", v:"Post-and-lintel construction system based on vertical supports and horizontal beams."},
+      {k:"Mastaba", v:"Early flat-topped Egyptian tomb form, often seen as a precursor to pyramid complexes."},
+      {k:"Tectonic", v:"Expression of how a building is made: joints, assembly, and structural logic made legible."},
+      {k:"Vernacular construction", v:"Building traditions shaped by local climate, materials, and cultural practice."},
+      {k:"Proto-urban settlement", v:"Dense early settlement showing social organization before full city-state urbanism."},
+      {k:"Ritual axis", v:"A directional alignment guiding procession and organizing sacred space."},
+      {k:"Threshold", v:"Spatial marker of transition between profane and sacred, outside and inside."},
+      {k:"Mortuary complex", v:"Ensemble of funerary buildings and spaces supporting burial and ritual."},
+],
+    outcomes: [
+      "Explain how enclosure, axis, and threshold create meaning in early monuments.",
+      "Compare settlement patterns (courtyard, roof-entry, clustered plans) using plans.",
+      "Identify basic prehistoric construction strategies and material constraints."
+    ],
+    slo: [
+      "SLO 1: Analyze how spatial organization communicates cultural values in early sites.",
+      "SLO 2: Use plan-based reading to describe circulation, enclosure, and gathering space."
+    ]
+  },
+
+  "Ancient Mesopotamia": {
+    keywords: [
+      {k:"Urban temple economy", v:"Temple and palace as administrative and ritual engines."},
+      {k:"Procession", v:"Ceremonial movement linking gates, courts, and sanctuaries."},
+      {k:"Monumental platform", v:"Raised precincts asserting authority and cosmology."}
+    ],
+    vocab: [
+      {k:"Ziggurat", v:"Stepped temple platform crowned by a shrine; sacred mountain in the city."},
+      {k:"Mudbrick", v:"Sun dried brick; fast to build but requires maintenance and replastering."},
+      {k:"Bitumen", v:"Natural asphalt used as waterproofing, mortar, or protective coating."},
+      {k:"Buttress", v:"Wall projection thickening masonry for stability and rhythmic articulation."},
+      {k:"Bent axis plan", v:"Entry route that turns before the sanctuary, controlling approach and view."},
+      {k:"Courtyard plan", v:"Rooms arranged around open courts for light, air, ritual, and privacy."},
+      {k:"City wall", v:"Defensive enclosure defining urban boundary and authority."},
+      {k:"Processional way", v:"Ceremonial street linking gates, temples, and palaces."},
+      {k:"Glazed brick", v:"Kiln fired colored brick forming durable image surfaces and ornament."},
+      {k:"Lamassu", v:"Guardian hybrid figures flanking Assyrian gates; power and protection."},
+      {k:"Palace relief", v:"Narrative stone carving used as political spectacle inside elite spaces."},
+      {k:"Terrace platform", v:"Raised artificial base elevating precincts above the city fabric."},
+      {k:"Bent-axis plan", v:"Approach that turns before entering the sacred space, increasing ritual control."},
+      {k:"Buttressed wall", v:"Wall thickened or reinforced by projecting masonry supports."},
+      {k:"Mudbrick construction", v:"Building method using sun-dried bricks, shaping thick walls and massing."},
+      {k:"Apadana", v:"Audience hall type in Achaemenid Persia, used for imperial ceremony."},
+      {k:"Hypostyle hall", v:"Large hall with a roof supported by many columns, an early precedent for later types."},
+      {k:"Citadel", v:"Fortified elevated precinct containing palaces, temples, and administrative power."},
+],
+    outcomes: [
+      "Interpret how temple platforms and precinct walls structure urban hierarchy.",
+      "Describe processional sequencing using plan and section logic.",
+      "Relate material limits (mudbrick) to form, maintenance, and scale."
+    ],
+    slo: [
+      "SLO 1: Evaluate how architecture expresses authority through controlled access and elevation.",
+      "SLO 2: Compare civic, sacred, and domestic spatial patterns using plan analysis."
+    ]
+  },
+
+  "Ancient Egypt": {
+    keywords: [
+      {k:"Cosmic order", v:"Architecture aligning kingship, afterlife, and solar cycles."},
+      {k:"Axis and enclosure", v:"Straight procession through layered thresholds."},
+      {k:"Monumental stone", v:"Durability as ideology: permanence, memory, and ritual."}
+    ],
+    vocab: [
+      {k:"Mastaba", v:"Early bench like tomb superstructure over a burial chamber."},
+      {k:"Step pyramid", v:"Stacked mastaba form; early monumental stone tomb type."},
+      {k:"True pyramid", v:"Smooth sided pyramid emphasizing solar order and royal permanence."},
+      {k:"Mortuary temple", v:"Temple attached to tomb complex for ongoing cult ritual."},
+      {k:"Valley temple", v:"Processional entry temple near water or floodplain, linked by causeway."},
+      {k:"Causeway", v:"Ceremonial route connecting valley temple to mortuary complex."},
+      {k:"Pylon", v:"Monumental gateway towers framing temple entry and processional threshold."},
+      {k:"Hypostyle hall", v:"Dense column hall; movement from light to darker sanctum."},
+      {k:"Clerestory", v:"High opening band bringing controlled light into central bays."},
+      {k:"Obelisk", v:"Monolithic stone marker associated with solar cult and temple forecourts."},
+      {k:"Battered wall", v:"Wall that slopes inward as it rises; stability and monumentality."},
+      {k:"Serdab", v:"Sealed chamber holding statue for the ka; symbolic presence within tomb."},
+      {k:"Axial procession", v:"Linear sacred route structured by successive courts and halls."},
+      {k:"Ka", v:"Spiritual life force; tomb and temple architecture support the ka in the afterlife."},
+      {k:"Solar alignment", v:"Orientation of architecture to the sun’s path and ritual calendar."},
+      {k:"Colonnade", v:"Row of columns forming a covered walkway or major spatial edge."},
+],
+    outcomes: [
+      "Explain how temple axes choreograph movement from public to sacred.",
+      "Differentiate tomb and temple typologies by plan, section, and purpose.",
+      "Connect construction methods (post-and-lintel, stone carving) to spatial effect."
+    ],
+    slo: [
+      "SLO 1: Analyze how architecture materializes belief systems through alignment and sequence.",
+      "SLO 2: Distinguish typologies by reading plans, sections, and site organization."
+    ]
+  },
+
+  "Aegean Civilizations": {
+    keywords: [
+      {k:"Palatial network", v:"Courts, storage, and circulation as administrative systems."},
+      {k:"Labyrinthine movement", v:"Complex routing shaping experience and control."},
+      {k:"Fortification", v:"Mycenaean defense and elevated citadels."}
+    ],
+    vocab: [
+      {k:"Central court", v:"Primary organizing void of Minoan palaces; ritual and administration."},
+      {k:"Light well", v:"Vertical opening bringing air and daylight into dense palatial fabric."},
+      {k:"Pier and door partition", v:"Minoan movable wall system enabling flexible room openings."},
+      {k:"Ashlar masonry", v:"Precisely cut stone blocks laid in regular courses."},
+      {k:"Fresco", v:"Wall painting technique; narrative and environmental imagery on plaster."},
+      {k:"Megaron", v:"Mycenaean hall with porch and central hearth; later influences debated."},
+      {k:"Cyclopean masonry", v:"Massive irregular stone walling associated with Mycenaean citadels."},
+      {k:"Relieving triangle", v:"Void above lintel reducing load, famously at the Lion Gate."},
+      {k:"Tholos tomb", v:"Corbelled beehive chamber tomb used for elite burials."},
+      {k:"Dromos", v:"Long processional corridor leading to a tholos tomb entrance."},
+      {k:"Corbelled vault", v:"Stepped stone overlaps forming a roof without a true arch."},
+      {k:"Citadel", v:"Fortified hilltop complex combining palace, storage, and defense."},
+      {k:"Labyrinthine plan", v:"Complex, multi-level circulation pattern with indirect routes."},
+      {k:"Fortification wall", v:"Defensive perimeter wall controlling access and projecting power."},
+],
+    outcomes: [
+      "Describe courtyard-centered planning and storage systems in palatial complexes.",
+      "Compare Minoan openness with Mycenaean fortification using plan logic.",
+      "Trace how hall types (megaron) influence later spatial organization."
+    ],
+    slo: [
+      "SLO 1: Compare regional architectural logics using plan and circulation analysis.",
+      "SLO 2: Interpret how political conditions shape openness, control, and defense."
+    ]
+  },
+
+  "Ancient China & Japan": {
+    keywords: [
+      {k:"Timber framework", v:"Post-beam logic, modular bays, and bracket systems."},
+      {k:"Courtyard order", v:"Hierarchical compounds and controlled axes."},
+      {k:"Landscape and ritual", v:"Built form extending into gardens and cosmology."}
+    ],
+    vocab: [
+      {k:"Timber frame", v:"Post beam structure with modular bays; walls as infill rather than load bearing."},
+      {k:"Dougong", v:"Bracket set transferring roof loads and enabling deep eaves in Chinese buildings."},
+      {k:"Jian", v:"Structural bay module used to set plan rhythm and elevation proportions."},
+      {k:"Rammed earth", v:"Compacted soil walls built in layers within formwork."},
+      {k:"Siheyuan", v:"Courtyard house compound organizing family hierarchy and privacy."},
+      {k:"Hutong", v:"Lane network formed by courtyard housing districts."},
+      {k:"Axial planning", v:"Strong central axis ordering gates, courtyards, and halls by rank."},
+      {k:"Pagoda", v:"Multi story tower derived from the stupa; marker of Buddhist presence."},
+      {k:"Yingzao Fashi", v:"Song dynasty building manual codifying modular timber practice."},
+      {k:"Tatami", v:"Floor mat module that sets room size and interior layout in Japan."},
+      {k:"Shoji", v:"Translucent sliding screen partitioning space with soft light."},
+      {k:"Engawa", v:"Perimeter veranda mediating inside and garden, used for circulation."}
+    ],
+    outcomes: [
+      "Explain how timber systems generate modular planning and elevation rhythm.",
+      "Analyze courtyard compounds as spatial hierarchies of access and status.",
+      "Relate landscape design and ritual movement to architectural layout."
+    ],
+    slo: [
+      "SLO 1: Use modular reasoning to interpret plans and spatial hierarchy.",
+      "SLO 2: Evaluate how architecture integrates structure, ritual, and landscape."
+    ]
+  },
+
+  "Meso-American": {
+    keywords: [
+      {k:"Ceremonial core", v:"Plazas and pyramids structuring civic-ritual life."},
+      {k:"Platform building", v:"Raised bases staging power, views, and procession."},
+      {k:"Urban grid", v:"Planned alignments and monumental avenues."}
+    ],
+    vocab: [
+      {k:"Ceremonial plaza", v:"Open civic ritual space framed by temples and platforms."},
+      {k:"Stepped pyramid", v:"Terraced platform temple staged for ascent, visibility, and ritual."},
+      {k:"Talud tablero", v:"Sloped wall with vertical panel; Teotihuacan signature profile."},
+      {k:"Ball court", v:"Formal court for ritual sport tied to cosmology and politics."},
+      {k:"Stela", v:"Carved monument recording rulers, events, and calendrical time."},
+      {k:"Corbel vault", v:"Masonry roof made by stepped overlaps; common in Maya architecture."},
+      {k:"Sacbe", v:"Raised paved causeway connecting ceremonial nodes in Maya cities."},
+      {k:"Triadic group", v:"Three building arrangement on a platform; early Maya sacred planning."},
+      {k:"Tzompantli", v:"Skull rack platform associated with ritual display and power."},
+      {k:"Temple platform", v:"Raised base shaping procession, hierarchy, and viewing lines."},
+      {k:"Astronomical alignment", v:"Orientation to solstice or celestial events guiding urban order."},
+      {k:"Bas relief", v:"Carved surface narratives integrating image, text, and architecture."}
+    ],
+    outcomes: [
+      "Identify how plazas, pyramids, and courts create civic-ritual choreography.",
+      "Compare urban planning strategies across major Mesoamerican centers.",
+      "Interpret architectural symbolism tied to calendar, astronomy, and rulership."
+    ],
+    slo: [
+      "SLO 1: Analyze how monumental layouts organize public life and ritual movement.",
+      "SLO 2: Compare planning strategies using site plans and axial relationships."
+    ]
+  },
+
+  "Ancient Greece": {
+    keywords: [
+      {k:"Proportion", v:"Controlled relationships between parts, module, and whole."},
+      {k:"Peristyle", v:"Colonnade shaping approach, boundary, and movement."},
+      {k:"Civic space", v:"Agora, acropolis, and theater as spatial institutions."}
+    ],
+    vocab: [
+      {k:"Doric order", v:"Robust order with triglyph metope frieze; strong proportioned rhythm."},
+      {k:"Ionic order", v:"Slender order with volutes; continuous frieze often narrative."},
+      {k:"Corinthian order", v:"Ornate capital with acanthus; later Greek and Roman preference."},
+      {k:"Peripteral", v:"Temple with a single colonnade surrounding the naos."},
+      {k:"Dipteral", v:"Temple with double surrounding colonnade."},
+      {k:"Prostyle", v:"Columns only at the front porch."},
+      {k:"Amphiprostyle", v:"Columns at front and rear but not along the sides."},
+      {k:"Stylobate", v:"Top platform step on which columns stand."},
+      {k:"Naos or cella", v:"Inner sanctuary room housing the cult statue."},
+      {k:"Pronaos", v:"Front porch or vestibule leading into the naos."},
+      {k:"Opisthodomos", v:"Rear room often used for treasury or storage."},
+      {k:"Entablature", v:"Architrave plus frieze plus cornice as the horizontal order system."},
+      {k:"Triglyph", v:"Doric frieze element with three grooves."},
+      {k:"Metope", v:"Panel between triglyphs, often sculpted."},
+      {k:"Pediment", v:"Triangular gable end filled with sculpture."},
+      {k:"Entasis", v:"Subtle bulge of column shaft correcting optical distortion."},
+      {k:"Temenos", v:"Sacred precinct boundary separating holy ground."},
+      {k:"Stoa", v:"Long colonnaded building shaping civic edges and shaded movement."},
+      {k:"Agora", v:"Central civic marketplace and gathering space."},
+      {k:"Cavea", v:"Seating bowl of a theater carved into hillside or built in tiers."},
+      {k:"Pseudoperipteral", v:"Temple with side columns engaged to the cella wall, suggesting a peripteral form."},
+      {k:"Architrave", v:"Main beam resting directly on columns, the lowest part of the entablature."},
+      {k:"Frieze", v:"Middle entablature band, Doric with triglyphs and metopes, Ionic often continuous."},
+      {k:"Naos", v:"Inner sanctuary of a temple, essentially the cella."},
+      {k:"Theater cavea", v:"Seating bowl of a theater, typically carved into a hillside."},
+],
+    outcomes: [
+      "Differentiate Doric, Ionic, and Corinthian systems in plan and elevation.",
+      "Explain optical refinements as design choices, not construction errors.",
+      "Analyze the relationship between temples, landscape, and civic spaces."
+    ],
+    slo: [
+      "SLO 1: Compare classical orders and their spatial effects using drawings and plans.",
+      "SLO 2: Evaluate how Greek architecture frames civic identity through public space."
+    ]
+  },
+
+  "Ancient Rome": {
+    keywords: [
+      {k:"Infrastructure", v:"Roads, aqueducts, and baths as urban frameworks."},
+      {k:"Concrete and vaulting", v:"New structural freedom: arches, domes, and spans."},
+      {k:"Imperial image", v:"Forums and monuments staging power and memory."}
+    ],
+    vocab: [
+      {k:"Arch", v:"Curved spanning element enabling larger openings and new forms."},
+      {k:"Barrel vault", v:"Continuous arched roof forming long covered halls."},
+      {k:"Groin vault", v:"Intersecting barrel vaults concentrating loads to corners."},
+      {k:"Dome", v:"Rotational vault creating centralized interiors and symbolic focus."},
+      {k:"Opus caementicium", v:"Roman concrete enabling mass construction and complex vaults."},
+      {k:"Coffering", v:"Recessed dome panels reducing weight and enriching texture."},
+      {k:"Oculus", v:"Central opening admitting light and reducing dome weight."},
+      {k:"Basilica", v:"Public hall for law and commerce; later adapted as church type."},
+      {k:"Forum", v:"Civic center combining ritual, politics, and commerce."},
+      {k:"Thermae", v:"Imperial bath complex with axial planning and vaulted halls."},
+      {k:"Amphitheater", v:"Oval arena with radial circulation and tiered seating."},
+      {k:"Triumphal arch", v:"Freestanding commemorative gateway celebrating victory and rule."},
+      {k:"Aqueduct", v:"Gravity fed water infrastructure using arches and precise gradients."},
+      {k:"Domus", v:"Elite urban house organized around atrium and peristyle."},
+      {k:"Insula", v:"Multi story apartment block driving urban density."},
+      {k:"Atrium", v:"Entry court with roof opening and water basin."},
+      {k:"Impluvium", v:"Sunken basin collecting rainwater beneath the compluvium."},
+      {k:"Spolia", v:"Reuse of older building elements for economy and political messaging."},
+      {k:"Opus reticulatum", v:"Masonry facing pattern of diamond-shaped stones forming a net-like surface."},
+      {k:"Peristyle", v:"Columned garden court within a domus."},
+],
+    outcomes: [
+      "Explain how Roman construction expands spatial scale and program.",
+      "Interpret forum planning as a political and spatial narrative.",
+      "Compare Roman public building types using plan and section logic."
+    ],
+    slo: [
+      "SLO 1: Analyze how structure (arch, vault, dome) transforms spatial experience.",
+      "SLO 2: Compare civic building types and their roles in Roman urban life."
+    ]
+  },
+
+  "Early Christian": {
+    keywords: [
+      {k:"Basilican worship", v:"Processional nave, aisles, and apse as liturgical space."},
+      {k:"Relics and martyria", v:"Tombs and memory shaping sacred geography."},
+      {k:"Interior emphasis", v:"Meaning moved inward as exterior became plain."}
+    ],
+    vocab: [
+      {k:"Basilica plan", v:"Longitudinal hall adapted for Christian worship and assembly."},
+      {k:"Nave", v:"Central aisle space for congregation and procession."},
+      {k:"Aisle", v:"Side passage parallel to nave, supporting circulation."},
+      {k:"Apse", v:"Semicircular end focusing altar and clergy."},
+      {k:"Narthex", v:"Entry vestibule mediating outside and sacred interior."},
+      {k:"Transept", v:"Cross arm forming cruciform layout and added altars."},
+      {k:"Clerestory", v:"High windows lighting the nave above lower aisles."},
+      {k:"Atrium forecourt", v:"Open entry court preceding the church, often with fountain."},
+      {k:"Martyrium", v:"Shrine built over martyr tomb or relic site, often centralized."},
+      {k:"Baptistery", v:"Separate building for baptism, commonly centralized plan."},
+      {k:"Spandrel", v:"Area between arch and rectangular frame, often for decoration."},
+      {k:"Mosaic", v:"Small tesserae images creating luminous sacred surfaces."},
+      {k:"Longitudinal axis", v:"Directional organization emphasizing processional movement."},
+      {k:"Latin cross plan", v:"Church plan with long nave and shorter transept forming a cross shape."},
+      {k:"Centralized plan", v:"Church plan organized around a central point, often for martyria."},
+],
+    outcomes: [
+      "Explain why the basilica became a dominant church type and how it worked.",
+      "Differentiate basilica, martyrium, and centrally planned forms by purpose.",
+      "Analyze liturgical procession and sightlines using plan reading."
+    ],
+    slo: [
+      "SLO 1: Interpret how worship practices shape church layout and movement.",
+      "SLO 2: Compare sacred building types using plan, section, and program."
+    ]
+  },
+
+  "Byzantine": {
+    keywords: [
+      {k:"Centralized space", v:"Domed centers and radiating supports."},
+      {k:"Light and surface", v:"Mosaics, gold, and luminous interiors."},
+      {k:"Structural transition", v:"Square to circle through pendentives/squinches."}
+    ],
+    vocab: [
+      {k:"Pendentive", v:"Curved triangle transition supporting dome over a square."},
+      {k:"Squinch", v:"Corner construction turning square into an octagon or circle."},
+      {k:"Drum", v:"Cylindrical base raising dome and admitting windows."},
+      {k:"Dome", v:"Central vault forming symbolic heaven and spatial focus."},
+      {k:"Cross in square", v:"Middle Byzantine church plan with central dome over square bay."},
+      {k:"Greek cross plan", v:"Equal arms cross organizing centralized liturgical space."},
+      {k:"Narthex", v:"Entry zone often expanded into multiple bays in Byzantine churches."},
+      {k:"Iconostasis", v:"Screen dividing nave and sanctuary in Orthodox practice."},
+      {k:"Tesserae", v:"Small mosaic cubes reflecting light and producing shimmer."},
+      {k:"Exedra", v:"Recessed semicircular niche used to articulate interior volumes."},
+      {k:"Semi dome", v:"Half dome vaulting used over apses or subsidiary spaces."},
+      {k:"Spolia", v:"Reuse of classical columns and capitals in new Christian settings."},
+      {k:"Centralized dome", v:"Dome-centered space emphasizing unity and hierarchy."},
+      {k:"Mosaic program", v:"Coordinated iconographic scheme using mosaics to shape sacred meaning."},
+      {k:"Domical vault", v:"Vault shaped like a portion of a dome used in church bays."},
+],
+    outcomes: [
+      "Explain how domes are structurally supported and spatially centered.",
+      "Analyze how light and surface create hierarchy and meaning.",
+      "Compare basilican and centralized planning in Christian architecture."
+    ],
+    slo: [
+      "SLO 1: Analyze structural transitions and their spatial consequences.",
+      "SLO 2: Evaluate how light and ornament guide perception and ritual focus."
+    ]
+  },
+
+  "Islamic Architecture": {
+    keywords: [
+      {k:"Congregation and court", v:"Prayer hall and courtyard as social-religious space."},
+      {k:"Orientation", v:"Qibla wall and mihrab anchoring direction."},
+      {k:"Pattern and geometry", v:"Ornament as intellect, craft, and devotion."}
+    ],
+    vocab: [
+      {k:"Qibla", v:"Direction of prayer toward Mecca, organizing mosque orientation."},
+      {k:"Mihrab", v:"Niche marking qibla wall and focal point for prayer."},
+      {k:"Minbar", v:"Pulpit for sermon and leadership within the mosque."},
+      {k:"Minaret", v:"Tower associated with call to prayer and urban marker."},
+      {k:"Sahn", v:"Courtyard often with ablution fountain, organizing entry and gathering."},
+      {k:"Riwaq", v:"Arcaded portico bordering a courtyard."},
+      {k:"Hypostyle hall", v:"Columned prayer hall enabling expansion and modular growth."},
+      {k:"Iwan", v:"Vaulted hall open on one side, common in Persianate complexes."},
+      {k:"Muqarnas", v:"Stalactite like vaulting for transitions and ornament."},
+      {k:"Arabesque", v:"Interlacing vegetal ornament suggesting infinite pattern."},
+      {k:"Mashrabiya", v:"Latticed screen controlling light, view, and ventilation."},
+      {k:"Calligraphy", v:"Sacred text as architectural surface and ornament."},
+      {k:"Madrasa", v:"Educational complex often organized around courtyard and iwans."},
+      {k:"Minaret balcony", v:"Projecting gallery associated with the call to prayer."},
+      {k:"Courtyard mosque", v:"Mosque organized around an open sahn with surrounding arcades."},
+      {k:"Hypostyle mosque", v:"Mosque with a columned prayer hall supporting a flat roof."},
+      {k:"Four-iwan plan", v:"Courtyard plan with an iwan centered on each side, common in Iran."},
+      {k:"Geometry as ornament", v:"Use of geometric patterning to express order and infinity."},
+],
+    outcomes: [
+      "Identify core mosque components and their functional roles.",
+      "Compare regional mosque forms and materials across Islamic territories.",
+      "Interpret geometric ornament as spatial, not only decorative."
+    ],
+    slo: [
+      "SLO 1: Compare mosque typologies using plan organization and orientation.",
+      "SLO 2: Analyze how geometry and ornament support spatial experience and meaning."
+    ]
+  },
+
+  "Romanesque": {
+    keywords: [
+      {k:"Pilgrimage", v:"Church planning for crowds, relics, and movement."},
+      {k:"Mass and solidity", v:"Thick walls, heavy piers, and rhythmic bays."},
+      {k:"Vaulting experiments", v:"Barrel and groin vaults pushing masonry limits."}
+    ],
+    vocab: [
+      {k:"Barrel vault", v:"Continuous semicircular vault over nave or aisle."},
+      {k:"Groin vault", v:"Intersection of barrel vaults concentrating loads at corners."},
+      {k:"Rib vault", v:"Vault with ribs guiding load paths, transitional toward Gothic."},
+      {k:"Compound pier", v:"Massive pier with attached shafts supporting arches and vaults."},
+      {k:"Bay", v:"Repeated spatial unit structuring rhythm of nave and aisles."},
+      {k:"Round arch", v:"Semicircular arch typical of Romanesque openings and arcades."},
+      {k:"Tympanum", v:"Sculpted panel above portal, often last judgment imagery."},
+      {k:"Archivolt", v:"Molded arch rings framing a portal."},
+      {k:"Voussoir", v:"Wedge shaped stone forming an arch."},
+      {k:"Ambulatory", v:"Aisle wrapping apse allowing circulation behind altar."},
+      {k:"Radiating chapels", v:"Small chapels opening off ambulatory for relic display."},
+      {k:"Westwork", v:"Monumental western entrance mass with towers and chapels."},
+      {k:"Chevet", v:"French eastern end with apse, ambulatory, and radiating chapels."},
+      {k:"Thick masonry wall", v:"Heavy load-bearing wall system with small openings."},
+      {k:"Pilaster strip", v:"Shallow vertical wall projection dividing exterior surfaces."},
+      {k:"Blind arcade", v:"Series of decorative arches applied to a wall surface."},
+      {k:"Sculpted portal", v:"Highly carved entry zone teaching doctrine and signaling sacred threshold."},
+],
+    outcomes: [
+      "Explain how pilgrimage changes church circulation and spatial sequences.",
+      "Differentiate barrel vs groin vault effects in section and support systems.",
+      "Analyze bay rhythm as an organizing logic for Romanesque interiors."
+    ],
+    slo: [
+      "SLO 1: Analyze how structural systems shape spatial rhythm and circulation.",
+      "SLO 2: Compare Romanesque church plans in relation to pilgrimage needs."
+    ]
+  },
+
+  "Gothic": {
+    keywords: [
+      {k:"Verticality", v:"Space pulled upward through structure and light."},
+      {k:"Skeletal structure", v:"Loads redirected to piers and flying buttresses."},
+      {k:"Colored light", v:"Stained glass as narrative and atmosphere."}
+    ],
+    vocab: [
+      {k:"Pointed arch", v:"Arch enabling varied spans and reduced lateral thrust."},
+      {k:"Rib vault", v:"Ribs form structural skeleton with lighter infill panels."},
+      {k:"Flying buttress", v:"Exterior arch transferring thrust to a pier."},
+      {k:"Buttress pier", v:"Vertical mass receiving thrust and often topped with pinnacles."},
+      {k:"Tracery", v:"Stone framework subdividing window openings."},
+      {k:"Rose window", v:"Large circular window with radial tracery."},
+      {k:"Clerestory", v:"Upper wall zone filled with stained glass."},
+      {k:"Triforium", v:"Middle interior passage between arcade and clerestory."},
+      {k:"Nave arcade", v:"Primary row of arches separating nave from aisles."},
+      {k:"Sexpartite vault", v:"Six part vaulting pattern used in early Gothic."},
+      {k:"Rayonnant", v:"Style emphasizing radiating tracery and large glass walls."},
+      {k:"Flamboyant", v:"Late Gothic tracery with flame like curves."},
+      {k:"Pinnacle", v:"Vertical finial adding weight to buttresses and visual emphasis."},
+      {k:"Spire", v:"Tapered tower cap expressing vertical aspiration."},
+      {k:"Verticality", v:"Design emphasis on height and upward movement."},
+      {k:"Skeletal structure", v:"Structural system concentrating loads into a framework rather than thick walls."},
+],
+    outcomes: [
+      "Explain how pointed arches, ribs, and buttresses work together structurally.",
+      "Analyze how Gothic planning intensifies procession, chapels, and choir focus.",
+      "Interpret stained glass as spatial atmosphere and theological messaging."
+    ],
+    slo: [
+      "SLO 1: Evaluate Gothic structural logic using section reasoning and load paths.",
+      "SLO 2: Analyze how light and height transform religious experience."
+    ]
+  },
+
+  "Italian Renaissance": {
+    keywords: [
+      {k:"Classicism", v:"Revival and reinterpretation of Roman precedent."},
+      {k:"Human scale", v:"Proportion grounded in the body and measured modules."},
+      {k:"Urban stage", v:"Palazzi, piazzas, and perspectival space."}
+    ],
+    vocab: [
+      {k:"Pilaster", v:"Flattened column attached to wall defining bays and order."},
+      {k:"Classical orders", v:"Doric, Ionic, Corinthian used as proportional language."},
+      {k:"Rustication", v:"Rough stone treatment emphasizing base strength."},
+      {k:"Piano nobile", v:"Primary reception floor above street level."},
+      {k:"Cornice", v:"Projecting top molding defining skyline and termination."},
+      {k:"Module", v:"Repeated unit governing proportion and spacing."},
+      {k:"Linear perspective", v:"Geometric depth system informing space and facade composition."},
+      {k:"Centralized plan", v:"Symmetric plan type using circle or polygon as organizing form."},
+      {k:"Drum", v:"Base raising a dome and admitting light through windows."},
+      {k:"Dome", v:"Symbolic and structural crown, often over crossing or center."},
+      {k:"Loggia", v:"Open arcade or gallery, mediating interior and public space."},
+      {k:"Cortile", v:"Interior courtyard organizing palazzo circulation and status."},
+      {k:"Serliana", v:"Tri-part opening with central arch flanked by lintels."},
+      {k:"Pediment", v:"Triangular classical gable used over entries and windows."},
+      {k:"Humanism", v:"Intellectual movement reviving classical learning and human-centered proportion."},
+      {k:"Proportion system", v:"Rule-based ratios organizing parts into a coherent whole."},
+      {k:"Palazzo typology", v:"Urban palace form organizing social hierarchy through facade and courtyard."},
+      {k:"Greek cross", v:"Cross plan with four equal arms emphasizing centrality."},
+      {k:"Giant order", v:"Columns or pilasters extending through multiple stories."},
+      {k:"Perspective", v:"Linear projection system shaping Renaissance space-making and representation."},
+],
+    outcomes: [
+      "Identify Renaissance planning principles: symmetry, hierarchy, and proportion.",
+      "Compare early and high Renaissance approaches to domes, facades, and orders.",
+      "Analyze civic architecture as an image of patronage and power."
+    ],
+    slo: [
+      "SLO 1: Apply plan and elevation reading to explain Renaissance proportion and symmetry.",
+      "SLO 2: Compare how patrons and cities use architecture to project identity."
+    ]
+  },
+
+  "Renaissance Beyond Italy": {
+    keywords: [
+      {k:"Translation of classicism", v:"Local materials and traditions adapting new rules."},
+      {k:"Court culture", v:"Palaces and gardens as power landscapes."},
+      {k:"Religious change", v:"Reformation pressures on space and imagery."}
+    ],
+    vocab: [
+      {k:"Château", v:"French elite residence blending medieval massing with classical detail."},
+      {k:"Long gallery", v:"Elongated room for display, movement, and social performance."},
+      {k:"Strapwork", v:"Decorative motif from Northern pattern books, ribbon like forms."},
+      {k:"Stepped gable", v:"Stair stepped roofline edge common in Northern civic and guild buildings."},
+      {k:"Half timber", v:"Timber frame with infill panels shaping facade pattern."},
+      {k:"Dormer", v:"Roof window projecting from steep roofs, common in châteaux."},
+      {k:"Prodigy house", v:"English showpiece country house built for display and hosting."},
+      {k:"Parterre", v:"Formal planted garden beds laid out in geometric patterns."},
+      {k:"Terraced garden", v:"Stepped landscape composition aligning architecture and views."},
+      {k:"Spiral stair", v:"Compact vertical circulation often used as a sculptural feature."},
+      {k:"Guild hall", v:"Civic building for trade organizations, often richly ornamented."},
+      {k:"Hybrid classicism", v:"Blend of local forms with imported orders and symmetry."},
+      {k:"Humanism", v:"Intellectual movement reviving classical learning and human-centered proportion."},
+      {k:"Proportion system", v:"Rule-based ratios organizing parts into a coherent whole."},
+      {k:"Module", v:"Standard unit used to generate dimensions and maintain consistency."},
+      {k:"Rustication", v:"Rough-faced stonework used to express strength and hierarchy on facades."},
+      {k:"Palazzo typology", v:"Urban palace form organizing social hierarchy through facade and courtyard."},
+      {k:"Piano nobile", v:"Principal upper floor of a palazzo containing major reception rooms."},
+      {k:"Centralized plan", v:"Plan organized around a center, often circle or Greek cross."},
+      {k:"Greek cross", v:"Cross plan with four equal arms emphasizing centrality."},
+      {k:"Giant order", v:"Columns or pilasters extending through multiple stories."},
+      {k:"Serliana", v:"Arched central opening flanked by two lintelled openings, also called Palladian motif."},
+      {k:"Loggia", v:"Roofed open-sided gallery or porch framing views and public edges."},
+      {k:"Perspective", v:"Linear projection system shaping Renaissance space-making and representation."},
+],
+    outcomes: [
+      "Compare how Renaissance ideas shift as they move across regions.",
+      "Explain how politics and religion influence building form and decoration.",
+      "Analyze palace and garden planning as a unified composition."
+    ],
+    slo: [
+      "SLO 1: Compare regional Renaissance adaptations using plan, facade, and site logic.",
+      "SLO 2: Evaluate how cultural context reshapes classical vocabulary."
+    ]
+  },
+
+  "Mannerism": {
+    keywords: [
+      {k:"Tension", v:"Deliberate instability, compression, and unexpected scale shifts."},
+      {k:"Rule-bending classicism", v:"Classical elements used with irony and ambiguity."},
+      {k:"Spatial drama", v:"Stairs, vestibules, and facades as staged experiences."}
+    ],
+    vocab: [
+      {k:"Anticlassical", v:"Deliberate disruption of classical clarity, harmony, and proportion."},
+      {k:"Broken pediment", v:"Pediment split or interrupted to create tension."},
+      {k:"Giant order", v:"Columns or pilasters spanning multiple stories."},
+      {k:"Rustication", v:"Exaggerated stone texture used for drama and ambiguity."},
+      {k:"Triglyph slip", v:"Intentional misalignment of Doric elements to unsettle order."},
+      {k:"Dropped keystone", v:"Keystone pushed down or displaced for visual provocation."},
+      {k:"Forced perspective", v:"Spatial manipulation to intensify depth or theatrical effect."},
+      {k:"Ambiguity", v:"Unclear structural roles and mixed cues producing psychological tension."},
+      {k:"Scala", v:"Stair as architectural event and rhetorical device."},
+      {k:"Tabernacle frame", v:"Niche like framing around doors or windows, often made nonfunctional."},
+      {k:"Dislocation", v:"Elements shifted from expected positions to signal rule bending."},
+      {k:"Virtuosity", v:"Display of mastery through complex and difficult formal moves."},
+      {k:"Spatial tension", v:"Compositional strategies that compress, twist, or destabilize expected harmony."},
+      {k:"Anti-tectonic", v:"Use of elements that contradict expected structural logic."},
+],
+    outcomes: [
+      "Identify visual strategies that depart from High Renaissance balance.",
+      "Explain how Mannerist interiors manipulate scale, rhythm, and expectation.",
+      "Compare key works as experiments in meaning, not mistakes."
+    ],
+    slo: [
+      "SLO 1: Analyze how design choices create ambiguity and controlled discomfort.",
+      "SLO 2: Compare High Renaissance and Mannerist principles using specific visual evidence."
+    ]
+  }
+};
+
+function getStudyForEra(eraData){
+  // If the data already includes custom study blocks, respect them.
+  const hasCustom =
+    (eraData.keywords && eraData.keywords.length) ||
+    (eraData.vocab && eraData.vocab.length) ||
+    (eraData.outcomes && eraData.outcomes.length) ||
+    (eraData.slo && eraData.slo.length);
+
+  if(hasCustom) return {
+    keywords: eraData.keywords || [],
+    vocab: eraData.vocab || [],
+    outcomes: eraData.outcomes || [],
+    slo: eraData.slo || []
+  };
+
+  return STUDY_BLOCKS[eraData.era] || { keywords:[], vocab:[], outcomes:[], slo:[] };
+}
+
+function renderStudyPanel(eraData){
+  const study = getStudyForEra(eraData);
+  const hasAnything = (study.keywords.length || study.vocab.length || study.outcomes.length || study.slo.length);
+  if(!hasAnything) return document.createElement("div");
+
+  const wrap = document.createElement("div");
+  wrap.className = "study";
+
+  const shell = document.createElement("div");
+  shell.className = "study-card"; // collapsed by default
+
+  const top = document.createElement("div");
+  top.className = "study-top";
+  top.innerHTML = '<div class="label">Keywords, vocab, outcomes</div>';
+
+  const collapseBtn = document.createElement("button");
+  collapseBtn.className = "study-collapse";
+  collapseBtn.type = "button";
+  collapseBtn.textContent = "Show study blocks";
+  collapseBtn.addEventListener("click", (ev) => {
+    ev.stopPropagation();
+    const open = shell.classList.toggle("open");
+    collapseBtn.textContent = open ? "Hide study blocks" : "Show study blocks";
+  });
+  top.appendChild(collapseBtn);
+
+  const body = document.createElement("div");
+  body.className = "study-body";
+
+  const tabs = ["Keywords","Vocab","Learning Outcomes","SLO"];
+
+  function setTab(name){
+    [...top.querySelectorAll(".tab")].forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+    body.innerHTML = "";
+
+    if(name === "Keywords" || name === "Vocab"){
+      const g = document.createElement("div");
+      g.className = "study-grid";
+      const arr = (name === "Keywords") ? (study.keywords||[]) : (study.vocab||[]);
+      arr.forEach(it => {
+        const d = document.createElement("div");
+        d.className = "study-item";
+        d.innerHTML = '<div class="k">' + escapeHTML(it.k) + '</div><div class="v">' + escapeHTML(it.v) + '</div>';
+        g.appendChild(d);
+      });
+      body.appendChild(g);
+      return;
+    }
+
+    if(name === "Learning Outcomes"){
+      const list = document.createElement("div");
+      list.className = "study-list";
+      (study.outcomes||[]).forEach((t, idx) => {
+        const b = document.createElement("div");
+        b.className = "study-bullet";
+        b.innerHTML = '<strong>LO ' + (idx+1) + ':</strong> ' + escapeHTML(t);
+        list.appendChild(b);
+      });
+      body.appendChild(list);
+      return;
+    }
+
+    if(name === "SLO"){
+      const list = document.createElement("div");
+      list.className = "study-list";
+      (study.slo||[]).forEach((t, idx) => {
+        const b = document.createElement("div");
+        b.className = "study-bullet";
+        // Citrus-style labeling: clear identifier + measurable verb
+        const label = (String(t).trim().toUpperCase().startsWith("SLO")) ? escapeHTML(t) : ("SLO " + (idx+1) + ": " + escapeHTML(t));
+        b.innerHTML = '<strong>' + label.split(":")[0] + ':</strong> ' + label.split(":").slice(1).join(":").trim() + ' <span class="tag">Student Learning Outcome</span>';
+        list.appendChild(b);
+      });
+      body.appendChild(list);
+      return;
+    }
+  }
+
+  // Tabs
+  tabs.forEach((t, i) => {
+    const btn = document.createElement("button");
+    btn.className = "tab" + (i===0 ? " active" : "");
+    btn.type = "button";
+    btn.textContent = t;
+    btn.dataset.tab = t;
+    btn.onclick = (ev) => { ev.stopPropagation(); setTab(t); };
+    top.appendChild(btn);
+  });
+
+  shell.appendChild(top);
+  shell.appendChild(body);
+  wrap.appendChild(shell);
+
+  setTab("Keywords");
+  return wrap;
 }
 
 
-// =============================================
-// RENDER ENGINE
-// =============================================
-const timeline = document.getElementById('timeline');
-const eraNav = document.getElementById('era-nav');
-const searchInput = document.getElementById('search-input');
-const entryCount = document.getElementById('entry-count');
-
-let allEntries = [];
-let activeEra = null;
-
-// Build nav and timeline
-DATA.forEach((eraData, eraIdx) => {
-  // Nav button
-  const btn = document.createElement('button');
-  btn.className = 'era-btn';
-  btn.textContent = eraData.era;
-  btn.dataset.era = eraData.era;
-  btn.addEventListener('click', () => {
-    if (activeEra === eraData.era) {
-      activeEra = null;
-      btn.classList.remove('active');
-    } else {
-      activeEra = eraData.era;
-      document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-    filterEntries();
-    // Scroll to era
-    if (activeEra) {
-      const section = document.querySelector(`[data-era-section="${eraData.era}"]`);
-      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+function setDiagramLayer(cardEl, layer){
+  const svgEl = cardEl.querySelector("svg");
+  if(!svgEl) return;
+  svgEl.dataset.layer = layer;
+  // If overlays exist, show based on class names
+  svgEl.querySelectorAll("[data-layer-group]").forEach(g => {
+    const gLayer = g.getAttribute("data-layer-group");
+    g.style.display = (layer === "base" || layer === gLayer) ? "block" : "none";
   });
-  eraNav.appendChild(btn);
+}
 
-  // Era section
-  const section = document.createElement('div');
-  section.className = 'era-section';
-  section.dataset.eraSection = eraData.era;
+function openPlanModal(entry, eraData){
+  const diagram = DIAGRAMS[entry.title];
+  if(!diagram) return;
+  planModalTitleEl.textContent = entry.title || "Plan";
+  planModalSubEl.textContent = `${eraData.era}${entry.date ? " | " + entry.date : ""}${entry.location ? " | " + entry.location : ""}`;
+  planModalBodyEl.innerHTML = "";
 
-  const header = document.createElement('div');
-  header.className = 'era-header';
-  const weekLabel = eraData.week ? `<div class="era-week">Week ${eraData.week}</div>` : '';
-  header.innerHTML = `
-    <h2>${eraData.era}${eraData.ching ? `<span class="ching-ref">${eraData.ching}</span>` : ``}</h2>
-    <div class="era-dates">${eraData.eraRange}</div>
-    ${weekLabel}
-  `;
-  section.appendChild(header);
+  const svg = buildSVG(diagram);
+  const holder = document.createElement("div");
+  holder.innerHTML = svg;
+  planModalBodyEl.appendChild(holder);
 
-  eraData.entries.forEach((entry, i) => {
-    const side = i % 2 === 0 ? 'left' : 'right';
-    const card = document.createElement('div');
-    card.className = `entry ${side}`;
-    card.dataset.era = eraData.era;
-    card.dataset.search = `${entry.title} ${entry.location} ${entry.summary} ${entry.tags.join(' ')} ${entry.date}`.toLowerCase();
+  const svgEl = planModalBodyEl.querySelector("svg");
+  if(svgEl){
+    // Hide overlays by default
+    svgEl.querySelectorAll("[data-layer-group]").forEach(g => g.style.display = "none");
+  }
 
-    const diagramBlock = buildDiagramBlock(entry);
-
-    card.innerHTML = `
-      <div class="entry-date">${entry.date}</div>
-      <div class="entry-title">${entry.title}</div>
-      <div class="entry-location">${entry.location}</div>
-      <div class="entry-img-wrap"><img class="entry-img" alt="${entry.title}" loading="lazy" /></div>
-      <div class="entry-summary">${entry.summary}</div>
-      ${diagramBlock}
-      <div class="entry-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      <div class="expand-hint"></div>
-    `;
-
-    // One image per entry (Option A)
-    const imgEl = card.querySelector('.entry-img');
-    if (imgEl) loadWikiThumb(imgEl, entry);
-
-    card.addEventListener('click', () => {
-      card.classList.toggle('expanded');
-    });
-
-    // Diagram toggle (do not collapse the card)
-    const toggleBtn = card.querySelector('.plan-toggle');
-    const panel = card.querySelector('.plan-panel');
-    if (toggleBtn && panel) {
-      toggleBtn.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        panel.classList.toggle('open');
-        toggleBtn.textContent = panel.classList.contains('open') ? 'Hide Spatial Diagram' : 'Show Spatial Diagram';
-      });
-    }
-
-    section.appendChild(card);
-    allEntries.push(card);
+  // Reset modal layer chips
+  planModalEl.querySelectorAll(".layer-toggle .chip").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.layer === "base");
   });
 
-  timeline.appendChild(section);
+  planModalEl.classList.add("open");
+  planModalEl.setAttribute("aria-hidden","false");
+}
+
+function closePlanModal(){
+  planModalEl.classList.remove("open");
+  planModalEl.setAttribute("aria-hidden","true");
+}
+
+planModalCloseBtn.addEventListener("click", closePlanModal);
+planModalEl.addEventListener("click", (ev) => {
+  const t = ev.target;
+  if(t && (t.dataset.close === "1" || t === planModalEl)) closePlanModal();
+});
+document.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape" && planModalEl.classList.contains("open")) closePlanModal();
 });
 
-// Filter
-function filterEntries() {
-  const query = searchInput.value.toLowerCase().trim();
+planModalEl.querySelectorAll(".layer-toggle .chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const layer = btn.dataset.layer || "base";
+    planModalEl.querySelectorAll(".layer-toggle .chip").forEach(b => b.classList.toggle("active", b === btn));
+    const svgEl = planModalBodyEl.querySelector("svg");
+    if(!svgEl) return;
+    svgEl.dataset.layer = layer;
+    svgEl.querySelectorAll("[data-layer-group]").forEach(g => {
+      const gl = g.getAttribute("data-layer-group");
+      g.style.display = (layer === "base" || layer === gl) ? "block" : "none";
+    });
+  });
+});
+
+function toggleCompare(entry, eraData, cardEl){
+  const id = `${eraData.era}||${entry.title}`;
+  const existingIdx = ACTIVE.compare.findIndex(x => x.id === id);
+  if(existingIdx !== -1){
+    ACTIVE.compare.splice(existingIdx,1);
+  } else {
+    if(ACTIVE.compare.length >= 2){
+      // replace oldest
+      ACTIVE.compare.shift();
+    }
+    ACTIVE.compare.push({
+      id,
+      era: eraData.era,
+      date: entry.date || "",
+      title: entry.title || "",
+      location: entry.location || "",
+      type: inferType(entry),
+      structure: inferStructure(entry)
+    });
+  }
+  updateCompareUI();
+  // Highlight cards that are selected
+  allCards.forEach(c => c.classList.toggle("compare-selected", ACTIVE.compare.some(x => x.title === c.querySelector(".entry-title")?.textContent && x.era === c.dataset.era)));
+}
+
+function updateCompareUI(){
+  const n = ACTIVE.compare.length;
+  compareOpenBtn.textContent = `Compare (${n})`;
+  compareOpenBtn.disabled = n === 0;
+  compareDockEl.classList.toggle("open", n > 0);
+
+  compareSlotsEl.innerHTML = "";
+  const slots = [0,1].map(i => ACTIVE.compare[i] || null);
+  slots.forEach((item, idx) => {
+    const slot = document.createElement("div");
+    slot.className = "compare-slot" + (item ? " filled" : "");
+    if(!item){
+      slot.innerHTML = `<div><div class="compare-slot-title">Slot ${idx+1}</div><div class="compare-slot-sub">Select a card using the ≋ button</div></div>`;
+    } else {
+      slot.innerHTML = `
+        <div>
+          <div class="compare-slot-title">${escapeHTML(item.title)}</div>
+          <div class="compare-slot-sub">${escapeHTML(item.era)} | ${escapeHTML(item.type)} | ${escapeHTML(item.structure)}</div>
+        </div>
+        <button class="icon-btn" type="button" aria-label="Remove">✕</button>
+      `;
+      slot.querySelector("button").addEventListener("click", () => {
+        ACTIVE.compare.splice(idx,1);
+        updateCompareUI();
+      });
+    }
+    compareSlotsEl.appendChild(slot);
+  });
+  compareGoBtn.disabled = n !== 2;
+}
+
+compareClearBtn.addEventListener("click", () => {
+  ACTIVE.compare = [];
+  updateCompareUI();
+});
+
+compareOpenBtn.addEventListener("click", () => {
+  compareDockEl.classList.toggle("open");
+});
+
+compareGoBtn.addEventListener("click", () => {
+  if(ACTIVE.compare.length !== 2) return;
+  openComparePanel(ACTIVE.compare[0], ACTIVE.compare[1]);
+});
+
+function openComparePanel(a,b){
+  // Simple modal reuse: show side-by-side summaries
+  planModalTitleEl.textContent = "Comparison";
+  planModalSubEl.textContent = `${a.title} vs ${b.title}`;
+  planModalBodyEl.innerHTML = `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      ${compareCardHTML(a)}
+      ${compareCardHTML(b)}
+    </div>
+  `;
+  planModalEl.classList.add("open");
+  planModalEl.setAttribute("aria-hidden","false");
+}
+
+function compareCardHTML(x){
+  return `
+    <div style="border:1px solid rgba(0,0,0,0.10); border-radius:16px; padding:12px; background:rgba(0,0,0,0.02);">
+      <div style="font-weight:800; font-size:14px;">${escapeHTML(x.title)}</div>
+      <div style="color:var(--muted); font-size:12px; margin-top:2px;">${escapeHTML(x.era)}${x.date ? " | " + escapeHTML(x.date) : ""}</div>
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="tag">${escapeHTML(x.type)}</span>
+        <span class="tag">${escapeHTML(x.structure)}</span>
+      </div>
+      <div style="margin-top:10px; font-size:13px; color:var(--text);">Use plan and keywords to compare spatial hierarchy, structure, and cultural intent.</div>
+    </div>
+  `;
+}
+
+function render() {
+  eraNavEl.innerHTML = "";
+  timelineEl.innerHTML = "";
+  allCards = [];
+
+  // Build filter chips from data
+  const allEntries = DATA.flatMap(e => (e.entries || []).map(en => ({era:e.era, entry:en})));
+  const types = uniqueSorted(allEntries.map(x => inferType(x.entry)), TYPE_ORDER);
+  const structs = uniqueSorted(allEntries.map(x => inferStructure(x.entry)), STRUCT_ORDER);
+  renderChips(typeFiltersEl, types, ACTIVE.types);
+  renderChips(structFiltersEl, structs, ACTIVE.structures);
+
+  DATA.forEach((eraData) => {
+    const pill = document.createElement("button");
+    pill.className = "pill";
+    pill.textContent = eraData.era;
+    pill.dataset.era = eraData.era;
+    pill.addEventListener("click", () => {
+      if (activeEra === eraData.era) {
+        activeEra = null;
+        ACTIVE.era = null;
+        pill.classList.remove("active");
+      } else {
+        activeEra = eraData.era;
+        ACTIVE.era = eraData.era;
+        document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+      }
+      filter();
+      if (activeEra) {
+        const sec = document.querySelector(`[data-era="${eraData.era}"]`);
+        if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+    eraNavEl.appendChild(pill);
+
+    const eraSection = document.createElement("section");
+    eraSection.className = "era";
+    eraSection.dataset.era = eraData.era;
+
+    const head = document.createElement("div");
+    head.className = "era-head";
+    const weekText = (eraData.week !== undefined && eraData.week !== null && eraData.week !== "") ? `Week ${eraData.week}` : "";
+    head.innerHTML = `
+      <div class="era-head-inner">
+        <div class="era-title-row">
+          <div class="era-title">${eraData.era}</div>
+          ${eraData.ching ? `<div class="ching-chip">${eraData.ching}</div>` : ``}
+          ${weekText ? `<div class="week-chip">${weekText}</div>` : ``}
+        </div>
+        <div class="era-meta">
+          <div>${eraData.eraRange || ""}</div>
+        </div>
+      </div>
+    `;
+    eraSection.appendChild(head);
+
+    eraSection.appendChild(renderStudyPanel(eraData));
+
+    (eraData.entries || []).forEach((entry, i) => {
+      const side = i % 2 === 0 ? "left" : "right";
+      const card = document.createElement("div");
+      card.className = `entry ${side}`;
+      card.dataset.era = eraData.era;
+      const inferredType = inferType(entry);
+      const inferredStructure = inferStructure(entry);
+      card.dataset.type = inferredType;
+      card.dataset.structure = inferredStructure;
+      card.dataset.search = `${entry.title} ${entry.location} ${(entry.summary || "")} ${(entry.tags || []).join(" ")} ${(entry.date || "")} ${inferredType} ${inferredStructure}`.toLowerCase();
+
+      const diagramBlock = buildDiagramBlock(entry);
+
+      card.innerHTML = `
+        <div class="entry-date">${entry.date || ""}</div>
+        <div class="entry-title">${entry.title || ""}</div>
+        <div class="entry-location">${entry.location || ""}</div>
+        <div class="entry-mini">
+          <span class="tag">${escapeHTML(inferredType)}</span>
+          <span class="tag">${escapeHTML(inferredStructure)}</span>
+          <button class="icon-btn compare-btn" type="button" aria-label="Select for compare">≋</button>
+        </div>
+        <div class="entry-img-wrap"><img class="entry-img" alt="${escapeHTML(entry.title || "")}" loading="lazy" /></div>
+        <div class="entry-summary">${escapeHTML(entry.summary || "")}</div>
+        ${diagramBlock}
+        <div class="tags">${(entry.tags || []).map(t => `<span class="tag">${escapeHTML(t)}</span>`).join("")}</div>
+        <div class="hint"></div>
+      `;
+
+      const imgEl = card.querySelector(".entry-img");
+      if (imgEl) loadWikiThumb(imgEl, entry);
+
+      card.addEventListener("click", () => {
+        card.classList.toggle("expanded");
+      });
+
+      const toggleBtn = card.querySelector(".plan-toggle");
+      const panel = card.querySelector(".plan-panel");
+      const compareBtn = card.querySelector(".compare-btn");
+      if (compareBtn) {
+        compareBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          toggleCompare(entry, eraData, card);
+        });
+      }
+
+      const focusBtn = card.querySelector(".plan-focus");
+      if (focusBtn) {
+        focusBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          openPlanModal(entry, eraData);
+        });
+      }
+
+      // Layer toggles inside the card panel
+      const layerButtons = card.querySelectorAll(".plan-panel .layer-toggle .chip");
+      layerButtons.forEach(btn => {
+        btn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          setDiagramLayer(card, btn.dataset.layer || "base");
+          layerButtons.forEach(b => b.classList.toggle("active", b === btn));
+        });
+      });
+
+      // Clicking the diagram also focuses it
+      const svgWrapEl = card.querySelector(".plan-svg");
+      if (svgWrapEl) {
+        svgWrapEl.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          openPlanModal(entry, eraData);
+        });
+      }
+
+      eraSection.appendChild(card);
+      allCards.push(card);
+    });
+
+    timelineEl.appendChild(eraSection);
+  });
+}
+
+function filter() {
+  const q = (searchEl.value || "").toLowerCase().trim();
   let visible = 0;
 
-  allEntries.forEach(card => {
+  allCards.forEach(card => {
     const matchEra = !activeEra || card.dataset.era === activeEra;
-    const matchSearch = !query || card.dataset.search.includes(query);
-    if (matchEra && matchSearch) {
-      card.classList.remove('hidden');
+    const matchSearch = !q || (card.dataset.search || "").includes(q);
+    const matchType = (ACTIVE.types.size === 0) || ACTIVE.types.has(card.dataset.type);
+    const matchStruct = (ACTIVE.structures.size === 0) || ACTIVE.structures.has(card.dataset.structure);
+    if (matchEra && matchSearch && matchType && matchStruct) {
+      card.classList.remove("hidden");
       visible++;
     } else {
-      card.classList.add('hidden');
+      card.classList.add("hidden");
     }
   });
 
-  // Show/hide era sections
-  document.querySelectorAll('.era-section').forEach(sec => {
-    const hasVisible = sec.querySelectorAll('.entry:not(.hidden)').length > 0;
-    sec.classList.toggle('hidden', !hasVisible);
+  document.querySelectorAll(".era").forEach(sec => {
+    const hasVisible = sec.querySelectorAll(".entry:not(.hidden)").length > 0;
+    sec.classList.toggle("hidden", !hasVisible);
   });
 
-  entryCount.textContent = `${visible} of ${allEntries.length} entries`;
+  countEl.textContent = `${visible} of ${allCards.length} entries`;
 }
 
-searchInput.addEventListener('input', filterEntries);
-filterEntries();
+searchEl.addEventListener("input", filter);
+clearFiltersBtn.addEventListener("click", () => {
+  ACTIVE.types.clear();
+  ACTIVE.structures.clear();
+  document.querySelectorAll("#typeFilters .chip, #structFilters .chip").forEach(c => c.classList.remove("active"));
+  filter();
+});
 
-// Scroll animation
+render();
+updateCompareUI();
+filter();
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
+    if (e.isIntersecting) e.target.classList.add("visible");
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.12 });
 
-allEntries.forEach(card => observer.observe(card));
+allCards.forEach(card => observer.observe(card));
+
+// =====================================================================
+// CURATED IMAGES — verified Wikimedia Commons URLs
+// =====================================================================
+const CURATED_IMAGES = {
+  "Göbekli Tepe":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/G%C3%B6bekli_tepe.JPG/800px-G%C3%B6bekli_tepe.JPG",
+  "Çatalhöyük":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Catalhoyuk_posible_reconstruction.jpg/800px-Catalhoyuk_posible_reconstruction.jpg",
+  "Skara Brae":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Skara_brae_4.jpg/800px-Skara_brae_4.jpg",
+  "Stonehenge":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Stonehenge%2C_Salisbury.JPG/800px-Stonehenge%2C_Salisbury.JPG",
+  "Newgrange":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Newgrange_-_Mound.jpg/800px-Newgrange_-_Mound.jpg",
+  "Megalithic Temples of Malta":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ggantija_temples.jpg/800px-Ggantija_temples.jpg",
+  "White Temple & Ziggurat at Uruk":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/White_Temple_ziggurat_Uruk.jpg/800px-White_Temple_ziggurat_Uruk.jpg",
+  "Ziggurat of Ur":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Great_Ziggurat_of_Ur.JPG/800px-Great_Ziggurat_of_Ur.JPG",
+  "Palace of Ashurnasirpal II at Nimrud":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ashurnasirpal_II_relief.jpg/800px-Ashurnasirpal_II_relief.jpg",
+  "Neo-Babylonian Babylon":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Pergamonmuseum_Babylon_Ischtar-Tor_2010.jpg/800px-Pergamonmuseum_Babylon_Ischtar-Tor_2010.jpg",
+  "Persepolis":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Persepolis_hdr.JPG/800px-Persepolis_hdr.JPG",
+  "Step Pyramid of Djoser":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Saqqara_BW_1.jpg/800px-Saqqara_BW_1.jpg",
+  "Great Pyramid of Khufu":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Great_Pyramid_of_Giza_-_2010.JPG/800px-Great_Pyramid_of_Giza_-_2010.JPG",
+  "Great Sphinx & Valley Temple":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Great_Sphinx_of_Giza_May_2015.JPG/800px-Great_Sphinx_of_Giza_May_2015.JPG",
+  "Mortuary Temple of Hatshepsut":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Mortuary_Temple_of_Hatshepsut_in_Luxor_2015_2.JPG/800px-Mortuary_Temple_of_Hatshepsut_in_Luxor_2015_2.JPG",
+  "Temple of Amun at Karnak":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Karnak_temple_of_Amun-Ra_9459.JPG/800px-Karnak_temple_of_Amun-Ra_9459.JPG",
+  "Temple of Luxor":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Entrance_of_Luxor_Temple%2C_Luxor%2C_Egypt.JPG/800px-Entrance_of_Luxor_Temple%2C_Luxor%2C_Egypt.JPG",
+  "Abu Simbel":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Abu_Simbel_Temple_facade.jpg/800px-Abu_Simbel_Temple_facade.jpg",
+  "Palace of Knossos":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Knossos_Crete.JPG/800px-Knossos_Crete.JPG",
+  "Citadel of Mycenae":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Mycenae_1971-1_crop.jpg/800px-Mycenae_1971-1_crop.jpg",
+  "Treasury of Atreus (Tomb of Agamemnon)":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Facade_of_Treasury_of_Atreus_1.JPG/800px-Facade_of_Treasury_of_Atreus_1.JPG",
+  "Hōryū-ji Temple Complex":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Horyuji_temple_kondo.jpg/800px-Horyuji_temple_kondo.jpg",
+  "Teotihuacán":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Teotihuacan_pyramid_of_the_sun_2.jpg/800px-Teotihuacan_pyramid_of_the_sun_2.jpg",
+  "The Parthenon":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Parthenon_October_2007.jpg/800px-Parthenon_October_2007.jpg",
+  "The Propylaea":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Propylaea_west_east.jpg/800px-Propylaea_west_east.jpg",
+  "The Erechtheion":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Acropolis_Erechtheum.jpg/800px-Acropolis_Erechtheum.jpg",
+  "Temple of Athena Nike":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Temple_Athena_Nike_entrance.JPG/800px-Temple_Athena_Nike_entrance.JPG",
+  "Theater at Epidaurus":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Theatre_of_Epidaurus.jpg/800px-Theatre_of_Epidaurus.jpg",
+  "The Pantheon":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Pantheon_Rome.jpg/800px-Pantheon_Rome.jpg",
+  "The Colosseum (Flavian Amphitheater)":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/800px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+  "Trajan's Forum & Markets":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Ruins_of_Markets_of_Trajan_%28Mercati_di_Traiano%29.jpg/800px-Ruins_of_Markets_of_Trajan_%28Mercati_di_Traiano%29.jpg",
+  "Santa Costanza":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Santa_Costanza._Exterior.JPG/800px-Santa_Costanza._Exterior.JPG",
+  "San Vitale, Ravenna":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/San_vitale%2C_ravenna%2C_int._01.JPG/800px-San_vitale%2C_ravenna%2C_int._01.JPG",
+  "Hagia Sophia":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Hagia_Sophia_interior_2007.jpg/800px-Hagia_Sophia_interior_2007.jpg",
+  "St. Mark's Basilica":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Basilica_di_San_Marco.jpg/800px-Basilica_di_San_Marco.jpg",
+  "Dome of the Rock":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Jerusalem_Dome_of_the_rock_BW_14.JPG/800px-Jerusalem_Dome_of_the_rock_BW_14.JPG",
+  "Great Mosque of Córdoba (Mezquita)":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Cordoba_Mosque-Cathedral_interior_roof.jpg/800px-Cordoba_Mosque-Cathedral_interior_roof.jpg",
+  "The Alhambra":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/La_Alhambra_de_Granada-Espana0200.JPG/800px-La_Alhambra_de_Granada-Espana0200.JPG",
+  "Süleymaniye Mosque":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Istanbul_S%C3%BCleymaniye_Mosque.JPG/800px-Istanbul_S%C3%BCleymaniye_Mosque.JPG",
+  "Taj Mahal":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Taj_Mahal%2C_Agra%2C_Uttar_Pradesh%2C_India.JPG/800px-Taj_Mahal%2C_Agra%2C_Uttar_Pradesh%2C_India.JPG",
+  "Inca Architecture: Machu Picchu & Cusco":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Machu_Picchu%2C_Per%C3%BA%2C_2015-07-30%2C_DD_50.JPG/800px-Machu_Picchu%2C_Per%C3%BA%2C_2015-07-30%2C_DD_50.JPG",
+  "Palatine Chapel, Aachen":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Aachen_Cathedral_-_Interior.jpg/800px-Aachen_Cathedral_-_Interior.jpg",
+  "Durham Cathedral":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Durham_Cathedral_Nave.jpg/800px-Durham_Cathedral_Nave.jpg",
+  "Santiago de Compostela":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Catedral_de_Santiago_de_Compostela%2C_Santiago_de_Compostela%2C_Galicia%2C_Espa%C3%B1a%2C_2015-09-17%2C_DD_01-03_HDR.jpg/800px-Catedral_de_Santiago_de_Compostela%2C_Santiago_de_Compostela%2C_Galicia%2C_Espa%C3%B1a%2C_2015-09-17%2C_DD_01-03_HDR.jpg",
+  "Notre-Dame de Paris":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Notre-Dame_de_Paris_2013-07-24.jpg/800px-Notre-Dame_de_Paris_2013-07-24.jpg",
+  "Chartres Cathedral":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Chartres_-_cath%C3%A9drale_-_fa%C3%A7ade_occidentale_%283%29.jpg/800px-Chartres_-_cath%C3%A9drale_-_fa%C3%A7ade_occidentale_%283%29.jpg",
+  "Sainte-Chapelle":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/SainteChapelle_Exterior_from_West%2C_Paris_4_July_2011.jpg/800px-SainteChapelle_Exterior_from_West%2C_Paris_4_July_2011.jpg",
+  "Florence Cathedral (Santa Maria del Fiore)":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Duomo_di_Firenze.jpg/800px-Duomo_di_Firenze.jpg",
+  "Dome of Florence Cathedral":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Duomo_di_Firenze.jpg/800px-Duomo_di_Firenze.jpg",
+  "Tempietto di San Pietro in Montorio":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tempietto-di-San-Pietro-in-Montorio.jpg/800px-Tempietto-di-San-Pietro-in-Montorio.jpg",
+  "Château de Chambord":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Chambord_Castle_Northwest_facade.jpg/800px-Chambord_Castle_Northwest_facade.jpg"
+};
+
+// Patch loadWikiThumb to prefer curated images
+const _origLoadWiki = loadWikiThumb;
+loadWikiThumb = function(imgEl, entry) {
+  const curated = CURATED_IMAGES[entry.title];
+  if (curated) {
+    imgEl.src = curated;
+    const wrap = imgEl.closest(".entry");
+    if (wrap) wrap.classList.add("has-img");
+    return;
+  }
+  _origLoadWiki(imgEl, entry);
+};
+
+// =====================================================================
+// BUILDING COORDS — [lat, lon] for equirectangular map
+// =====================================================================
+const BUILDING_COORDS = {
+  "Göbekli Tepe":[37.22,38.92],"Çatalhöyük":[37.67,32.83],
+  "Skara Brae":[59.04,-3.34],"Stonehenge":[51.18,-1.83],"Newgrange":[53.69,-6.47],
+  "Megalithic Temples of Malta":[35.83,14.44],
+  "White Temple & Ziggurat at Uruk":[31.32,45.64],"Ziggurat of Ur":[30.96,46.10],
+  "Babylon under Hammurabi":[32.54,44.42],"Palace of Ashurnasirpal II at Nimrud":[36.10,43.33],
+  "Neo-Babylonian Babylon":[32.54,44.52],"Persepolis":[29.93,52.89],
+  "Step Pyramid of Djoser":[29.87,31.22],"Great Pyramid of Khufu":[29.98,31.13],
+  "Great Sphinx & Valley Temple":[29.97,31.08],"Mortuary Temple of Mentuhotep II":[25.74,32.61],
+  "Mortuary Temple of Hatshepsut":[25.74,32.62],"Temple of Amun at Karnak":[25.72,32.66],
+  "Temple of Luxor":[25.70,32.64],"Abu Simbel":[22.34,31.63],
+  "Palace of Knossos":[35.30,25.16],"Citadel of Mycenae":[37.73,22.76],
+  "Treasury of Atreus (Tomb of Agamemnon)":[37.72,22.75],"Akrotiri (Thera/Santorini)":[36.35,25.41],
+  "Shang Dynasty Foundations":[36.10,114.40],"Qin Dynasty: Great Wall & Terracotta Army":[34.38,109.27],
+  "Han Dynasty Architecture":[34.0,108.9],"Chinese Buddhist Pagoda: Songyue Temple Pagoda":[34.47,112.96],
+  "Izumo & Ise Grand Shrines (Origins)":[34.46,136.73],"Hōryū-ji Temple Complex":[34.61,135.73],
+  "Olmec Ceremonial Centers: La Venta & San Lorenzo":[18.10,-94.04],
+  "Teotihuacán":[19.69,-98.84],"Classic Maya Architecture: Tikal & Palenque":[17.22,-89.62],
+  "Maya Puuc Style: Uxmal":[20.36,-89.77],"Tenochtitlán & Aztec Templo Mayor":[19.43,-99.13],
+  "Inca Architecture: Machu Picchu & Cusco":[-13.16,-72.55],
+  "Development of the Doric Order":[37.90,22.80],"Temple of Hera I (Basilica) at Paestum":[40.42,15.00],
+  "Temple of Zeus at Olympia":[37.64,21.63],"The Parthenon":[37.97,23.73],
+  "The Propylaea":[37.97,23.72],"The Erechtheion":[37.97,23.74],
+  "Temple of Athena Nike":[37.97,23.73],"Tholos at Delphi & the Corinthian Order":[38.48,22.50],
+  "Theater at Epidaurus":[37.60,23.09],"Great Altar of Zeus at Pergamon":[39.13,27.18],
+  "Roman Concrete Revolution":[41.90,12.49],"The Colosseum (Flavian Amphitheater)":[41.89,12.49],
+  "The Pantheon":[41.90,12.48],"Baths of Diocletian":[41.91,12.50],
+  "Trajan's Forum & Markets":[41.90,12.49],
+  "Arch of Septimius Severus & Roman Triumphal Arches":[41.89,12.49],
+  "Old St. Peter's Basilica":[41.90,12.45],"Santa Costanza":[41.93,12.52],
+  "Santa Maria Maggiore":[41.90,12.50],"San Vitale, Ravenna":[44.42,12.19],
+  "Sant'Apollinare Nuovo & in Classe":[44.41,12.20],
+  "Hagia Sophia":[41.01,28.98],"Justinianic Building Program":[41.01,28.96],
+  "St. Mark's Basilica":[45.43,12.34],"Cathedral of Saint Sophia, Kyiv":[50.45,30.52],
+  "Dome of the Rock":[31.78,35.23],"Great Mosque of Damascus":[33.51,36.31],
+  "Great Mosque of Samarra":[34.21,43.87],
+  "Great Mosque of Córdoba (Mezquita)":[37.88,-4.78],"The Alhambra":[37.18,-3.59],
+  "Süleymaniye Mosque":[41.02,28.96],"Taj Mahal":[27.17,78.04],
+  "Palatine Chapel, Aachen":[50.77,6.08],"St. Michael's, Hildesheim":[52.15,9.95],
+  "Cathedral Complex of Pisa":[43.72,10.40],"Durham Cathedral":[54.77,-1.58],
+  "Cluny III":[46.43,4.66],"Church of Sainte-Madeleine, Vézelay":[47.47,3.75],
+  "Santiago de Compostela":[42.88,-8.54],
+  "Abbey Church of Saint-Denis":[48.94,2.36],"Notre-Dame de Paris":[48.85,2.35],
+  "Chartres Cathedral":[48.45,1.49],"Amiens Cathedral":[49.90,2.30],
+  "Sainte-Chapelle":[48.85,2.36],"Cologne Cathedral":[50.94,6.96],
+  "Florence Cathedral (Santa Maria del Fiore)":[43.77,11.26],
+  "English Gothic: Early, Decorated, Perpendicular":[51.06,-1.79],
+  "Milan Cathedral (Duomo di Milano)":[45.46,9.19],
+  "Dome of Florence Cathedral":[43.77,11.28],"Ospedale degli Innocenti":[43.77,11.27],
+  "San Lorenzo & Santo Spirito":[43.77,11.25],"Palazzo Medici-Riccardi":[43.77,11.26],
+  "Palazzo Rucellai":[43.77,11.25],"Sant'Andrea, Mantua":[45.16,10.79],
+  "Palazzo Ducale, Urbino":[43.73,12.64],"Tempietto di San Pietro in Montorio":[41.88,12.47],
+  "St. Peter's Basilica (Renaissance phases)":[41.90,12.45],
+  "Raphael's Architecture & the Vatican":[41.90,12.46],
+  "Château de Chambord":[47.62,1.52],"Lescot Wing of the Louvre":[48.86,2.34],
+  "El Escorial":[40.59,-4.15],"Elizabethan & Jacobean Country Houses":[52.0,-1.0],
+  "Northern European Renaissance: Antwerp, Amsterdam, Prague":[51.22,4.40],
+  "Laurentian Library Vestibule":[43.77,11.25],"Palazzo del Tè":[45.14,10.79]
+};
+
+// =====================================================================
+// ERA COLORS
+// =====================================================================
+const ERA_COLORS = {
+  "Prehistoric & Neolithic":"#7c6f9f",
+  "Ancient Mesopotamia":"#c0883a",
+  "Ancient Egypt":"#c9a227",
+  "Aegean Civilizations":"#5588bb",
+  "Ancient China & Japan":"#e05a2b",
+  "Meso-American":"#3aaa6a",
+  "Ancient Greece":"#4478c4",
+  "Ancient Rome":"#c04444",
+  "Early Christian":"#5599aa",
+  "Byzantine":"#aa66cc",
+  "Islamic Architecture":"#228877",
+  "Romanesque":"#8b6640",
+  "Gothic":"#447788",
+  "Italian Renaissance":"#cc7722",
+  "Renaissance Beyond Italy":"#557733",
+  "Mannerism":"#884466"
+};
+
+// =====================================================================
+// INFLUENCE LINKS — [source era, target era, label, weight 1-3]
+// =====================================================================
+const INFLUENCE_LINKS = [
+  ["Prehistoric & Neolithic","Ancient Egypt","Stone construction + axial ritual",2],
+  ["Prehistoric & Neolithic","Aegean Civilizations","Corbelling + megalithic chamber tombs",1],
+  ["Ancient Mesopotamia","Ancient Egypt","Platform + courtyard planning",1],
+  ["Ancient Mesopotamia","Ancient Greece","Column capital proto-forms",1],
+  ["Ancient Mesopotamia","Islamic Architecture","Iwan + courtyard mosque planning",2],
+  ["Ancient Egypt","Ancient Greece","Post-and-lintel in stone; column traditions",3],
+  ["Ancient Egypt","Ancient Rome","Obelisk + monumental axis (spolia)",2],
+  ["Aegean Civilizations","Ancient Greece","Megaron → cella; temple origins",3],
+  ["Ancient Greece","Ancient Rome","Orders + temple typology + proportion",3],
+  ["Ancient Greece","Italian Renaissance","Classical revival via Vitruvius",3],
+  ["Ancient Rome","Early Christian","Basilica plan → church type",3],
+  ["Ancient Rome","Byzantine","Concrete dome → pendentive innovation",3],
+  ["Ancient Rome","Romanesque","Vaulting systems + arcade",3],
+  ["Ancient Rome","Italian Renaissance","Forum + temple precedent",3],
+  ["Early Christian","Byzantine","Centralized plan + mosaic program",3],
+  ["Early Christian","Romanesque","Basilica continuity + pilgrimage church",2],
+  ["Byzantine","Islamic Architecture","Dome technique + mosaic craft",3],
+  ["Byzantine","Romanesque","Round arch + thick wall tradition",2],
+  ["Byzantine","Italian Renaissance","Centralized dome as precedent",2],
+  ["Islamic Architecture","Romanesque","Pointed arch influence via Spain",2],
+  ["Romanesque","Gothic","Ribbed vault + pointed arch evolution",3],
+  ["Gothic","Italian Renaissance","Structural ambition critiqued + superseded",2],
+  ["Italian Renaissance","Mannerism","Classical rules deliberately subverted",3],
+  ["Italian Renaissance","Renaissance Beyond Italy","Export via treatises + court patronage",3]
+];
+
+// =====================================================================
+// MAP RENDERING
+// =====================================================================
+(function initMap(){
+  const container = document.getElementById("mapContainer");
+  if(!container) return;
+
+  const W = 1000, H = 480;
+  function latLonToXY(lat, lon){
+    const x = ((lon + 180) / 360) * W;
+    const y = ((90 - lat) / 180) * H;
+    return [Math.round(x*10)/10, Math.round(y*10)/10];
+  }
+
+  const allBuildings = [];
+  DATA.forEach(eraData => {
+    (eraData.entries || []).forEach(entry => {
+      const coords = BUILDING_COORDS[entry.title];
+      if(coords) allBuildings.push({entry, era: eraData.era, coords});
+    });
+  });
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS,"svg");
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  svg.setAttribute("class","map-svg");
+  svg.setAttribute("aria-label","World map of architectural sites");
+
+  // Ocean
+  const ocean = document.createElementNS(svgNS,"rect");
+  ocean.setAttribute("width",W); ocean.setAttribute("height",H); ocean.setAttribute("fill","#c2d8ec");
+  svg.appendChild(ocean);
+
+  // Grid lines
+  const grid = document.createElementNS(svgNS,"g");
+  grid.setAttribute("stroke","rgba(255,255,255,0.2)"); grid.setAttribute("stroke-width","0.5");
+  for(let lat=-60;lat<=80;lat+=30){
+    const [,y]=latLonToXY(lat,0);
+    const l=document.createElementNS(svgNS,"line");
+    l.setAttribute("x1","0");l.setAttribute("x2",String(W));l.setAttribute("y1",String(y));l.setAttribute("y2",String(y));
+    grid.appendChild(l);
+  }
+  for(let lon=-180;lon<=180;lon+=30){
+    const [x]=latLonToXY(0,lon);
+    const l=document.createElementNS(svgNS,"line");
+    l.setAttribute("y1","0");l.setAttribute("y2",String(H));l.setAttribute("x1",String(x));l.setAttribute("x2",String(x));
+    grid.appendChild(l);
+  }
+  svg.appendChild(grid);
+
+  // Simplified land polygons — key regions
+  const land = document.createElementNS(svgNS,"g");
+  land.setAttribute("fill","#ddd8c8"); land.setAttribute("stroke","#c0b8a8"); land.setAttribute("stroke-width","0.6");
+
+  function mkPoly(pts){ const p=document.createElementNS(svgNS,"polygon"); p.setAttribute("points",pts.map(([la,lo])=>{const[x,y]=latLonToXY(la,lo);return x+","+y;}).join(" ")); return p; }
+  function mkPath(d){ const p=document.createElementNS(svgNS,"path"); p.setAttribute("d",d); return p; }
+
+  // Europe (rough outline)
+  land.appendChild(mkPoly([[72,-10],[71,25],[68,30],[65,25],[60,20],[58,10],[55,5],[52,-5],[50,-5],[43,-8],[36,-8],[36,5],[38,15],[40,18],[38,23],[37,28],[37,36],[42,44],[46,40],[48,38],[54,22],[57,21],[60,24],[65,14],[70,23],[72,25],[72,-10]]));
+  // Africa (rough)
+  land.appendChild(mkPoly([[37,10],[37,30],[35,33],[31,32],[25,32],[15,36],[10,42],[5,43],[0,41],[-5,40],[-10,38],[-20,33],[-30,30],[-35,27],[-35,18],[-30,16],[-20,14],[-10,13],[-5,8],[0,6],[5,2],[10,-2],[15,0],[20,38],[30,31],[37,10]]));
+  // Middle East
+  land.appendChild(mkPoly([[42,34],[42,50],[35,50],[28,50],[24,56],[24,60],[30,60],[37,57],[42,58],[48,60],[50,60],[50,44],[44,44],[42,36],[42,34]]));
+  // Asia (simplified)
+  land.appendChild(mkPoly([[70,30],[72,50],[72,140],[60,140],[55,135],[50,130],[45,135],[40,128],[35,136],[34,132],[25,122],[22,114],[18,110],[15,108],[12,104],[10,100],[8,98],[5,100],[2,103],[-5,105],[-8,115],[-5,125],[0,125],[5,105],[8,98],[10,92],[20,88],[22,88],[22,70],[25,68],[22,60],[20,58],[18,55],[18,42],[22,39],[28,48],[30,50],[37,38],[42,36],[42,34],[42,28],[36,28],[37,22],[40,27],[42,30],[42,34]]));
+  // British Isles
+  land.appendChild(mkPoly([[58,-6],[60,-2],[60,2],[57,1],[54,-3],[52,-5],[51,-4],[51,-2],[53,0],[55,-2],[57,-5],[58,-6]]));
+  land.appendChild(mkPoly([[55,-7],[55,-5],[54,-7],[53,-9],[52,-10],[50,-5],[50,-8],[53,-10],[55,-7]]));
+  // Scandinavia (rough)
+  land.appendChild(mkPoly([[57,8],[58,7],[60,5],[63,8],[65,14],[68,16],[72,26],[72,30],[68,28],[65,22],[62,26],[60,26],[57,8]]));
+  // Americas
+  land.appendChild(mkPoly([[72,-140],[72,-70],[65,-64],[60,-64],[55,-68],[50,-66],[45,-64],[40,-74],[35,-77],[30,-82],[25,-80],[20,-87],[15,-85],[10,-83],[8,-78],[5,-77],[0,-78],[-5,-81],[-10,-78],[-15,-76],[-20,-70],[-30,-70],[-40,-63],[-50,-66],[-55,-67],[-56,-68],[-55,-70],[-50,-74],[-40,-65],[-30,-52],[-20,-40],[-15,-39],[-10,-37],[-5,-35],[0,-35],[5,-35],[8,-34],[10,-37],[15,-42],[20,-43],[25,-43],[30,-50],[35,-56],[40,-64],[45,-60],[50,-55],[55,-57],[60,-64],[65,-68],[70,-68],[72,-70],[72,-140]]));
+  // Japan
+  land.appendChild(mkPoly([[42,140],[40,141],[36,136],[34,131],[33,131],[34,136],[36,140],[38,141],[40,142],[42,140]]));
+  // Indian subcontinent
+  land.appendChild(mkPoly([[22,68],[28,72],[30,76],[28,80],[22,88],[18,84],[10,78],[8,77],[8,80],[10,80],[14,80],[18,84],[22,88],[20,93],[15,80],[10,77],[8,77],[8,70],[10,66],[18,58],[22,60],[22,68]]));
+
+  svg.appendChild(land);
+
+  // Dots
+  const dotGroup = document.createElementNS(svgNS,"g");
+  const hiddenEras = new Set();
+
+  allBuildings.forEach((b, idx) => {
+    const [lat,lon] = b.coords;
+    const [x,y] = latLonToXY(lat,lon);
+    const color = ERA_COLORS[b.era] || "#666";
+
+    const g = document.createElementNS(svgNS,"g");
+    g.setAttribute("class","map-dot");
+    g.setAttribute("data-idx",String(idx));
+    g.setAttribute("tabindex","0");
+    g.setAttribute("role","button");
+    g.setAttribute("aria-label",b.entry.title);
+
+    const glow = document.createElementNS(svgNS,"circle");
+    glow.setAttribute("cx",String(x)); glow.setAttribute("cy",String(y)); glow.setAttribute("r","9");
+    glow.setAttribute("fill",color); glow.setAttribute("opacity","0.15");
+
+    const dot = document.createElementNS(svgNS,"circle");
+    dot.setAttribute("cx",String(x)); dot.setAttribute("cy",String(y)); dot.setAttribute("r","4.5");
+    dot.setAttribute("fill",color); dot.setAttribute("stroke","#fff"); dot.setAttribute("stroke-width","1");
+
+    g.appendChild(glow); g.appendChild(dot);
+    dotGroup.appendChild(g);
+
+    const popup = document.getElementById("mapPopup");
+
+    function showPopup(){
+      document.getElementById("mapPopupDate").textContent = b.entry.date || "";
+      document.getElementById("mapPopupTitle").textContent = b.entry.title;
+      document.getElementById("mapPopupLoc").textContent = b.entry.location || "";
+      document.getElementById("mapPopupEra").textContent = b.era;
+      popup.classList.add("visible");
+      const svgRect = svg.getBoundingClientRect();
+      const scaleX = svgRect.width / W;
+      const scaleY = svgRect.height / H;
+      let px = x * scaleX + 12;
+      let py = y * scaleY - 14;
+      if(px + 260 > svgRect.width) px = x * scaleX - 265;
+      if(py + 130 > svgRect.height) py = y * scaleY - 140;
+      popup.style.left = Math.max(4, px) + "px";
+      popup.style.top = Math.max(4, py) + "px";
+    }
+    g.addEventListener("click", showPopup);
+    g.addEventListener("keydown", ev => { if(ev.key==="Enter"||ev.key===" ") showPopup(); });
+  });
+
+  svg.appendChild(dotGroup);
+  container.insertBefore(svg, container.firstChild);
+
+  document.getElementById("mapPopupClose").addEventListener("click",()=>{
+    document.getElementById("mapPopup").classList.remove("visible");
+  });
+
+  // Legend
+  const legend = document.createElement("div");
+  legend.className = "map-legend";
+  const erasPresent = [...new Set(allBuildings.map(b=>b.era))];
+  erasPresent.forEach(era => {
+    const item = document.createElement("div");
+    item.className = "map-legend-item";
+    const d = document.createElement("div");
+    d.className = "map-legend-dot";
+    d.style.background = ERA_COLORS[era] || "#666";
+    const lbl = document.createElement("span");
+    lbl.textContent = era;
+    item.appendChild(d); item.appendChild(lbl);
+    item.addEventListener("click",() => {
+      if(hiddenEras.has(era)) hiddenEras.delete(era);
+      else hiddenEras.add(era);
+      item.classList.toggle("faded", hiddenEras.has(era));
+      dotGroup.querySelectorAll(".map-dot").forEach((g2, idx) => {
+        const b = allBuildings[idx];
+        if(b) g2.style.display = hiddenEras.has(b.era) ? "none" : "";
+      });
+    });
+    legend.appendChild(item);
+  });
+  container.appendChild(legend);
+})();
+
+// =====================================================================
+// INFLUENCE DIAGRAM
+// =====================================================================
+(function initInfluence(){
+  const wrap = document.getElementById("infWrap");
+  if(!wrap) return;
+
+  const W = 1100, H = 540;
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS,"svg");
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  svg.setAttribute("class","inf-svg");
+  svg.setAttribute("aria-label","Architectural influence diagram");
+
+  const bg = document.createElementNS(svgNS,"rect");
+  bg.setAttribute("width",W); bg.setAttribute("height",H); bg.setAttribute("fill","#f8f8f6");
+  svg.appendChild(bg);
+
+  // Era node positions
+  const LAYOUT = {
+    "Prehistoric & Neolithic":    [20, 50],
+    "Ancient Mesopotamia":        [175,50],
+    "Ancient Egypt":              [330,50],
+    "Aegean Civilizations":       [100,175],
+    "Ancient China & Japan":      [780,50],
+    "Meso-American":              [940,50],
+    "Ancient Greece":             [250,300],
+    "Ancient Rome":               [380,420],
+    "Early Christian":            [540,300],
+    "Byzantine":                  [680,175],
+    "Islamic Architecture":       [820,175],
+    "Romanesque":                 [520,175],
+    "Gothic":                     [520,50],
+    "Italian Renaissance":        [310,420],
+    "Renaissance Beyond Italy":   [530,420],
+    "Mannerism":                  [160,420]
+  };
+
+  const NW = 138, NH = 36;
+  const tooltip = document.getElementById("infTooltip");
+
+  const defs = document.createElementNS(svgNS,"defs");
+  ["blue","gray"].forEach(t => {
+    const m = document.createElementNS(svgNS,"marker");
+    m.setAttribute("id","arr-"+t); m.setAttribute("markerWidth","7"); m.setAttribute("markerHeight","5");
+    m.setAttribute("refX","7"); m.setAttribute("refY","2.5"); m.setAttribute("orient","auto");
+    const poly = document.createElementNS(svgNS,"polygon");
+    poly.setAttribute("points","0 0, 7 2.5, 0 5");
+    poly.setAttribute("fill", t==="blue" ? "rgba(0,102,204,0.5)" : "rgba(0,0,0,0.2)");
+    m.appendChild(poly); defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+
+  // Draw arrows
+  const arrowsG = document.createElementNS(svgNS,"g");
+  INFLUENCE_LINKS.forEach(([src,tgt,label,weight]) => {
+    const sp = LAYOUT[src], tp = LAYOUT[tgt];
+    if(!sp||!tp) return;
+    const cx1=sp[0]+NW/2, cy1=sp[1]+NH/2, cx2=tp[0]+NW/2, cy2=tp[1]+NH/2;
+    const dx=cx2-cx1, dy=cy2-cy1, len=Math.sqrt(dx*dx+dy*dy)||1;
+    const ux=dx/len, uy=dy/len;
+    const r1=NW/2, r2=NW/2+8;
+    const x1=cx1+ux*r1, y1=cy1+uy*(NH/2);
+    const x2=cx2-ux*r2, y2=cy2-uy*(NH/2);
+    const mx=(x1+x2)/2 - uy*40, my=(y1+y2)/2 + ux*40;
+    const path=document.createElementNS(svgNS,"path");
+    path.setAttribute("d",`M${x1.toFixed(1)},${y1.toFixed(1)} Q${mx.toFixed(1)},${my.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`);
+    path.setAttribute("fill","none");
+    path.setAttribute("stroke",`rgba(0,102,204,${0.15+weight*0.10})`);
+    path.setAttribute("stroke-width",String(weight*0.8+0.5));
+    path.setAttribute("stroke-dasharray", weight===1 ? "4 3" : "none");
+    path.setAttribute("marker-end","url(#arr-blue)");
+    path.style.cursor="default";
+    path.addEventListener("mouseenter",()=>{ tooltip.textContent=label; tooltip.classList.add("visible"); });
+    path.addEventListener("mousemove",ev=>{ tooltip.style.left=(ev.clientX+14)+"px"; tooltip.style.top=(ev.clientY-8)+"px"; });
+    path.addEventListener("mouseleave",()=>tooltip.classList.remove("visible"));
+    arrowsG.appendChild(path);
+  });
+  svg.appendChild(arrowsG);
+
+  // Draw nodes
+  DATA.forEach(eraData => {
+    const pos = LAYOUT[eraData.era];
+    if(!pos) return;
+    const [nx,ny]=pos;
+    const color = ERA_COLORS[eraData.era] || "#888";
+
+    const g=document.createElementNS(svgNS,"g");
+    g.setAttribute("class","inf-node-g");
+    g.setAttribute("tabindex","0");
+    g.setAttribute("role","button");
+    g.setAttribute("aria-label",eraData.era);
+
+    const rect=document.createElementNS(svgNS,"rect");
+    rect.setAttribute("x",String(nx)); rect.setAttribute("y",String(ny));
+    rect.setAttribute("width",String(NW)); rect.setAttribute("height",String(NH));
+    rect.setAttribute("rx","9");
+    rect.setAttribute("fill",color); rect.setAttribute("fill-opacity","0.13");
+    rect.setAttribute("stroke",color); rect.setAttribute("stroke-opacity","0.6"); rect.setAttribute("stroke-width","1.5");
+
+    const text=document.createElementNS(svgNS,"text");
+    text.setAttribute("x",String(nx+NW/2)); text.setAttribute("y",String(ny+NH/2));
+    text.setAttribute("text-anchor","middle"); text.setAttribute("dominant-baseline","middle");
+    text.setAttribute("font-family","Futura PT,Futura,system-ui,sans-serif");
+    text.setAttribute("font-size","9.5"); text.setAttribute("font-weight","700");
+    text.setAttribute("fill",color); text.setAttribute("fill-opacity","0.95");
+    const words=eraData.era.split(" ");
+    if(words.length<=2){ text.textContent=eraData.era; }
+    else{
+      const t1=document.createElementNS(svgNS,"tspan");
+      t1.setAttribute("x",String(nx+NW/2)); t1.setAttribute("dy","-6");
+      t1.textContent=words.slice(0,Math.ceil(words.length/2)).join(" ");
+      const t2=document.createElementNS(svgNS,"tspan");
+      t2.setAttribute("x",String(nx+NW/2)); t2.setAttribute("dy","13");
+      t2.textContent=words.slice(Math.ceil(words.length/2)).join(" ");
+      text.appendChild(t1); text.appendChild(t2);
+    }
+
+    g.appendChild(rect); g.appendChild(text);
+
+    const eraRange = eraData.eraRange || "";
+    const chingRef = eraData.ching ? " · Ching " + eraData.ching : "";
+    g.addEventListener("mouseenter",ev=>{
+      tooltip.innerHTML="<strong>"+eraData.era+"</strong>"+(eraRange?"<div class='inf-desc'>"+eraRange+chingRef+"</div>":"");
+      tooltip.classList.add("visible");
+    });
+    g.addEventListener("mousemove",ev=>{ tooltip.style.left=(ev.clientX+14)+"px"; tooltip.style.top=(ev.clientY-8)+"px"; });
+    g.addEventListener("mouseleave",()=>tooltip.classList.remove("visible"));
+    g.addEventListener("click",()=>{
+      document.getElementById("modeTimeline").click();
+      setTimeout(()=>{
+        const sec=document.querySelector(`[data-era="${CSS.escape(eraData.era)}"]`);
+        if(sec) sec.scrollIntoView({behavior:"smooth",block:"start"});
+      },250);
+    });
+    svg.appendChild(g);
+  });
+
+  wrap.appendChild(svg);
+})();
+
+// =====================================================================
+// VIEW MODE SWITCHING
+// =====================================================================
+(function initViewModes(){
+  const mainEl = document.querySelector("main");
+  const mapPanel = document.getElementById("mapPanel");
+  const infPanel = document.getElementById("infPanel");
+  const fcOverlay = document.getElementById("fcOverlay");
+  const btnTimeline = document.getElementById("modeTimeline");
+  const btnMap = document.getElementById("modeMap");
+  const btnInf = document.getElementById("modeInfluences");
+  const btnFC = document.getElementById("modeFlashcards");
+  const allModes = [btnTimeline,btnMap,btnInf,btnFC];
+
+  function setActive(btn){ allModes.forEach(b=>b.classList.toggle("active",b===btn)); }
+
+  function hideAll(){
+    mainEl.style.display="";
+    mapPanel.classList.remove("open");
+    infPanel.classList.remove("open");
+    fcOverlay.classList.remove("open");
+  }
+
+  btnTimeline.addEventListener("click",()=>{ hideAll(); setActive(btnTimeline); });
+  btnMap.addEventListener("click",()=>{ hideAll(); mainEl.style.display="none"; mapPanel.classList.add("open"); setActive(btnMap); });
+  btnInf.addEventListener("click",()=>{ hideAll(); mainEl.style.display="none"; infPanel.classList.add("open"); setActive(btnInf); });
+  btnFC.addEventListener("click",()=>{ openFlashcards(); setActive(btnFC); });
+
+  document.getElementById("fcClose").addEventListener("click",()=>{
+    fcOverlay.classList.remove("open");
+    btnTimeline.click();
+  });
+})();
+
+// =====================================================================
+// FLASHCARD MODE
+// =====================================================================
+(function initFlashcards(){
+  let allFC = [];
+  DATA.forEach(eraData => {
+    (eraData.concepts||[]).forEach(c => {
+      allFC.push({era:eraData.era, term:c.term||"", def:c.def||"", recognize:c.recognize||"", check:c.check||""});
+    });
+  });
+  // Supplement with STUDY_BLOCKS vocab terms not already in concepts
+  DATA.forEach(eraData => {
+    const sb = STUDY_BLOCKS[eraData.era];
+    if(!sb) return;
+    (sb.vocab||[]).forEach(item => {
+      if(!allFC.some(c=>c.era===eraData.era && c.term===item.k)){
+        allFC.push({era:eraData.era, term:item.k, def:item.v, recognize:"", check:""});
+      }
+    });
+  });
+
+  let deck=[...allFC];
+  let idx=0;
+
+  const eraSel=document.getElementById("fcEraSel");
+  const progress=document.getElementById("fcProgress");
+  const cardWrap=document.getElementById("fcCardWrap");
+  const eraChip=document.getElementById("fcEraChip");
+  const termEl=document.getElementById("fcTerm");
+  const defEl=document.getElementById("fcDef");
+  const recEl=document.getElementById("fcRec");
+  const checkEl=document.getElementById("fcCheck");
+  const prevBtn=document.getElementById("fcPrev");
+  const nextBtn=document.getElementById("fcNext");
+  const shuffleBtn=document.getElementById("fcShuffleBtn");
+
+  // Populate era dropdown
+  ["All eras",...DATA.map(d=>d.era)].forEach(e=>{
+    const opt=document.createElement("option");
+    opt.value=e; opt.textContent=e; eraSel.appendChild(opt);
+  });
+
+  function buildDeck(){
+    const sel=eraSel.value;
+    deck=sel==="All eras"?[...allFC]:allFC.filter(c=>c.era===sel);
+    idx=0; cardWrap.classList.remove("flipped"); showCard();
+  }
+  function showCard(){
+    if(!deck.length){termEl.textContent="No cards for this era.";return;}
+    const c=deck[idx];
+    eraChip.textContent=c.era;
+    termEl.textContent=c.term;
+    defEl.textContent=c.def;
+    recEl.textContent=c.recognize||"—";
+    checkEl.textContent=c.check?"⟳ "+c.check:"";
+    checkEl.style.display=c.check?"":"none";
+    progress.textContent=(idx+1)+" / "+deck.length;
+    prevBtn.disabled=idx===0;
+    nextBtn.disabled=idx===deck.length-1;
+    cardWrap.classList.remove("flipped");
+  }
+
+  cardWrap.addEventListener("click",()=>cardWrap.classList.toggle("flipped"));
+  cardWrap.addEventListener("keydown",ev=>{
+    if(ev.key===" "||ev.key==="Enter"){ev.preventDefault();cardWrap.classList.toggle("flipped");}
+    if(ev.key==="ArrowRight"&&idx<deck.length-1){idx++;showCard();}
+    if(ev.key==="ArrowLeft"&&idx>0){idx--;showCard();}
+  });
+  nextBtn.addEventListener("click",()=>{if(idx<deck.length-1){idx++;showCard();}});
+  prevBtn.addEventListener("click",()=>{if(idx>0){idx--;showCard();}});
+  eraSel.addEventListener("change",buildDeck);
+  shuffleBtn.addEventListener("click",()=>{
+    for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+    idx=0;showCard();
+  });
+
+  window.openFlashcards=function(){buildDeck();document.getElementById("fcOverlay").classList.add("open");setTimeout(()=>cardWrap.focus(),100);};
+  buildDeck();
+})();
+
 </script>
+
+<!-- ── MAP PANEL ─────────────────────────────────── -->
+<div class="map-panel" id="mapPanel">
+  <div class="map-container" id="mapContainer">
+    <div class="map-popup" id="mapPopup">
+      <button class="map-popup-close" id="mapPopupClose">✕</button>
+      <div class="map-popup-date" id="mapPopupDate"></div>
+      <div class="map-popup-title" id="mapPopupTitle"></div>
+      <div class="map-popup-loc" id="mapPopupLoc"></div>
+      <div class="map-popup-era" id="mapPopupEra"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── INFLUENCE PANEL ───────────────────────────── -->
+<div class="inf-panel" id="infPanel">
+  <p class="inf-subtitle">
+    Arrows show major lines of architectural influence across eras and cultures.
+    Hover over any node for context. Thickness indicates strength of influence.
+  </p>
+  <div class="inf-wrap" id="infWrap"></div>
+</div>
+<div class="inf-tooltip" id="infTooltip"></div>
+
+<!-- ── FLASHCARD OVERLAY ─────────────────────────── -->
+<div class="fc-overlay" id="fcOverlay" role="dialog" aria-modal="true" aria-label="Flashcard study mode">
+  <div class="fc-header">
+    <div class="fc-header-left">
+      <div class="fc-title">Flashcards</div>
+      <span class="fc-progress" id="fcProgress">0 / 0</span>
+      <select class="fc-era-sel" id="fcEraSel" aria-label="Filter by era"></select>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="fc-shuffle-btn" id="fcShuffleBtn" type="button">⇄ Shuffle</button>
+      <button class="icon-btn" id="fcClose" type="button" aria-label="Close flashcards">✕</button>
+    </div>
+  </div>
+  <div class="fc-body">
+    <div class="fc-card-wrap" id="fcCardWrap" tabindex="0" role="button" aria-label="Flashcard, click to flip">
+      <div class="fc-card-inner" id="fcCardInner">
+        <div class="fc-face fc-front" id="fcFront">
+          <span class="fc-era-chip" id="fcEraChip"></span>
+          <div class="fc-term" id="fcTerm"></div>
+          <div class="fc-flip-hint">tap to reveal</div>
+        </div>
+        <div class="fc-face fc-back" id="fcBack">
+          <div class="fc-section-label">Definition</div>
+          <div class="fc-def" id="fcDef"></div>
+          <div class="fc-section-label">How to Recognize</div>
+          <div class="fc-rec" id="fcRec"></div>
+          <div class="fc-check-box" id="fcCheck"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="fc-nav-btn" id="fcPrev" type="button" aria-label="Previous card">&#8592;</button>
+      <button class="fc-nav-btn" id="fcNext" type="button" aria-label="Next card">&#8594;</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
