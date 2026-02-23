@@ -2512,6 +2512,8 @@ function buildDiagramBlock(entry) {
 }
 
 
+document.addEventListener("DOMContentLoaded", () => {
+
 const timelineEl = document.getElementById("timeline");
 const eraNavEl = document.getElementById("eraNav");
 const searchEl = document.getElementById("search");
@@ -3566,6 +3568,20 @@ function render() {
 
       const toggleBtn = card.querySelector(".plan-toggle");
       const panel = card.querySelector(".plan-panel");
+
+      // Show/Hide plan diagram panel
+      if (toggleBtn && panel) {
+        toggleBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          const isOpen = panel.classList.toggle("open");
+          toggleBtn.textContent = isOpen ? "Hide Plan Diagram" : "Show Plan Diagram";
+          if (isOpen) {
+            setDiagramLayer(card, "base");
+            const lbs = card.querySelectorAll(".plan-panel .layer-toggle .chip");
+            lbs.forEach(b => b.classList.toggle("active", (b.dataset.layer || "base") === "base"));
+          }
+        });
+      }
       const compareBtn = card.querySelector(".compare-btn");
       if (compareBtn) {
         compareBtn.addEventListener("click", (ev) => {
@@ -4168,7 +4184,7 @@ const INFLUENCE_LINKS = [
   btnTimeline.addEventListener("click",()=>{ hideAll(); setActive(btnTimeline); });
   btnMap.addEventListener("click",()=>{ hideAll(); mainEl.style.display="none"; mapPanel.classList.add("open"); setActive(btnMap); });
   btnInf.addEventListener("click",()=>{ hideAll(); mainEl.style.display="none"; infPanel.classList.add("open"); setActive(btnInf); });
-  btnFC.addEventListener("click",()=>{ openFlashcards(); setActive(btnFC); });
+  btnFC.addEventListener("click",()=>{ if (window.openFlashcards) window.openFlashcards(); setActive(btnFC); });
 
   document.getElementById("fcClose").addEventListener("click",()=>{
     fcOverlay.classList.remove("open");
@@ -4255,6 +4271,9 @@ const INFLUENCE_LINKS = [
   window.openFlashcards=function(){buildDeck();document.getElementById("fcOverlay").classList.add("open");setTimeout(()=>cardWrap.focus(),100);};
   buildDeck();
 })();
+
+
+});
 
 </script>
 
