@@ -489,14 +489,14 @@ main{
 
 
 /* Interactive controls */
-.filters{margin:14px auto 0; max-width:1180px; padding:0 18px 10px;}
+.filters{margin:8px auto 0; max-width:1180px; padding:0 18px 6px;}
 .filter-row{display:flex; gap:12px; align-items:center; margin:10px 0;}
 .filter-label{width:80px; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted);}
 .filter-chips{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
 .chip{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); color:var(--text); padding:7px 10px; border-radius:999px; font-size:13px; cursor:pointer; transition:transform 160ms ease, background 160ms ease, box-shadow 160ms ease;}
 .chip:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
 .chip.active{background:rgba(0,102,204,0.12); border-color:rgba(0,102,204,0.35);}
-.filter-actions{display:flex; gap:10px; align-items:center; margin-top:10px;}
+.filter-actions{display:flex; gap:10px; align-items:center; margin-top:0;}
 .btn{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); padding:9px 12px; border-radius:12px; font-size:13px; cursor:pointer; transition:transform 160ms ease, box-shadow 160ms ease, background 160ms ease;}
 .btn:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
 .btn:disabled{opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none;}
@@ -660,14 +660,6 @@ main{
 
 
     <div class="filters">
-      <div class="filter-row">
-        <div class="filter-label">Type</div>
-        <div class="filter-chips" id="typeFilters"></div>
-      </div>
-      <div class="filter-row">
-        <div class="filter-label">Structure</div>
-        <div class="filter-chips" id="structFilters"></div>
-      </div>
       <div class="filter-actions">
         <button class="btn" id="clearFilters" type="button">Clear filters</button>
         <button class="btn primary" id="compareOpen" type="button" disabled>Compare (0)</button>
@@ -3480,8 +3472,10 @@ function render() {
   const allEntries = DATA.flatMap(e => (e.entries || []).map(en => ({era:e.era, entry:en})));
   const types = uniqueSorted(allEntries.map(x => inferType(x.entry)), TYPE_ORDER);
   const structs = uniqueSorted(allEntries.map(x => inferStructure(x.entry)), STRUCT_ORDER);
-  renderChips(typeFiltersEl, types, ACTIVE.types);
-  renderChips(structFiltersEl, structs, ACTIVE.structures);
+  // Type and Structure filters were removed from the header to reduce vertical space.
+  // Keep the underlying filter logic available for future use, but only render if the UI exists.
+  if (typeFiltersEl) renderChips(typeFiltersEl, types, ACTIVE.types);
+  if (structFiltersEl) renderChips(structFiltersEl, structs, ACTIVE.structures);
 
   DATA.forEach((eraData) => {
     const pill = document.createElement("button");
