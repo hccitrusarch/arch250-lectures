@@ -55,38 +55,39 @@ header{
 .header-inner{
   max-width:1180px;
   margin:0 auto;
-  padding:14px 18px 10px;
+  padding:8px 18px 6px;
   display:flex;
   align-items:center;
-  gap:16px;
+  gap:12px;
+  flex-wrap:wrap;
 }
 .logo{
   display:flex;
   align-items:center;
-  gap:12px;
-  min-width: 320px;
+  gap:8px;
+  min-width: 0;
 }
 .logo img{height:62px;width:auto;display:block}
 .logo-text{display:flex;flex-direction:column;line-height:1}
 .logo-text .arch{
   font-weight:800;
-  letter-spacing:0.24em;
-  font-size:20px;
+  letter-spacing:0.20em;
+  font-size:15px;
   color:var(--gray);
   text-transform:uppercase;
 }
 .logo-text .hoa{
-  margin-top:6px;
+  margin-top:2px;
   font-weight:700;
-  letter-spacing:0.22em;
-  font-size:14px;
+  letter-spacing:0.16em;
+  font-size:11px;
   color:var(--blue);
   text-transform:uppercase;
 }
 .logo-text .sub{
-  margin-top:8px;
+  margin-top:3px;
   color:var(--muted);
-  font-size:12px;
+  font-size:10px;
   letter-spacing:0.02em;
 }
 .top-actions{
@@ -124,18 +125,18 @@ header{
 .era-nav{
   max-width:1180px;
   margin:0 auto;
-  padding:0 18px 14px;
+  padding:0 18px 6px;
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:5px;
 }
 .pill{
   appearance:none;
   border:1px solid var(--border);
   background:rgba(255,255,255,0.75);
-  padding:8px 12px;
+  padding:4px 9px;
   border-radius:999px;
-  font-size:12px;
+  font-size:11px;
   color:var(--muted);
   cursor:pointer;
   transition:transform 0.08s, background 0.2s, border-color 0.2s;
@@ -489,14 +490,18 @@ main{
 
 
 /* Interactive controls */
-.filters{margin:14px auto 0; max-width:1180px; padding:0 18px 10px;}
-.filter-row{display:flex; gap:12px; align-items:center; margin:10px 0;}
-.filter-label{width:80px; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted);}
-.filter-chips{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
-.chip{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); color:var(--text); padding:7px 10px; border-radius:999px; font-size:13px; cursor:pointer; transition:transform 160ms ease, background 160ms ease, box-shadow 160ms ease;}
+.filters{margin:4px auto 0; max-width:1180px; padding:0 18px 4px; display:none;}
+.filters.open{display:block;}
+.filter-toggle-btn{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); color:var(--muted); padding:4px 10px; border-radius:999px; font-size:11px; cursor:pointer; font-family:inherit; margin-left:6px; transition:border-color 0.2s;}
+.filter-toggle-btn:hover{border-color:rgba(0,102,204,0.30); color:var(--text);}
+.filter-toggle-btn.active{background:rgba(0,102,204,0.10); border-color:rgba(0,102,204,0.35); color:var(--blue);}
+.filter-row{display:flex; gap:8px; align-items:center; margin:4px 0;}
+.filter-label{width:70px; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted);}
+.filter-chips{display:flex; flex-wrap:wrap; gap:5px; align-items:center;}
+.chip{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); color:var(--text); padding:5px 8px; border-radius:999px; font-size:11px; cursor:pointer; transition:transform 160ms ease, background 160ms ease, box-shadow 160ms ease;}
 .chip:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
 .chip.active{background:rgba(0,102,204,0.12); border-color:rgba(0,102,204,0.35);}
-.filter-actions{display:flex; gap:10px; align-items:center; margin-top:10px;}
+.filter-actions{display:flex; gap:8px; align-items:center; margin-top:4px;}
 .btn{appearance:none; border:1px solid var(--border); background:rgba(255,255,255,0.85); padding:9px 12px; border-radius:12px; font-size:13px; cursor:pointer; transition:transform 160ms ease, box-shadow 160ms ease, background 160ms ease;}
 .btn:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,0.10);}
 .btn:disabled{opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none;}
@@ -551,8 +556,8 @@ main{
 
 
 /* ── VIEW-MODE TOGGLES ────────────────────────────────── */
-.view-modes{display:flex;gap:6px;align-items:center;margin-left:10px;flex-shrink:0}
-.mode-btn{appearance:none;border:1px solid var(--border);background:rgba(255,255,255,0.85);color:var(--muted);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:transform 0.08s,background 0.2s,border-color 0.2s;white-space:nowrap;font-family:inherit}
+.view-modes{display:flex;gap:4px;align-items:center;margin-left:6px;flex-shrink:0}
+.mode-btn{appearance:none;border:1px solid var(--border);background:rgba(255,255,255,0.85);color:var(--muted);padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:transform 0.08s,background 0.2s,border-color 0.2s;white-space:nowrap;font-family:inherit}
 .mode-btn:hover{border-color:rgba(0,102,204,0.30);color:var(--text)}
 .mode-btn.active{background:rgba(0,102,204,0.12);border-color:rgba(0,102,204,0.40);color:var(--blue)}
 
@@ -626,7 +631,7 @@ main{
 <header>
   <div class="header-inner">
     <div class="logo">
-      <svg width="62" height="62" viewBox="0 0 64 64" aria-label="ARCH 250 mark" role="img" style="display:block">
+      <svg width="40" height="40" viewBox="0 0 64 64" aria-label="ARCH 250 mark" role="img" style="display:block">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0066cc" stop-opacity="0.14"/>
@@ -656,6 +661,7 @@ main{
       <button class="mode-btn" id="modeInfluences" type="button">Influences</button>
       <button class="mode-btn" id="modeFlashcards" type="button">Flashcards</button>
     </div>
+    <button class="filter-toggle-btn" id="filterToggle" type="button">⚙ Filters</button>
     </div>
 
 
@@ -1575,7 +1581,7 @@ const DATA = [
         date: "532–537 CE",
         title: "Hagia Sophia",
         location: "Constantinople (Istanbul), Turkey",
-        summary: "Designed by Anthemius of Tralles and Isidorus of Miletus for Emperor Justinian. The vast dome (31m diameter, 55m above floor) rests on pendentives  -  the revolutionary solution for placing a circular dome on a square base. Semi-domes on east and west expand the interior longitudinally. 40 windows at the dome's base create the illusion that it floats on a ring of light. Procopius wrote it seemed 'suspended from heaven by a golden chain.' Converted to mosque (1453), now a museum. The structural type  -  dome on pendentives  -  became the defining feature of Byzantine architecture.",
+        summary: "Designed by Anthemius of Tralles and Isidorus of Miletus for Emperor Justinian. The vast dome (31m diameter, 55m above floor) rests on pendentives  -  the revolutionary solution for placing a circular dome on a square base. Semi-domes on east and west expand the interior longitudinally. 40 windows at the dome's base create the illusion that it floats on a ring of light. Procopius wrote it seemed 'suspended from heaven by a golden chain.' Converted to mosque (1453), museum (1934–2020), reconverted to mosque (2020). The structural type  -  dome on pendentives  -  became the defining feature of Byzantine architecture.",
         tags: ["dome", "pendentive", "Justinian", "Anthemius", "Isidorus", "Constantinople"]
       },
       {
@@ -2171,6 +2177,122 @@ const DATA = [
   }
 ];
 
+/* ── CURATED IMAGE DATABASE ─────────────────────────────
+Stable Wikimedia Commons thumbnail URLs for every entry.
+Bypasses Wikipedia API rate-limiting (429 errors).
+Falls back to Wikipedia JSONP API only if no curated URL. */
+
+const CURATED_IMAGES = {
+  "Abu Simbel": "assets/images/Abu_Simbel.jpg",
+  "Akrotiri (Thera/Santorini)": "assets/images/Akrotiri_TheraSantorini.jpg",
+  "Alhambra": "assets/images/Alhambra.jpg",
+  "Amiens Cathedral": "assets/images/Amiens_Cathedral.jpg",
+  "Antwerp Town Hall": "assets/images/Antwerp_Town_Hall.jpg",
+  "Babylon under Hammurabi": "assets/images/Babylon_under_Hammurabi.jpg",
+  "Baptistery of Pisa & Pisa Cathedral Complex": "assets/images/Baptistery_of_Pisa__Pisa_Cathedral_Complex.jpg",
+  "Basilica of Maxentius & Constantine": "assets/images/Basilica_of_Maxentius__Constantine.jpg",
+  "Basilica of Saint-Denis": "assets/images/Basilica_of_Saint-Denis.jpg",
+  "Basilica of Sant'Apollinare Nuovo": "assets/images/Basilica_of_SantApollinare_Nuovo.jpg",
+  "Baths of Caracalla": "assets/images/Baths_of_Caracalla.jpg",
+  "Baths of Diocletian": "assets/images/Baths_of_Diocletian.jpg",
+  "Cathedral of Monreale": "assets/images/Cathedral_of_Monreale.jpg",
+  "Chartres Cathedral": "assets/images/Chartres_Cathedral.jpg",
+  "Chinese Buddhist Pagoda: Songyue Temple Pagoda": "assets/images/Chinese_Buddhist_Pagoda_Songyue_Temple_Pagoda.jpg",
+  "Church of the Holy Apostles (Apostoleion)": "assets/images/Church_of_the_Holy_Apostles_Apostoleion.jpg",
+  "Château de Chambord": "assets/images/Château_de_Chambord.jpg",
+  "Citadel of Mycenae": "assets/images/Citadel_of_Mycenae.jpg",
+  "Classic Maya Architecture: Tikal & Palenque": "assets/images/Classic_Maya_Architecture_Tikal__Palenque.jpg",
+  "Cluny III": "assets/images/Cluny_III.jpg",
+  "Cologne Cathedral": "assets/images/Cologne_Cathedral.jpg",
+  "Development of the Doric Order": "assets/images/Development_of_the_Doric_Order.jpg",
+  "Dome of the Rock": "assets/images/Dome_of_the_Rock.jpg",
+  "Durham Cathedral": "assets/images/Durham_Cathedral.jpg",
+  "El Escorial": "assets/images/El_Escorial.jpg",
+  "Florence Cathedral (Santa Maria del Fiore)": "assets/images/Florence_Cathedral_Santa_Maria_del_Fiore.jpg",
+  "Great Altar of Zeus at Pergamon": "assets/images/Great_Altar_of_Zeus_at_Pergamon.jpg",
+  "Great Mosque of Damascus": "assets/images/Great_Mosque_of_Damascus.jpg",
+  "Great Mosque of Isfahan": "assets/images/Great_Mosque_of_Isfahan.jpg",
+  "Great Pyramid of Khufu": "assets/images/Great_Pyramid_of_Khufu.jpg",
+  "Great Sphinx & Valley Temple": "assets/images/Great_Sphinx__Valley_Temple.jpg",
+  "Göbekli Tepe": "assets/images/Göbekli_Tepe.jpg",
+  "Hagia Sophia": "assets/images/Hagia_Sophia.jpg",
+  "Han Dynasty Architecture": "assets/images/Han_Dynasty_Architecture.jpg",
+  "Hardwick Hall": "assets/images/Hardwick_Hall.jpg",
+  "Hōryū-ji Temple Complex": "assets/images/Hōryū-ji_Temple_Complex.jpg",
+  "Il Gesù": "assets/images/Il_Gesù.jpg",
+  "Imperial Fora & Markets of Trajan": "assets/images/Imperial_Fora__Markets_of_Trajan.jpg",
+  "Inca Architecture: Machu Picchu & Cusco": "assets/images/Inca_Architecture_Machu_Picchu__Cusco.jpg",
+  "Izumo & Ise Grand Shrines (Origins)": "assets/images/Izumo__Ise_Grand_Shrines_Origins.jpg",
+  "King's College Chapel, Cambridge": "assets/images/Kings_College_Chapel_Cambridge.jpg",
+  "Laurentian Library (Biblioteca Medicea Laurenziana)": "assets/images/Laurentian_Library_Biblioteca_Medicea_Laurenziana.jpg",
+  "Maison Carrée": "assets/images/Maison_Carrée.jpg",
+  "Maria Laach Abbey": "assets/images/Maria_Laach_Abbey.jpg",
+  "Maya Puuc Style: Uxmal": "assets/images/Maya_Puuc_Style_Uxmal.jpg",
+  "Megalithic Temples of Malta": "assets/images/Megalithic_Temples_of_Malta.jpg",
+  "Michelangelo's Capitoline Hill (Campidoglio)": "assets/images/Michelangelos_Capitoline_Hill_Campidoglio.jpg",
+  "Milan Cathedral (Duomo di Milano)": "assets/images/Milan_Cathedral_Duomo_di_Milano.jpg",
+  "Monastery of Hosios Loukas": "assets/images/Monastery_of_Hosios_Loukas.jpg",
+  "Mortuary Temple of Hatshepsut": "assets/images/Mortuary_Temple_of_Hatshepsut.jpg",
+  "Mortuary Temple of Mentuhotep II": "assets/images/Mortuary_Temple_of_Mentuhotep_II.jpg",
+  "Neo-Babylonian Babylon": "assets/images/Neo-Babylonian_Babylon.jpg",
+  "Newgrange": "assets/images/Newgrange.jpg",
+  "Notre-Dame de Paris": "assets/images/Notre-Dame_de_Paris.jpg",
+  "Old St. Peter's Basilica": "assets/images/Old_St_Peters_Basilica.jpg",
+  "Olmec Ceremonial Centers: La Venta & San Lorenzo": "assets/images/Olmec_Ceremonial_Centers_La_Venta__San_Lorenzo.jpg",
+  "Ospedale degli Innocenti": "assets/images/Ospedale_degli_Innocenti.jpg",
+  "Palace of Ashurnasirpal II at Nimrud": "assets/images/Palace_of_Ashurnasirpal_II_at_Nimrud.jpg",
+  "Palace of Knossos": "assets/images/Palace_of_Knossos.jpg",
+  "Palazzo Farnese": "assets/images/Palazzo_Farnese.jpg",
+  "Palazzo Medici-Riccardi": "assets/images/Palazzo_Medici-Riccardi.jpg",
+  "Palazzo Pubblico, Siena": "assets/images/Palazzo_Pubblico_Siena.jpg",
+  "Palazzo Rucellai": "assets/images/Palazzo_Rucellai.jpg",
+  "Palazzo del Tè": "assets/images/Palazzo_del_Tè.jpg",
+  "Palladian Villas & the Basilica Palladiana": "assets/images/Palladian_Villas__the_Basilica_Palladiana.jpg",
+  "Persepolis": "assets/images/Persepolis.jpg",
+  "Pont du Gard": "assets/images/Pont_du_Gard.jpg",
+  "Qin Dynasty: Great Wall & Terracotta Army": "assets/images/Qin_Dynasty_Great_Wall__Terracotta_Army.jpg",
+  "Roman Concrete Revolution": "assets/images/Roman_Concrete_Revolution.jpg",
+  "Roman Domestic Architecture: Domus & Insula": "assets/images/Roman_Domestic_Architecture_Domus__Insula.jpg",
+  "Saint-Sernin, Toulouse": "assets/images/Saint-Sernin_Toulouse.jpg",
+  "Sainte-Chapelle": "assets/images/Sainte-Chapelle.jpg",
+  "Salisbury Cathedral": "assets/images/Salisbury_Cathedral.jpg",
+  "San Giorgio Maggiore & Il Redentore": "assets/images/San_Giorgio_Maggiore__Il_Redentore.jpg",
+  "San Lorenzo & Santo Spirito, Florence": "assets/images/San_Lorenzo__Santo_Spirito_Florence.jpg",
+  "San Miniato al Monte, Florence": "assets/images/San_Miniato_al_Monte_Florence.jpg",
+  "San Vitale, Ravenna": "assets/images/San_Vitale_Ravenna.jpg",
+  "Sant'Andrea, Mantua": "assets/images/SantAndrea_Mantua.jpg",
+  "Santa Costanza": "assets/images/Santa_Costanza.jpg",
+  "Santa Maria Maggiore": "assets/images/Santa_Maria_Maggiore.jpg",
+  "Santa Maria Novella (Façade)": "assets/images/Santa_Maria_Novella_Façade.jpg",
+  "Santa Sabina": "assets/images/Santa_Sabina.jpg",
+  "Shang Dynasty Foundations": "assets/images/Shang_Dynasty_Foundations.jpg",
+  "Skara Brae": "assets/images/Skara_Brae.jpg",
+  "Speyer Cathedral": "assets/images/Speyer_Cathedral.jpg",
+  "St. Peter's Basilica (New)": "assets/images/St_Peters_Basilica_New.jpg",
+  "Step Pyramid of Djoser": "assets/images/Step_Pyramid_of_Djoser.jpg",
+  "Stonehenge": "assets/images/Stonehenge.jpg",
+  "Sultan Hassan Mosque-Madrasa": "assets/images/Sultan_Hassan_Mosque-Madrasa.jpg",
+  "Temple of Amun at Karnak": "assets/images/Temple_of_Amun_at_Karnak.jpg",
+  "Temple of Athena Nike": "assets/images/Temple_of_Athena_Nike.jpg",
+  "Temple of Hera I (Basilica) at Paestum": "assets/images/Temple_of_Hera_I_Basilica_at_Paestum.jpg",
+  "Temple of Luxor": "assets/images/Temple_of_Luxor.jpg",
+  "Temple of Zeus at Olympia": "assets/images/Temple_of_Zeus_at_Olympia.jpg",
+  "Tenochtitlán & Aztec Templo Mayor": "assets/images/Tenochtitlán__Aztec_Templo_Mayor.jpg",
+  "Teotihuacán": "assets/images/Teotihuacán.jpg",
+  "The Colosseum (Flavian Amphitheater)": "assets/images/The_Colosseum_Flavian_Amphitheater.jpg",
+  "The Erechtheion": "assets/images/The_Erechtheion.jpg",
+  "The Pantheon": "assets/images/The_Pantheon.jpg",
+  "The Parthenon": "assets/images/The_Parthenon.jpg",
+  "The Propylaea": "assets/images/The_Propylaea.jpg",
+  "Theater at Epidaurus": "assets/images/Theater_at_Epidaurus.jpg",
+  "Tholos at Delphi & the Corinthian Order": "assets/images/Tholos_at_Delphi__the_Corinthian_Order.jpg",
+  "Treasury of Atreus (Tomb of Agamemnon)": "assets/images/Treasury_of_Atreus_Tomb_of_Agamemnon.jpg",
+  "Uffizi, Florence": "assets/images/Uffizi_Florence.jpg",
+  "Villa Giulia": "assets/images/Villa_Giulia.jpg",
+  "Ziggurat of Ur": "assets/images/Ziggurat_of_Ur.jpg",
+  "Çatalhöyük": "assets/images/Çatalhöyük.jpg",
+};
+
 const WIKI_TITLE_OVERRIDES = {
   "White Temple & Ziggurat at Uruk": "White Temple (Uruk)",
   "Megalithic Temples of Malta": "Megalithic Temples of Malta",
@@ -2259,21 +2381,13 @@ function wikiThumbBySearch(term, done) {
 }
 function loadWikiThumb(imgEl, entry) {
   const wrap = imgEl.closest(".entry");
-  const title = getWikiTitle(entry);
-  wikiThumbByTitle(title, (thumb1) => {
-    if (thumb1) {
-      imgEl.src = thumb1;
-      wrap.classList.add("has-img");
-      return;
-    }
-    const searchTerm = normalizeWikiTitle(`${title} ${entry.location || ""}`.trim());
-    wikiThumbBySearch(searchTerm, (thumb2) => {
-      if (thumb2) {
-        imgEl.src = thumb2;
-        wrap.classList.add("has-img");
-      }
-    });
-  });
+  /* 1. Check local curated images first (instant, reliable) */
+  const curated = CURATED_IMAGES[entry.title];
+  if (curated) {
+    imgEl.src = curated;
+    wrap.classList.add("has-img");
+    return;
+  }
 }
 
 const DIAGRAMS = {
@@ -2355,11 +2469,11 @@ const DIAGRAMS = {
 
 function escapeHTML(str) {
   return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
+    .replace(/&/g, "\x26amp;")
+    .replace(/</g, "\x26lt;")
+    .replace(/>/g, "\x26gt;")
+    .replace(/"/g, "\x26quot;")
+    .replace(/'/g, "\x26#39;");
 }
 
 function svgWrap(inner) {
@@ -2521,6 +2635,12 @@ const typeFiltersEl = document.getElementById("typeFilters");
 const structFiltersEl = document.getElementById("structFilters");
 const clearFiltersBtn = document.getElementById("clearFilters");
 const compareOpenBtn = document.getElementById("compareOpen");
+const filterToggleBtn = document.getElementById("filterToggle");
+const filtersEl = document.querySelector(".filters");
+filterToggleBtn.addEventListener("click", () => {
+  filtersEl.classList.toggle("open");
+  filterToggleBtn.classList.toggle("active");
+});
 
 const compareDockEl = document.getElementById("compareDock");
 const compareSlotsEl = document.getElementById("compareSlots");
@@ -3550,7 +3670,7 @@ function render() {
           <span class="tag">${escapeHTML(inferredStructure)}</span>
           <button class="icon-btn compare-btn" type="button" aria-label="Select for compare">≋</button>
         </div>
-        <div class="entry-img-wrap"><img class="entry-img" alt="${escapeHTML(entry.title || "")}" loading="lazy" /></div>
+        <div class="entry-img-wrap"><img class="entry-img" alt="${escapeHTML(entry.title || "")}" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous" /></div>
         <div class="entry-summary">${escapeHTML(entry.summary || "")}</div>
         ${diagramBlock}
         <div class="tags">${(entry.tags || []).map(t => `<span class="tag">${escapeHTML(t)}</span>`).join("")}</div>
@@ -3654,81 +3774,6 @@ const observer = new IntersectionObserver((entries) => {
 
 allCards.forEach(card => observer.observe(card));
 
-// =====================================================================
-// CURATED IMAGES — verified Wikimedia Commons URLs
-// =====================================================================
-const CURATED_IMAGES = {
-  "Göbekli Tepe":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/G%C3%B6bekli_tepe.JPG/800px-G%C3%B6bekli_tepe.JPG",
-  "Çatalhöyük":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Catalhoyuk_posible_reconstruction.jpg/800px-Catalhoyuk_posible_reconstruction.jpg",
-  "Skara Brae":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Skara_brae_4.jpg/800px-Skara_brae_4.jpg",
-  "Stonehenge":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Stonehenge%2C_Salisbury.JPG/800px-Stonehenge%2C_Salisbury.JPG",
-  "Newgrange":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Newgrange_-_Mound.jpg/800px-Newgrange_-_Mound.jpg",
-  "Megalithic Temples of Malta":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ggantija_temples.jpg/800px-Ggantija_temples.jpg",
-  "White Temple & Ziggurat at Uruk":"https://smarthistory.org/wp-content/uploads/2021/10/1878px-Anu_district.svg.png",
-  "Ziggurat of Ur":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Great_Ziggurat_of_Ur.JPG/800px-Great_Ziggurat_of_Ur.JPG",
-  "Palace of Ashurnasirpal II at Nimrud":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ashurnasirpal_II_relief.jpg/800px-Ashurnasirpal_II_relief.jpg",
-  "Neo-Babylonian Babylon":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Ishtar_Gate_at_Berlin_Museum.jpg/800px-Ishtar_Gate_at_Berlin_Museum.jpg",
-  "Persepolis":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Persepolis_hdr.JPG/800px-Persepolis_hdr.JPG",
-  "Step Pyramid of Djoser":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Saqqara_BW_1.jpg/800px-Saqqara_BW_1.jpg",
-  "Great Pyramid of Khufu":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Great_Pyramid_of_Giza_-_2010.JPG/800px-Great_Pyramid_of_Giza_-_2010.JPG",
-  "Great Sphinx & Valley Temple":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Great_Sphinx_of_Giza_May_2015.JPG/800px-Great_Sphinx_of_Giza_May_2015.JPG",
-  "Mortuary Temple of Hatshepsut":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Mortuary_Temple_of_Hatshepsut_in_Luxor_2015_2.JPG/800px-Mortuary_Temple_of_Hatshepsut_in_Luxor_2015_2.JPG",
-  "Temple of Amun at Karnak":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Karnak_Temple_Great_Hypostyle_Hall.jpg/800px-Karnak_Temple_Great_Hypostyle_Hall.jpg",
-  "Temple of Luxor":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Entrance_of_Luxor_Temple%2C_Luxor%2C_Egypt.JPG/800px-Entrance_of_Luxor_Temple%2C_Luxor%2C_Egypt.JPG",
-  "Abu Simbel":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Abu_Simbel_Temple_facade.jpg/800px-Abu_Simbel_Temple_facade.jpg",
-  "Palace of Knossos":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Knossos_Crete.JPG/800px-Knossos_Crete.JPG",
-  "Citadel of Mycenae":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Mycenae_1971-1_crop.jpg/800px-Mycenae_1971-1_crop.jpg",
-  "Treasury of Atreus (Tomb of Agamemnon)":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Facade_of_Treasury_of_Atreus_1.JPG/800px-Facade_of_Treasury_of_Atreus_1.JPG",
-  "Hōryū-ji Temple Complex":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Horyuji_temple_kondo.jpg/800px-Horyuji_temple_kondo.jpg",
-  "Teotihuacán":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Teotihuacan_pyramid_of_the_sun_2.jpg/800px-Teotihuacan_pyramid_of_the_sun_2.jpg",
-  "The Parthenon":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Parthenon_October_2007.jpg/800px-Parthenon_October_2007.jpg",
-  "The Propylaea":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Propylaea_west_east.jpg/800px-Propylaea_west_east.jpg",
-  "The Erechtheion":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Acropolis_Erechtheum.jpg/800px-Acropolis_Erechtheum.jpg",
-  "Temple of Athena Nike":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Temple_Athena_Nike_entrance.JPG/800px-Temple_Athena_Nike_entrance.JPG",
-  "Theater at Epidaurus":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Theatre_of_Epidaurus.jpg/800px-Theatre_of_Epidaurus.jpg",
-  "The Pantheon":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Pantheon_Rome.jpg/800px-Pantheon_Rome.jpg",
-  "The Colosseum (Flavian Amphitheater)":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/800px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
-  "Trajan's Forum & Markets":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Ruins_of_Markets_of_Trajan_%28Mercati_di_Traiano%29.jpg/800px-Ruins_of_Markets_of_Trajan_%28Mercati_di_Traiano%29.jpg",
-  "Santa Costanza":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Santa_Costanza._Exterior.JPG/800px-Santa_Costanza._Exterior.JPG",
-  "San Vitale, Ravenna":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/San_vitale%2C_ravenna%2C_int._01.JPG/800px-San_vitale%2C_ravenna%2C_int._01.JPG",
-  "Hagia Sophia":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Hagia_Sophia_interior_2007.jpg/800px-Hagia_Sophia_interior_2007.jpg",
-  "St. Mark's Basilica":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Basilica_di_San_Marco.jpg/800px-Basilica_di_San_Marco.jpg",
-  "Dome of the Rock":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Jerusalem_Dome_of_the_rock_BW_14.JPG/800px-Jerusalem_Dome_of_the_rock_BW_14.JPG",
-  "Great Mosque of Córdoba (Mezquita)":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Cordoba_Mosque-Cathedral_interior_roof.jpg/800px-Cordoba_Mosque-Cathedral_interior_roof.jpg",
-  "The Alhambra":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/La_Alhambra_de_Granada-Espana0200.JPG/800px-La_Alhambra_de_Granada-Espana0200.JPG",
-  "Süleymaniye Mosque":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Istanbul_S%C3%BCleymaniye_Mosque.JPG/800px-Istanbul_S%C3%BCleymaniye_Mosque.JPG",
-  "Taj Mahal":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Taj_Mahal%2C_Agra%2C_Uttar_Pradesh%2C_India.JPG/800px-Taj_Mahal%2C_Agra%2C_Uttar_Pradesh%2C_India.JPG",
-  "Inca Architecture: Machu Picchu & Cusco":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Machu_Picchu%2C_Peru.jpg/800px-Machu_Picchu%2C_Peru.jpg",
-  "Palatine Chapel, Aachen":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Aachen_Cathedral_-_Interior.jpg/800px-Aachen_Cathedral_-_Interior.jpg",
-  "Durham Cathedral":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Durham_Cathedral_Nave.jpg/800px-Durham_Cathedral_Nave.jpg",
-  "Santiago de Compostela":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Catedral_de_Santiago_de_Compostela%2C_Santiago_de_Compostela%2C_Galicia%2C_Espa%C3%B1a%2C_2015-09-17%2C_DD_01-03_HDR.jpg/800px-Catedral_de_Santiago_de_Compostela%2C_Santiago_de_Compostela%2C_Galicia%2C_Espa%C3%B1a%2C_2015-09-17%2C_DD_01-03_HDR.jpg",
-  "Notre-Dame de Paris":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Notre-Dame_de_Paris_2013-07-24.jpg/800px-Notre-Dame_de_Paris_2013-07-24.jpg",
-  "Chartres Cathedral":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Chartres_-_cath%C3%A9drale_-_fa%C3%A7ade_occidentale_%283%29.jpg/800px-Chartres_-_cath%C3%A9drale_-_fa%C3%A7ade_occidentale_%283%29.jpg",
-  "Sainte-Chapelle":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/SainteChapelle_Exterior_from_West%2C_Paris_4_July_2011.jpg/800px-SainteChapelle_Exterior_from_West%2C_Paris_4_July_2011.jpg",
-  "Florence Cathedral (Santa Maria del Fiore)":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Duomo_di_Firenze.jpg/800px-Duomo_di_Firenze.jpg",
-  "Dome of Florence Cathedral":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Duomo_di_Firenze.jpg/800px-Duomo_di_Firenze.jpg",
-  "Tempietto di San Pietro in Montorio":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tempietto-di-San-Pietro-in-Montorio.jpg/800px-Tempietto-di-San-Pietro-in-Montorio.jpg",
-  "Château de Chambord":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Chambord_Castle_Northwest_facade.jpg/800px-Chambord_Castle_Northwest_facade.jpg",
-  "Akrotiri (Thera/Santorini)":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Akrotiri_Santorini_Excavation.jpg/800px-Akrotiri_Santorini_Excavation.jpg",
-  "Babylon under Hammurabi":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Code-de-Hammurabi-1.jpg/800px-Code-de-Hammurabi-1.jpg",
-  "Classic Maya Architecture: Tikal & Palenque":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Tikal_Temple_I.jpg/800px-Tikal_Temple_I.jpg",
-  "Han Dynasty Architecture":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Han_house_model.jpg/800px-Han_house_model.jpg",
-  "Shang Dynasty Foundations":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Yinxu_Foundation_Remains.jpg/800px-Yinxu_Foundation_Remains.jpg",
-  "Tenochtitlán & Aztec Templo Mayor":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Templo_Mayor_reconstruction.jpg/800px-Templo_Mayor_reconstruction.jpg"
-};
-
-// Patch loadWikiThumb to prefer curated images
-const _origLoadWiki = loadWikiThumb;
-loadWikiThumb = function(imgEl, entry) {
-  const curated = CURATED_IMAGES[entry.title];
-  if (curated) {
-    imgEl.src = curated;
-    const wrap = imgEl.closest(".entry");
-    if (wrap) wrap.classList.add("has-img");
-    return;
-  }
-  _origLoadWiki(imgEl, entry);
-};
 
 // =====================================================================
 // BUILDING COORDS — [lat, lon] for equirectangular map
